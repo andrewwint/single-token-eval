@@ -30,14 +30,39 @@ and it SHALL report both component rates alongside every discrimination figure.
 - **WHEN** the majority verdict flags the target claim on neither member
 - **THEN** the pair scores NOT DISCRIMINATED as a miss
 
-### Requirement: Grading is deterministic set comparison, never an LLM judge
-Each artifact SHALL carry visibly-labelled claims, and the model SHALL return the identifiers of the
-claims it believes false. Grading SHALL be exact set comparison against the item's gold.
+### Requirement: The response contract is three-valued
+Each artifact SHALL carry visibly-labelled claims, and the model SHALL return one verdict per claim
+from `CONTRADICTED` / `SUPPORTED` / `NOT_DETERMINABLE`. The arm SHALL NOT ask a binary
+true/false question of a claim the source cannot settle.
+
+#### Scenario: a claim the source neither establishes nor refutes
+- **WHEN** a future-tense claim is judged against a source describing only present state
+- **THEN** `NOT_DETERMINABLE` is available and is the gold verdict — a binary contract forces the
+  model to call an out-of-scope claim false, which collapses discrimination and measures the
+  question's malformation rather than the model's reading
+
+#### Scenario: gold differs by family
+- **WHEN** the truthful member's target claim is scored
+- **THEN** gold is `NOT_DETERMINABLE` for `tense` (the future claim asserts nothing about now) and
+  `SUPPORTED` for `polarity` (the source establishes the correct polarity)
+
+### Requirement: Grading is deterministic comparison, never an LLM judge
+Grading SHALL compare the returned verdicts against the item's gold by exact value. No model SHALL
+be used to score another model's output.
 
 #### Scenario: a response cannot be parsed
-- **WHEN** a draw's response yields no parseable claim-identifier set
+- **WHEN** a draw's response yields no parseable verdict map
 - **THEN** the draw is recorded `parse_ok: false`, excluded from scored draws, and counted in a
   per-model parse-failure total — it is never silently scored as a miss
+
+### Requirement: Every draw retains its raw response
+The runner SHALL store the model's response text verbatim on the draw row, alongside the parsed
+result.
+
+#### Scenario: the parser or the scoring rule changes
+- **WHEN** a scoring rule is revised after a round has fired
+- **THEN** the stored round is re-scorable from the retained text without re-spending, and a
+  re-score SHALL NOT modify the canonical draw rows
 
 ### Requirement: Non-target claims are decoys supplying the false-positive rate
 Every artifact SHALL carry non-target claims that are true of the source. Flagging any of them SHALL

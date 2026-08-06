@@ -60,6 +60,16 @@ graceful stop, append-only `results/draws.jsonl`. `wilson_ci` and `discriminatio
 from the sibling study rather than imported — frozen statistical helpers with no live upstream, so a
 copy carries no drift risk.
 
+## Revision log
+
+**2026-08-06, after the GATE C dry run (~$1).** The binary response contract was replaced with a
+three-way one. Under the binary form every frontier model flagged the target on both members — 7 of
+8 pairs, ~0 discrimination — because a future-tense claim is neither true nor false of a
+present-state source. The question was malformed, not the answers. Same items and models under the
+three-way contract: **1/8 → 5/8 discriminated**. Four requirements were added as a direct result:
+three-valued verdicts, verbatim transcript retention, access verified by invocation rather than by
+listing, and declared controls having to be enforceable.
+
 ## Impact
 
 - **New capability spec:** `inversion-arm`.
