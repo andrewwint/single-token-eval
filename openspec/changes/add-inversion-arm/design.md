@@ -22,9 +22,25 @@ construction because it leaks identically into both members.
   "source": "the code the claims are about",
   "gold": { "false_claims": ["C3"] },
   "exoneration": "derivable from source: gate.py:41 reads verdict_emitted at request time",
-  "token_delta": { "from": "no longer depends", "to": "will no longer depend" }
+  "token_delta": { "from": "no longer depends", "to": "will no longer depend" },
+  "formal_reading": {
+    "inverted":  "enforced(now) == True",
+    "truthful":  "enforced(now) == False AND enforced(future) == True",
+    "source_fact": "enforced(now) == False"
+  }
 }
 ```
+
+**`formal_reading` is the column that makes an item checkable by inspection.** The wording and the
+gold label are both recorded above, but without the logical form in between there is nothing to
+verify the label *against* — you are trusting whoever wrote it. Writing the reading down forces the
+question "does this token actually change the truth value, or only the emphasis?", which is the
+failure mode that produces a non-discriminating pair. Report per reading-shape as well as per family;
+a token that flips a quantifier and a token that flips a tense may not be the same difficulty.
+
+This is also the honest form of "three faithful readings of one sentence": if a single wording admits
+more than one formal reading, the item is ambiguous rather than inverted, and belongs in a separate
+class or gets cut.
 
 The truthful twin is the same object with `polarity: "truthful"`, the token restored, and
 `gold.false_claims: []`.
