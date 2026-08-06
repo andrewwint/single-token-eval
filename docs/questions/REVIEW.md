@@ -73,8 +73,31 @@ session cookies). Models are heavily tuned to flag security problems, so both ra
 twin pair controls for it — both members are equally security-framed, so discrimination is unaffected
 — but it is a reason not to read the component rates as general.
 
+## Blocking defect: the item set is single-polarity
+
+**In all 12 items `claim_false` is the present-tense member and `claim_true` is the future-tense
+member.** That is how the generation prompt asked for them, and it is a hole. A model can score 100%
+discrimination with a rule that never reads `source_fact`: *flag the present-tense claim.* The rule is
+even defensible — a present-tense claim about an unbuilt feature is the classic documentation bug — so
+it would look exactly like source-derivation while being pattern-matching, which is the one
+distinction this study exists to make.
+
+The fix is already established practice here. From the judge spot-read pre-registration:
+
+> a **single-polarity** gate is passable by a degenerate constant … that reasons about nothing. So the
+> set also carries **3 reverse-polarity singles**.
+
+**Add 3 reverse-polarity singles in which the FUTURE-tense claim is the false one** — `source_fact`
+establishes that the planned change was cancelled and its implementation removed, so the future claim
+asserts something that will not happen. Build them as **singles, not pairs**: once the plan is dead
+both tenses are false, so there is no clean twin to pair against. A "flag the present tense" strategy
+scores 0/3 on them by construction.
+
+These must exist before GATE A, or the cold read has to be paid for twice.
+
 ## Remaining work
 
-The 4 `polarity` calibration pairs are not drafted. They need the same treatment and should come from
-a separate generation run, so a defect in one family's authoring cannot silently affect the family
-that is meant to detect it.
+- 3 reverse-polarity singles (above) — blocking.
+- The 4 `polarity` calibration pairs are not drafted. They need the same treatment and should come
+  from a **separate generation run**, so a defect in how the tense items were authored cannot
+  silently affect the family whose job is to detect it.
