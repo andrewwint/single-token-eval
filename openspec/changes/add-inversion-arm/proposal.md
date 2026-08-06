@@ -34,8 +34,9 @@ It also kills three degenerate strategies for free: flag-everything flags both, 
 neither, and tone-matching cannot separate members whose tone is identical.
 
 **2. Enumerated claims, deterministic grading.** Each artifact carries visibly-labelled claims
-(`[C1]`…`[Cn]`); the model returns `{"false_claims": ["C3"], ...}`. Grading is exact set comparison
-against gold — no LLM judge anywhere in the pipeline. Non-target claims are **decoys**, true of the
+(`[C1]`…`[Cn]`); the model returns one verdict per claim —
+`CONTRADICTED` / `SUPPORTED` / `NOT_DETERMINABLE` (see the revision log). Grading is exact
+comparison against gold — no LLM judge anywhere in the pipeline. Non-target claims are **decoys**, true of the
 source, and they supply the false-positive rate on the same call. Without them a model that
 volunteers nothing scores as low-FP, which reads as accuracy and isn't.
 
@@ -78,8 +79,10 @@ listing, and declared controls having to be enforceable.
 - **New items:** `items/items.jsonl` + `items/FROZEN.md`, built and frozen before firing.
 - **New round docs:** `docs/rounds/round-1-prereg.md` committed **before any spend**, then
   `round-1-findings.md`.
-- **Estimated spend:** ~$20–25 for the full crossing at N=5 draws. Single-shot calls are what make
-  full crossing affordable rather than forcing a sampled design.
+- **Measured spend basis:** ~270 input / ~105 output tokens per draw (dry run, not an estimate).
+  Full crossing is 5,600 draws ≈ 1.5M input / 0.6M output tokens across four models. Single-shot
+  calls are what make full crossing affordable rather than forcing a sampled design; pull current
+  per-model rates at GATE B rather than carrying a figure from here.
 - **Publication boundary:** `items/` are answer keys. They are never published, and this repo is
   never sent to a cloud review tier. The publishable artifacts are the harness, the method, the
   pre-registration, and the results.

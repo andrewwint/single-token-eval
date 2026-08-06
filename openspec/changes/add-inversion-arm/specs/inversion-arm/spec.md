@@ -99,6 +99,45 @@ no local agent configuration in scope.
 - **WHEN** any draw is produced by a transport that grants the model tools or file access
 - **THEN** the round is invalid — the agentic confound is the axis under test
 
+### Requirement: Model access is verified by invocation, not by listing
+Every pinned model SHALL be confirmed with a real `Converse` call before a round. A control-plane
+listing SHALL NOT be accepted as evidence of access.
+
+#### Scenario: a profile reports ACTIVE and denies on call
+- **WHEN** `list-inference-profiles` reports a profile ACTIVE but `Converse` returns
+  `AccessDeniedException`
+- **THEN** the model is not usable and SHALL NOT be pinned — profile status is not entitlement
+
+### Requirement: Declared safety controls are enforced, not merely declared
+Every control the runner advertises — budget cap, freeze check, refusal gate — SHALL be able to stop
+a run, and SHALL have a test proving it fires.
+
+#### Scenario: a cap is parsed but never checked
+- **WHEN** a budget flag is accepted and no code path can halt spending
+- **THEN** the flag is a defect, not a feature: it is wired or removed before a measured round. A
+  control that cannot fire is the exact failure class this study exists to measure
+
+### Requirement: Superseded rows are retained, never merged
+Draws produced under a response contract since replaced SHALL be moved to `results/superseded/` with
+a recorded reason, and SHALL NOT enter a scored round.
+
+#### Scenario: the contract changes after draws exist
+- **WHEN** the response contract is revised
+- **THEN** prior rows are retained with their reason — the provenance is the honest record — and the
+  scored round draws only on rows produced under the current contract
+
+### Requirement: Instrument changes before pre-registration are decisions, not searches
+Pre-data instrument development is permitted, but a change to the prompt, the contract, or the
+scoring rule SHALL be made once, on a stated diagnosis, and recorded. Iterating on wording until a
+target metric improves SHALL NOT occur.
+
+#### Scenario: a fix helps but does not fully work
+- **WHEN** a principled change moves the metric partway and further wording variants might move it
+  further
+- **THEN** the round stops and the residual is diagnosed, because selecting a prompt for producing
+  the desired number makes the eventual result unpublishable — the instrument would have been tuned
+  to its own answer
+
 ### Requirement: The item set is frozen by digest before any spend
 The runner SHALL verify the item file's sha256 against the digest recorded in `items/FROZEN.md`
 before firing, and SHALL abort without spending on a mismatch.
