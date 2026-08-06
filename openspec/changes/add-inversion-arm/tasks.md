@@ -2,13 +2,14 @@
 
 Gates are ordered. Nothing below a **GATE** runs until the gate above it passes.
 
-## 1. Pin the transport
+## 1. Pin the transport  (done)
 
-- [ ] `aws bedrock list-foundation-models` — resolve exact IDs for 3 frontier tiers + 1 probe. Write
-      them into the runner as constants. Do not carry an ID over from memory.
-- [ ] Confirm model access is enabled in the target region for every pinned ID.
-- [ ] One smoke draw per model: `Converse`, temperature 0, `maxTokens` explicit, JSON parsed. Record
-      observed input/output token counts to firm up the cost estimate.
+- [x] IDs resolved and pinned. **Verified by invocation, not by listing** — `opus-5`, `sonnet-5`
+      and `opus-4-8` list ACTIVE and deny on call.
+- [x] Smoke draws fired; **~270 in / ~105 out per draw** measured, cost re-estimated in `design.md`.
+- [x] Response contract revised binary → three-way after the dry run showed the binary form
+      measured the wrong thing (`docs/rounds/smoke-2026-08-06-findings.md`).
+- [x] Raw model output stored verbatim on every row, so a re-score never needs a re-spend.
 
 ## 2. Build the items
 
@@ -59,8 +60,11 @@ Gates are ordered. Nothing below a **GATE** runs until the gate above it passes.
 
 - [x] `harness/stats.py` — vendored `wilson_ci` + `discrimination_guard`, origin and copy date in the
       docstring.
-- [ ] `harness/inversion_run.py` — frozen-digest check, done-keys resume, bounded concurrency, budget
-      cap with graceful stop, append-only `results/draws.jsonl`.
+- [x] `harness/inversion_run.py` — frozen-digest check, done-keys resume, bounded concurrency,
+      append-only `results/draws.jsonl` with raw transcripts.
+- [ ] **Budget cap is declared but not enforced** — the `--budget` flag is parsed and never checked
+      against spend. Wire it, or remove the flag; a cap that cannot stop a run is worse than none.
+- [ ] Independent harness review (baton `code-reviewer`) resolved before GATE B.
 - [x] `harness/inversion_score.py` — per-member majority; DISCRIMINATED only when the false member is
       flagged and the true member is not; component rates and decoy FP reported alongside;
       `wilson_ci` intervals; discrimination guard across tiers.

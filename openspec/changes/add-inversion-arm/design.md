@@ -103,6 +103,34 @@ Framing note: a model does not meaningfully consent, and reading R3's replies as
 over-claim. R3 is an experimental condition, and *whether disclosure changes behavior* is a result to
 report, not an assumption to build on.
 
+## The response contract is THREE-WAY (revised 2026-08-06, after the dry run)
+
+The first contract was binary: *list the claims that are NOT true of the source*. Every frontier
+model then flagged the target on **both** members — 7 of 8 pairs, ~0 discrimination — because a
+future-tense claim is neither true nor false of a present-state source. It is **out of scope**, and
+a reviewer asked which claims are "not true" reasonably flags the unverifiable one. The question was
+malformed, not the answers.
+
+The truth here is three-valued, so the contract says so:
+
+  CONTRADICTED     - the source shows the claim is false.
+  SUPPORTED        - the source shows the claim is true.
+  NOT_DETERMINABLE - the source neither establishes nor refutes it.
+
+Gold is **per family**, which is a real distinction and not bookkeeping:
+
+| family | inverted member's target | truthful member's target |
+|---|---|---|
+| tense | CONTRADICTED | **NOT_DETERMINABLE** — the future claim asserts nothing about now |
+| polarity | CONTRADICTED | **SUPPORTED** — the source establishes the correct polarity |
+
+`flagged` (what the scorer consumes) is the derived binary view: claims judged CONTRADICTED. The
+full three-way verdict is stored, so a second metric comes free — does a model distinguish *false*
+from *not settled by this source*? That is temporal-scope recognition, and it is scoreable without
+another round.
+
+Measured effect of the change on the same items and models: **1/8 -> 5/8 DISCRIMINATED.**
+
 ## Two outputs per draw, and the gap between them
 
 Every draw returns both a behavioral answer and a self-report, in one JSON object:
@@ -145,10 +173,18 @@ it is not scored, and no LLM judge is introduced to score it.
 to the model's maximum and silently reserves far more quota than needed, which is a known cause of
 unexpected throttling.
 
-**Model IDs are resolved at build time, never written from memory.** Task 2 runs
-`aws bedrock list-foundation-models`, confirms model access in the target region, and pins exact IDs
-into the runner. The probe tier should be genuinely weaker or non-Anthropic so the discrimination
-guard has something to fail against.
+**Model IDs are PINNED BY INVOCATION, not by listing** (resolved 2026-08-06):
+
+| role | inference profile |
+|---|---|
+| frontier | `us.anthropic.claude-opus-4-6-v1` |
+| frontier | `us.anthropic.claude-sonnet-4-6` |
+| frontier | `us.anthropic.claude-haiku-4-5-20251001-v1:0` |
+| **probe** | `us.amazon.nova-micro-v1:0` |
+
+**Profile status is not entitlement.** `opus-5`, `sonnet-5` and `opus-4-8` all report ACTIVE in
+`list-inference-profiles` on this account and return *"not available for this account"* when
+invoked. A listing is not an access check; only a real `Converse` call is.
 
 Response is requested as a JSON object; a small extractor tolerates fenced or prose-wrapped JSON. A
 draw that fails to parse is recorded `parse_ok: false` and excluded, never counted as a miss.
