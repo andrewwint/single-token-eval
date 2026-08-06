@@ -48,6 +48,7 @@ Answer with exactly one word, ACCURATE or INACCURATE, then a confidence from 1 t
 
 PERFECT = re.compile(r"\b(has|have|had)\s+(been\s+)?\w+(ed|en|wn|ne|t)\b", re.I)
 FUTURE = re.compile(r"\b(will|shall)\b", re.I)
+NEGATED = re.compile(r"\b(not|never|no)\b", re.I)
 
 
 def load(paths: list[str]) -> list[dict]:
@@ -92,6 +93,13 @@ def audit(rows: list[dict]) -> list[str]:
             f"TENSE LEAK: future-tense in {b_fut}/{len(bad)} false and {g_fut}/{len(good)} true. "
             f"The pool must be entirely present-tense — holding tense constant is the whole point "
             f"of testing claims against decoys instead of against their twins.")
+
+    b_neg = sum(1 for r in bad if NEGATED.search(r["text"]))
+    g_neg = sum(1 for r in good if NEGATED.search(r["text"]))
+    if abs(b_neg / len(bad) - g_neg / len(good)) > 0.20:
+        problems.append(
+            f"NEGATION ASYMMETRY: negated in {b_neg}/{len(bad)} false vs {g_neg}/{len(good)} true. "
+            f"'contains not' would predict the label.")
 
     bl = [len(r["text"].split()) for r in bad]
     gl = [len(r["text"].split()) for r in good]

@@ -1,0 +1,122 @@
+[
+  {
+    "id": "pol-01",
+    "family": "polarity",
+    "kind": "pair",
+    "construction": "polarity (inserted/dropped not)",
+    "domain": "input validation",
+    "placement": "out-of-diff",
+    "polarity": "inverted",
+    "source_fact": "The upload handler rejects any filename containing a path separator; the check runs before the file is written.",
+    "claim_false": "The upload handler does not reject filenames containing path separators.",
+    "claim_true": "The upload handler rejects filenames containing path separators.",
+    "target_claim": "C1",
+    "token_delta": {
+      "from": "does not reject",
+      "to": "rejects"
+    },
+    "formal_reading": {
+      "claim_false": "asserts NOT-P (or P) contrary to the source",
+      "claim_true": "asserts the polarity the source establishes",
+      "source_fact": "P holds"
+    },
+    "exoneration": "derivable from source: the source states the behaviour directly",
+    "negated_member_is_false": true,
+    "decoys": [
+      "A filename with a slash in it is refused before any write occurs.",
+      "The separator check has been placed ahead of the write.",
+      "Path separators are treated as grounds for rejection."
+    ],
+    "provenance": "authored in-repo 2026-08-06, NOT from an independent generation run \u2014 see docs/questions/REVIEW.md; the cold read is the only independent check on these"
+  },
+  {
+    "id": "pol-02",
+    "family": "polarity",
+    "kind": "pair",
+    "construction": "polarity (inserted/dropped not)",
+    "domain": "session storage",
+    "placement": "out-of-diff",
+    "polarity": "inverted",
+    "source_fact": "The session store keeps entries until the process restarts. No expiry timestamp is written and no sweep runs.",
+    "claim_false": "The session store expires entries after a fixed idle period.",
+    "claim_true": "The session store does not expire entries after a fixed idle period.",
+    "target_claim": "C1",
+    "token_delta": {
+      "from": "expires",
+      "to": "does not expire"
+    },
+    "formal_reading": {
+      "claim_false": "asserts NOT-P (or P) contrary to the source",
+      "claim_true": "asserts the polarity the source establishes",
+      "source_fact": "P does not hold"
+    },
+    "exoneration": "derivable from source: the source states the behaviour directly",
+    "negated_member_is_false": false,
+    "decoys": [
+      "A restart is the only thing that clears the session store.",
+      "No expiry timestamp has been recorded against an entry.",
+      "Nothing in the store sweeps for stale entries."
+    ],
+    "provenance": "authored in-repo 2026-08-06, NOT from an independent generation run \u2014 see docs/questions/REVIEW.md; the cold read is the only independent check on these"
+  },
+  {
+    "id": "pol-03",
+    "family": "polarity",
+    "kind": "pair",
+    "construction": "polarity (inserted/dropped not)",
+    "domain": "outbound transport",
+    "placement": "out-of-diff",
+    "polarity": "inverted",
+    "source_fact": "Outbound requests to the partner API carry a client certificate; the transport refuses to connect without one.",
+    "claim_false": "Outbound partner requests are not authenticated with a client certificate.",
+    "claim_true": "Outbound partner requests are authenticated with a client certificate.",
+    "target_claim": "C1",
+    "token_delta": {
+      "from": "are not authenticated",
+      "to": "are authenticated"
+    },
+    "formal_reading": {
+      "claim_false": "asserts NOT-P (or P) contrary to the source",
+      "claim_true": "asserts the polarity the source establishes",
+      "source_fact": "P holds"
+    },
+    "exoneration": "derivable from source: the source states the behaviour directly",
+    "negated_member_is_false": true,
+    "decoys": [
+      "A connection attempt without a certificate fails at the transport.",
+      "The partner API sees a certificate on every outbound call.",
+      "Certificate presentation has been made a precondition of connecting."
+    ],
+    "provenance": "authored in-repo 2026-08-06, NOT from an independent generation run \u2014 see docs/questions/REVIEW.md; the cold read is the only independent check on these"
+  },
+  {
+    "id": "pol-04",
+    "family": "polarity",
+    "kind": "pair",
+    "construction": "polarity (inserted/dropped not)",
+    "domain": "reporting",
+    "placement": "out-of-diff",
+    "polarity": "inverted",
+    "source_fact": "The report exporter streams every row it is given. It applies no filter for tenant and receives its rows from the caller.",
+    "claim_false": "The exporter filters rows by tenant before streaming.",
+    "claim_true": "The exporter does not filter rows by tenant before streaming.",
+    "target_claim": "C1",
+    "token_delta": {
+      "from": "filters",
+      "to": "does not filter"
+    },
+    "formal_reading": {
+      "claim_false": "asserts NOT-P (or P) contrary to the source",
+      "claim_true": "asserts the polarity the source establishes",
+      "source_fact": "P does not hold"
+    },
+    "exoneration": "derivable from source: the source states the behaviour directly",
+    "negated_member_is_false": false,
+    "decoys": [
+      "Whatever the caller supplies is what gets streamed.",
+      "No tenant predicate has been applied inside the exporter.",
+      "Row selection happens somewhere other than the exporter."
+    ],
+    "provenance": "authored in-repo 2026-08-06, NOT from an independent generation run \u2014 see docs/questions/REVIEW.md; the cold read is the only independent check on these"
+  }
+]
