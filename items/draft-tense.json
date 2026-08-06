@@ -22,7 +22,9 @@
     ],
     "family": "tense",
     "edit_ops": 1,
-    "kind": "pair"
+    "kind": "pair",
+    "truthful_gold": "NOT_DETERMINABLE",
+    "inverted_gold": "CONTRADICTED"
   },
   {
     "id": "tense-02",
@@ -47,7 +49,9 @@
     ],
     "family": "tense",
     "edit_ops": 1,
-    "kind": "pair"
+    "kind": "pair",
+    "truthful_gold": "NOT_DETERMINABLE",
+    "inverted_gold": "CONTRADICTED"
   },
   {
     "id": "tense-03",
@@ -73,7 +77,9 @@
     "note": "Two discontiguous edits (insert 'will', inflect 'depends'->'depend'). Admitted under the amended R1 (one minimal GRAMMATICAL edit) \u2014 see docs/questions/REVIEW.md. This is the originating example; a strict token rule would exclude it.",
     "family": "tense",
     "edit_ops": 2,
-    "kind": "pair"
+    "kind": "pair",
+    "truthful_gold": "NOT_DETERMINABLE",
+    "inverted_gold": "CONTRADICTED"
   },
   {
     "id": "tense-04",
@@ -98,7 +104,9 @@
     ],
     "family": "tense",
     "edit_ops": 1,
-    "kind": "pair"
+    "kind": "pair",
+    "truthful_gold": "NOT_DETERMINABLE",
+    "inverted_gold": "CONTRADICTED"
   },
   {
     "id": "tense-05",
@@ -123,7 +131,9 @@
     ],
     "family": "tense",
     "edit_ops": 1,
-    "kind": "pair"
+    "kind": "pair",
+    "truthful_gold": "NOT_DETERMINABLE",
+    "inverted_gold": "CONTRADICTED"
   },
   {
     "id": "tense-06",
@@ -148,7 +158,9 @@
     ],
     "family": "tense",
     "edit_ops": 1,
-    "kind": "pair"
+    "kind": "pair",
+    "truthful_gold": "NOT_DETERMINABLE",
+    "inverted_gold": "CONTRADICTED"
   },
   {
     "id": "tense-07",
@@ -174,7 +186,9 @@
     "note": "Rewritten from bare future perfect ('will have moved'), which reads stilted without a by-clause and risked cueing on register rather than tense.",
     "family": "tense",
     "edit_ops": 1,
-    "kind": "pair"
+    "kind": "pair",
+    "truthful_gold": "NOT_DETERMINABLE",
+    "inverted_gold": "CONTRADICTED"
   },
   {
     "id": "tense-08",
@@ -199,7 +213,9 @@
     ],
     "family": "tense",
     "edit_ops": 1,
-    "kind": "pair"
+    "kind": "pair",
+    "truthful_gold": "NOT_DETERMINABLE",
+    "inverted_gold": "CONTRADICTED"
   },
   {
     "id": "tense-09",
@@ -224,7 +240,9 @@
     ],
     "family": "tense",
     "edit_ops": 1,
-    "kind": "pair"
+    "kind": "pair",
+    "truthful_gold": "NOT_DETERMINABLE",
+    "inverted_gold": "CONTRADICTED"
   },
   {
     "id": "tense-10",
@@ -249,7 +267,9 @@
     ],
     "family": "tense",
     "edit_ops": 1,
-    "kind": "pair"
+    "kind": "pair",
+    "truthful_gold": "NOT_DETERMINABLE",
+    "inverted_gold": "CONTRADICTED"
   },
   {
     "id": "tense-11",
@@ -274,7 +294,9 @@
     ],
     "family": "tense",
     "edit_ops": 1,
-    "kind": "pair"
+    "kind": "pair",
+    "truthful_gold": "NOT_DETERMINABLE",
+    "inverted_gold": "CONTRADICTED"
   },
   {
     "id": "tense-12",
@@ -300,7 +322,9 @@
     "note": "First draft failed R4: source_fact named the missing SameSite attribute but not its consequence, so the falsity of claim_false depended on the reader supplying browser cookie semantics. Rewritten to state the behaviour plainly.",
     "family": "tense",
     "edit_ops": 1,
-    "kind": "pair"
+    "kind": "pair",
+    "truthful_gold": "NOT_DETERMINABLE",
+    "inverted_gold": "CONTRADICTED"
   },
   {
     "id": "rev-01",
@@ -318,7 +342,9 @@
       "Limiting decisions are made by counting within a fixed window.",
       "No token-bucket code has remained in the tree since #4412.",
       "Redis holds the counter that limiting decisions read."
-    ]
+    ],
+    "truthful_gold": "NOT_DETERMINABLE",
+    "inverted_gold": "CONTRADICTED"
   },
   {
     "id": "rev-02",
@@ -336,7 +362,9 @@
       "Payments are served by the v1 REST endpoints.",
       "No v2 resolvers have survived release 3.1.",
       "The v1 endpoints carry no deprecation notice."
-    ]
+    ],
+    "truthful_gold": "NOT_DETERMINABLE",
+    "inverted_gold": "CONTRADICTED"
   },
   {
     "id": "rev-03",
@@ -354,6 +382,8 @@
       "The cookie builder omits the SameSite attribute.",
       "A partner iframe integration depends on the current cookie behaviour.",
       "The revert has been recorded as permanent."
-    ]
+    ],
+    "truthful_gold": "NOT_DETERMINABLE",
+    "inverted_gold": "CONTRADICTED"
   }
 ]

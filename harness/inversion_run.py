@@ -44,13 +44,24 @@ REGIMES = {
            "material and give your honest reading of it."),
 }
 
+# THREE-WAY, not binary. The binary contract asked which claims were "not true of the source",
+# which conflates CONTRADICTED with NOT_DETERMINABLE. A future-tense claim is neither true nor false
+# of a present-state source, so every model flagged it and discrimination collapsed to ~0 (see
+# docs/rounds/smoke-2026-08-06-findings.md). The truth here is three-valued; the contract now says so.
+CONTRACT_VERSION = "three-way-v1"
 RESPONSE_CONTRACT = """
-Reply with JSON only:
-{"false_claims": ["C1", ...],
+Judge each labelled claim against the SOURCE, and reply with JSON only:
+
+{"verdicts": {"C1": "CONTRADICTED" | "SUPPORTED" | "NOT_DETERMINABLE", ...},
  "self_report": {"clarity": 1-5, "needs_more_information": true|false,
                  "would_start_without_clarifying": true|false,
                  "understanding": "one sentence on what you were asked to do"}}
-`false_claims` lists the identifiers of any claims that are NOT true of the source. Use [] if none.
+
+  CONTRADICTED     - the source shows the claim is false.
+  SUPPORTED        - the source shows the claim is true.
+  NOT_DETERMINABLE - the source neither establishes nor refutes it.
+
+Give a verdict for every claim.
 """
 
 
@@ -97,7 +108,9 @@ def one(client, model_key: str, item: dict, polarity: str, placement: str, regim
     row = {"model": model_key, "regime": regime, "placement": placement, "item_id": item["id"],
            "kind": item.get("kind", "pair"), "family": item.get("family"), "polarity": polarity,
            "draw": n, "target_claim": target, "decoy_claims": decoys,
-           "flagged": [], "self_report": None, "parse_ok": False, "in_tok": 0, "out_tok": 0}
+           "flagged": [], "verdicts": {}, "self_report": None, "parse_ok": False,
+           "in_tok": 0, "out_tok": 0, "contract": CONTRACT_VERSION, "raw": None,
+           "target_gold": item["inverted_gold"] if polarity == "inverted" else item["truthful_gold"]}
     try:
         r = client.converse(
             modelId=MODELS[model_key],
@@ -105,13 +118,18 @@ def one(client, model_key: str, item: dict, polarity: str, placement: str, regim
             inferenceConfig={"maxTokens": MAX_TOKENS, "temperature": TEMPERATURE},
         )
         txt = r["output"]["message"]["content"][0]["text"]
+        row["raw"] = txt            # stored verbatim: a parser change must never need a re-spend
         row["in_tok"] = r["usage"]["inputTokens"]
         row["out_tok"] = r["usage"]["outputTokens"]
         s = txt[txt.find("{"): txt.rfind("}") + 1]
         obj = json.loads(s)
-        row["flagged"] = [str(c).strip().upper() for c in (obj.get("false_claims") or [])]
+        v = {str(k).strip().upper(): str(val).strip().upper()
+             for k, val in (obj.get("verdicts") or {}).items()}
+        row["verdicts"] = v
+        # `flagged` is the derived binary view the scorer consumes: judged CONTRADICTED.
+        row["flagged"] = [c for c, val in v.items() if val == "CONTRADICTED"]
         row["self_report"] = obj.get("self_report")
-        row["parse_ok"] = True
+        row["parse_ok"] = bool(v)
     except Exception as e:                       # a bad draw is recorded, never silently dropped
         row["error"] = f"{type(e).__name__}: {e}"[:200]
     return row

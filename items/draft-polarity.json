@@ -27,7 +27,9 @@
       "The separator check has been placed ahead of the write.",
       "Path separators are treated as grounds for rejection."
     ],
-    "provenance": "authored in-repo 2026-08-06, NOT from an independent generation run \u2014 see docs/questions/REVIEW.md; the cold read is the only independent check on these"
+    "provenance": "authored in-repo 2026-08-06, NOT from an independent generation run \u2014 see docs/questions/REVIEW.md; the cold read is the only independent check on these",
+    "truthful_gold": "SUPPORTED",
+    "inverted_gold": "CONTRADICTED"
   },
   {
     "id": "pol-02",
@@ -57,7 +59,9 @@
       "No expiry timestamp has been recorded against an entry.",
       "Nothing in the store sweeps for stale entries."
     ],
-    "provenance": "authored in-repo 2026-08-06, NOT from an independent generation run \u2014 see docs/questions/REVIEW.md; the cold read is the only independent check on these"
+    "provenance": "authored in-repo 2026-08-06, NOT from an independent generation run \u2014 see docs/questions/REVIEW.md; the cold read is the only independent check on these",
+    "truthful_gold": "SUPPORTED",
+    "inverted_gold": "CONTRADICTED"
   },
   {
     "id": "pol-03",
@@ -87,7 +91,9 @@
       "The partner API sees a certificate on every outbound call.",
       "Certificate presentation has been made a precondition of connecting."
     ],
-    "provenance": "authored in-repo 2026-08-06, NOT from an independent generation run \u2014 see docs/questions/REVIEW.md; the cold read is the only independent check on these"
+    "provenance": "authored in-repo 2026-08-06, NOT from an independent generation run \u2014 see docs/questions/REVIEW.md; the cold read is the only independent check on these",
+    "truthful_gold": "SUPPORTED",
+    "inverted_gold": "CONTRADICTED"
   },
   {
     "id": "pol-04",
@@ -117,6 +123,8 @@
       "No tenant predicate has been applied inside the exporter.",
       "Row selection happens somewhere other than the exporter."
     ],
-    "provenance": "authored in-repo 2026-08-06, NOT from an independent generation run \u2014 see docs/questions/REVIEW.md; the cold read is the only independent check on these"
+    "provenance": "authored in-repo 2026-08-06, NOT from an independent generation run \u2014 see docs/questions/REVIEW.md; the cold read is the only independent check on these",
+    "truthful_gold": "SUPPORTED",
+    "inverted_gold": "CONTRADICTED"
   }
 ]
