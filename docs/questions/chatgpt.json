@@ -1,0 +1,230 @@
+[
+  {
+    "id": "tense-01",
+    "construction": "simple present -> simple future",
+    "domain": "authorization",
+    "source_fact": "The authorization layer checks role memberships only. It does not evaluate resource ownership.",
+    "claim_false": "The authorization layer checks resource ownership.",
+    "claim_true": "The authorization layer will check resource ownership.",
+    "token_delta": { "from": "checks", "to": "will check" },
+    "formal_reading": {
+      "claim_false": "asserts the authorization layer checks resource ownership at NOW",
+      "claim_true": "asserts the authorization layer checks resource ownership after NOW; asserts nothing about NOW",
+      "source_fact": "resource ownership is not checked at NOW"
+    },
+    "decoys": [
+      "The authorization layer checks role memberships.",
+      "The authorization layer does not evaluate resource ownership.",
+      "Role memberships are checked by the authorization layer."
+    ]
+  },
+  {
+    "id": "tense-02",
+    "construction": "present perfect -> future perfect",
+    "domain": "caching",
+    "source_fact": "Cache entries remain valid until they expire. The cache has not recorded per-entry access times.",
+    "claim_false": "The cache has recorded per-entry access times.",
+    "claim_true": "The cache will have recorded per-entry access times.",
+    "token_delta": { "from": "has", "to": "will have" },
+    "formal_reading": {
+      "claim_false": "asserts the recording has completed by NOW",
+      "claim_true": "asserts the recording will be completed by some future reference time; asserts nothing about NOW",
+      "source_fact": "per-entry access times have not been recorded at NOW"
+    },
+    "decoys": [
+      "Cache entries remain valid until they expire.",
+      "The cache has not recorded per-entry access times.",
+      "The cache stores cache entries."
+    ]
+  },
+  {
+    "id": "tense-03",
+    "construction": "simple present negative -> simple future negative",
+    "domain": "retries",
+    "source_fact": "The retry loop always waits a fixed interval. It still retries after client errors.",
+    "claim_false": "The retry loop no longer retries after client errors.",
+    "claim_true": "The retry loop will no longer retry after client errors.",
+    "token_delta": { "from": "retries", "to": "will retry" },
+    "formal_reading": {
+      "claim_false": "asserts retries after client errors do not occur at NOW",
+      "claim_true": "asserts retries after client errors will not occur after NOW; asserts nothing about NOW",
+      "source_fact": "retries after client errors still occur at NOW"
+    },
+    "decoys": [
+      "The retry loop always waits a fixed interval.",
+      "The retry loop still retries after client errors.",
+      "The retry loop waits a fixed interval."
+    ]
+  },
+  {
+    "id": "tense-04",
+    "construction": "passive present -> passive future",
+    "domain": "input validation",
+    "source_fact": "Uploaded filenames are accepted without Unicode normalization. The validator rejects empty filenames.",
+    "claim_false": "Uploaded filenames are normalized before validation.",
+    "claim_true": "Uploaded filenames will be normalized before validation.",
+    "token_delta": { "from": "are", "to": "will be" },
+    "formal_reading": {
+      "claim_false": "asserts normalization occurs before validation at NOW",
+      "claim_true": "asserts normalization occurs before validation after NOW; asserts nothing about NOW",
+      "source_fact": "normalization does not occur before validation at NOW"
+    },
+    "decoys": [
+      "The validator rejects empty filenames.",
+      "Uploaded filenames are accepted without Unicode normalization.",
+      "Empty filenames are rejected."
+    ]
+  },
+  {
+    "id": "tense-05",
+    "construction": "present perfect passive -> future perfect passive",
+    "domain": "logging",
+    "source_fact": "Request identifiers are written to every log entry. User email addresses have not been redacted.",
+    "claim_false": "User email addresses have been redacted.",
+    "claim_true": "User email addresses will have been redacted.",
+    "token_delta": { "from": "have", "to": "will have" },
+    "formal_reading": {
+      "claim_false": "asserts redaction has been completed by NOW",
+      "claim_true": "asserts redaction will have been completed by a future reference time; asserts nothing about NOW",
+      "source_fact": "redaction has not been completed at NOW"
+    },
+    "decoys": [
+      "Request identifiers are written to every log entry.",
+      "User email addresses have not been redacted.",
+      "Every log entry includes a request identifier."
+    ]
+  },
+  {
+    "id": "tense-06",
+    "construction": "simple present -> simple future",
+    "domain": "rate limiting",
+    "source_fact": "The rate limiter counts requests per IP address only. It does not count requests per API key.",
+    "claim_false": "The rate limiter counts requests per API key.",
+    "claim_true": "The rate limiter will count requests per API key.",
+    "token_delta": { "from": "counts", "to": "will count" },
+    "formal_reading": {
+      "claim_false": "asserts per-API-key counting occurs at NOW",
+      "claim_true": "asserts per-API-key counting occurs after NOW; asserts nothing about NOW",
+      "source_fact": "per-API-key counting does not occur at NOW"
+    },
+    "decoys": [
+      "The rate limiter counts requests per IP address only.",
+      "The rate limiter does not count requests per API key.",
+      "Requests are counted per IP address."
+    ]
+  },
+  {
+    "id": "tense-07",
+    "construction": "present perfect -> future perfect",
+    "domain": "schema migrations",
+    "source_fact": "The migration creates the new table but leaves the old table in place. The old table has not been dropped.",
+    "claim_false": "The old table has been dropped.",
+    "claim_true": "The old table will have been dropped.",
+    "token_delta": { "from": "has", "to": "will have" },
+    "formal_reading": {
+      "claim_false": "asserts the old table has been dropped by NOW",
+      "claim_true": "asserts the old table will have been dropped by a future reference time; asserts nothing about NOW",
+      "source_fact": "the old table has not been dropped at NOW"
+    },
+    "decoys": [
+      "The migration creates the new table.",
+      "The old table has not been dropped.",
+      "The old table remains in place."
+    ]
+  },
+  {
+    "id": "tense-08",
+    "construction": "passive present -> passive future",
+    "domain": "encryption at rest",
+    "source_fact": "Backup archives are stored without encryption. Integrity checks are still performed.",
+    "claim_false": "Backup archives are encrypted at rest.",
+    "claim_true": "Backup archives will be encrypted at rest.",
+    "token_delta": { "from": "are", "to": "will be" },
+    "formal_reading": {
+      "claim_false": "asserts encryption at rest exists at NOW",
+      "claim_true": "asserts encryption at rest will exist after NOW; asserts nothing about NOW",
+      "source_fact": "backup archives are not encrypted at rest at NOW"
+    },
+    "decoys": [
+      "Backup archives are stored without encryption.",
+      "Integrity checks are still performed.",
+      "Integrity checks are performed."
+    ]
+  },
+  {
+    "id": "tense-09",
+    "construction": "simple present -> simple future",
+    "domain": "background jobs",
+    "source_fact": "The scheduler starts jobs at fixed intervals. It does not skip overlapping runs.",
+    "claim_false": "The scheduler skips overlapping runs.",
+    "claim_true": "The scheduler will skip overlapping runs.",
+    "token_delta": { "from": "skips", "to": "will skip" },
+    "formal_reading": {
+      "claim_false": "asserts overlapping runs are skipped at NOW",
+      "claim_true": "asserts overlapping runs are skipped after NOW; asserts nothing about NOW",
+      "source_fact": "overlapping runs are not skipped at NOW"
+    },
+    "decoys": [
+      "The scheduler starts jobs at fixed intervals.",
+      "The scheduler does not skip overlapping runs.",
+      "Jobs start at fixed intervals."
+    ]
+  },
+  {
+    "id": "tense-10",
+    "construction": "simple present negative -> simple future negative",
+    "domain": "deprecation",
+    "source_fact": "The legacy endpoint remains available. Client requests to the legacy endpoint are still accepted.",
+    "claim_false": "The legacy endpoint no longer accepts client requests.",
+    "claim_true": "The legacy endpoint will no longer accept client requests.",
+    "token_delta": { "from": "accepts", "to": "will accept" },
+    "formal_reading": {
+      "claim_false": "asserts the endpoint does not accept client requests at NOW",
+      "claim_true": "asserts the endpoint will not accept client requests after NOW; asserts nothing about NOW",
+      "source_fact": "the endpoint still accepts client requests at NOW"
+    },
+    "decoys": [
+      "The legacy endpoint remains available.",
+      "Client requests to the legacy endpoint are still accepted.",
+      "The legacy endpoint is available."
+    ]
+  },
+  {
+    "id": "tense-11",
+    "construction": "present perfect -> future perfect",
+    "domain": "webhook delivery",
+    "source_fact": "Webhook deliveries are retried after failures. Duplicate delivery suppression has not been implemented.",
+    "claim_false": "Duplicate delivery suppression has been implemented.",
+    "claim_true": "Duplicate delivery suppression will have been implemented.",
+    "token_delta": { "from": "has", "to": "will have" },
+    "formal_reading": {
+      "claim_false": "asserts implementation has completed by NOW",
+      "claim_true": "asserts implementation will have completed by a future reference time; asserts nothing about NOW",
+      "source_fact": "duplicate delivery suppression has not been implemented at NOW"
+    },
+    "decoys": [
+      "Webhook deliveries are retried after failures.",
+      "Duplicate delivery suppression has not been implemented.",
+      "Webhook deliveries are retried."
+    ]
+  },
+  {
+    "id": "tense-12",
+    "construction": "passive present -> passive future",
+    "domain": "configuration loading",
+    "source_fact": "Environment variables are read directly from the process environment. Configuration files are not encrypted.",
+    "claim_false": "Configuration files are encrypted.",
+    "claim_true": "Configuration files will be encrypted.",
+    "token_delta": { "from": "are", "to": "will be" },
+    "formal_reading": {
+      "claim_false": "asserts configuration files are encrypted at NOW",
+      "claim_true": "asserts configuration files will be encrypted after NOW; asserts nothing about NOW",
+      "source_fact": "configuration files are not encrypted at NOW"
+    },
+    "decoys": [
+      "Environment variables are read directly from the process environment.",
+      "Configuration files are not encrypted.",
+      "The process environment provides environment variables."
+    ]
+  }
+]

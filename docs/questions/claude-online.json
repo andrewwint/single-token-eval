@@ -1,0 +1,236 @@
+[
+  {
+    "id": "tense-01",
+    "construction": "present perfect passive -> future passive",
+    "domain": "webhook verification",
+    "source_fact": "The webhook handler accepts any payload whose signature header is present; the header value is never compared against a computed HMAC. A comparison function is defined in crypto.py and is not called by the handler.",
+    "claim_false": "The webhook handler has been switched to HMAC comparison.",
+    "claim_true": "The webhook handler will be switched to HMAC comparison.",
+    "token_delta": { "from": "has been", "to": "will be" },
+    "formal_reading": {
+      "claim_false": "asserts the switch is complete as of NOW",
+      "claim_true": "asserts the switch occurs at some time after NOW; asserts nothing about NOW",
+      "source_fact": "the switch is not complete at NOW"
+    },
+    "decoys": [
+      "A comparison function is defined in crypto.py.",
+      "The handler checks the signature header for presence.",
+      "No HMAC is computed over the request body."
+    ]
+  },
+  {
+    "id": "tense-02",
+    "construction": "simple present -> simple future",
+    "domain": "authorization",
+    "source_fact": "The /admin/reports route is registered without a permission decorator. Any authenticated session reaches it, and role membership is never read during dispatch.",
+    "claim_false": "The reports route restricts access to users holding the admin role.",
+    "claim_true": "The reports route will restrict access to users holding the admin role.",
+    "token_delta": { "from": "restricts", "to": "will restrict" },
+    "formal_reading": {
+      "claim_false": "asserts the restriction holds at NOW",
+      "claim_true": "asserts the restriction holds at some time after NOW; asserts nothing about NOW",
+      "source_fact": "the restriction does not hold at NOW"
+    },
+    "decoys": [
+      "The reports route requires an authenticated session.",
+      "Role membership is not consulted during dispatch.",
+      "The route is registered without a permission decorator."
+    ]
+  },
+  {
+    "id": "tense-03",
+    "construction": "no longer Xs -> will no longer X",
+    "domain": "caching",
+    "source_fact": "get_user() reads from the in-process LRU cache before querying Postgres. The cache lookup is the first statement in the function body and can return without reaching the database.",
+    "claim_false": "get_user() no longer depends on the in-process cache.",
+    "claim_true": "get_user() will no longer depend on the in-process cache.",
+    "token_delta": {
+      "from": "no longer depends",
+      "to": "will no longer depend"
+    },
+    "formal_reading": {
+      "claim_false": "asserts the dependency is absent at NOW",
+      "claim_true": "asserts the dependency is absent at some time after NOW; asserts nothing about NOW",
+      "source_fact": "the dependency is present at NOW"
+    },
+    "decoys": [
+      "get_user() consults the LRU cache before querying Postgres.",
+      "The cache lookup precedes the database call.",
+      "get_user() can return without reaching Postgres."
+    ],
+    "note": "Fails a strict reading of R1: two edits (inserted auxiliary plus inflection change). Retained because it is the originating example; a strict R1 would exclude the case that motivated the study."
+  },
+  {
+    "id": "tense-04",
+    "construction": "present perfect -> simple future",
+    "domain": "retries",
+    "source_fact": "The retry helper sleeps a fixed 200 ms between attempts. An exponential schedule is defined in backoff.py and is referenced by no caller.",
+    "claim_false": "The retry path has adopted exponential backoff.",
+    "claim_true": "The retry path will adopt exponential backoff.",
+    "token_delta": { "from": "has adopted", "to": "will adopt" },
+    "formal_reading": {
+      "claim_false": "asserts adoption is complete as of NOW",
+      "claim_true": "asserts adoption occurs at some time after NOW; asserts nothing about NOW",
+      "source_fact": "adoption is not complete at NOW"
+    },
+    "decoys": [
+      "The retry helper waits a fixed interval between attempts.",
+      "An exponential schedule is defined in backoff.py.",
+      "No caller references the exponential schedule."
+    ]
+  },
+  {
+    "id": "tense-05",
+    "construction": "present passive -> future passive",
+    "domain": "input validation",
+    "source_fact": "Request bodies reach the handler as parsed JSON with no schema check. The endpoint's Pydantic model is imported by the module and is never instantiated.",
+    "claim_false": "Incoming request bodies are validated against the endpoint schema.",
+    "claim_true": "Incoming request bodies will be validated against the endpoint schema.",
+    "token_delta": { "from": "are", "to": "will be" },
+    "formal_reading": {
+      "claim_false": "asserts validation occurs at NOW",
+      "claim_true": "asserts validation occurs at some time after NOW; asserts nothing about NOW",
+      "source_fact": "validation does not occur at NOW"
+    },
+    "decoys": [
+      "Request bodies reach the handler as parsed JSON.",
+      "The endpoint's Pydantic model is imported by the module.",
+      "No schema check runs before the handler executes."
+    ]
+  },
+  {
+    "id": "tense-06",
+    "construction": "present copular -> future copular",
+    "domain": "logging",
+    "source_fact": "The audit logger writes the full request body, including the password field, to stdout. No redaction filter is registered on the logger.",
+    "claim_false": "Audit output is free of plaintext credentials.",
+    "claim_true": "Audit output will be free of plaintext credentials.",
+    "token_delta": { "from": "is", "to": "will be" },
+    "formal_reading": {
+      "claim_false": "asserts the property holds of audit output at NOW",
+      "claim_true": "asserts the property holds at some time after NOW; asserts nothing about NOW",
+      "source_fact": "the property does not hold at NOW"
+    },
+    "decoys": [
+      "The audit logger writes request bodies to stdout.",
+      "The password field appears in audit output.",
+      "No redaction filter is registered on the logger."
+    ]
+  },
+  {
+    "id": "tense-07",
+    "construction": "present perfect -> future perfect",
+    "domain": "rate limiting",
+    "source_fact": "Rate limiting is enforced by a fixed-window counter in Redis. A token-bucket implementation exists behind the TOKEN_BUCKET flag, which is disabled in every environment.",
+    "claim_false": "The gateway has moved all tenants onto the token-bucket limiter.",
+    "claim_true": "The gateway will have moved all tenants onto the token-bucket limiter.",
+    "token_delta": { "from": "has", "to": "will have" },
+    "formal_reading": {
+      "claim_false": "asserts the move is complete as of NOW",
+      "claim_true": "asserts the move is complete at some time after NOW; asserts nothing about NOW",
+      "source_fact": "the move is not complete at NOW"
+    },
+    "decoys": [
+      "Rate limiting is enforced by a fixed-window counter in Redis.",
+      "A token-bucket implementation exists in the codebase.",
+      "The TOKEN_BUCKET flag is disabled in every environment."
+    ],
+    "note": "Weakest item on R3. Bare future perfect without a by-clause is slightly stilted, and register may cue the reader independently of the token. Drop this one first if trimming."
+  },
+  {
+    "id": "tense-08",
+    "construction": "negated present -> negated future",
+    "domain": "schema migrations",
+    "source_fact": "Migrations run automatically at container start via the entrypoint script. The --check-only guard is not passed, and execution is not gated on operator input.",
+    "claim_false": "Migrations do not execute without an explicit operator command.",
+    "claim_true": "Migrations will not execute without an explicit operator command.",
+    "token_delta": { "from": "do", "to": "will" },
+    "formal_reading": {
+      "claim_false": "asserts the gating holds at NOW",
+      "claim_true": "asserts the gating holds at some time after NOW; asserts nothing about NOW",
+      "source_fact": "the gating does not hold at NOW"
+    },
+    "decoys": [
+      "The entrypoint script triggers migrations at container start.",
+      "The --check-only guard is not passed.",
+      "Migration execution is not gated on operator input."
+    ]
+  },
+  {
+    "id": "tense-09",
+    "construction": "simple present -> simple future",
+    "domain": "encryption at rest",
+    "source_fact": "Backup archives are written to S3 with server-side encryption disabled, and the bucket policy does not require KMS. Application-level encryption is applied to the database volume only.",
+    "claim_false": "Backup archives carry the same encryption guarantees as the database volume.",
+    "claim_true": "Backup archives will carry the same encryption guarantees as the database volume.",
+    "token_delta": { "from": "carry", "to": "will carry" },
+    "formal_reading": {
+      "claim_false": "asserts parity of guarantees at NOW",
+      "claim_true": "asserts parity at some time after NOW; asserts nothing about NOW",
+      "source_fact": "parity does not hold at NOW"
+    },
+    "decoys": [
+      "The database volume is encrypted at the application level.",
+      "Server-side encryption is disabled for backup archives.",
+      "The bucket policy does not require KMS."
+    ]
+  },
+  {
+    "id": "tense-10",
+    "construction": "present passive -> future passive",
+    "domain": "background jobs",
+    "source_fact": "Failed jobs are discarded after the third attempt. A dlq table is present in the schema and no code path writes to it.",
+    "claim_false": "Exhausted jobs are captured in the dead-letter table for replay.",
+    "claim_true": "Exhausted jobs will be captured in the dead-letter table for replay.",
+    "token_delta": { "from": "are", "to": "will be" },
+    "formal_reading": {
+      "claim_false": "asserts capture occurs at NOW",
+      "claim_true": "asserts capture occurs at some time after NOW; asserts nothing about NOW",
+      "source_fact": "capture does not occur at NOW"
+    },
+    "decoys": [
+      "Jobs are discarded after three failed attempts.",
+      "The dlq table is present in the schema.",
+      "No code path writes to the dlq table."
+    ]
+  },
+  {
+    "id": "tense-11",
+    "construction": "present perfect passive -> future passive",
+    "domain": "deprecation",
+    "source_fact": "The v1 endpoints continue to route and serve requests. The deprecation is recorded in the changelog, and no Sunset header is returned by the v1 routes.",
+    "claim_false": "The v1 endpoints have been withdrawn from the public surface.",
+    "claim_true": "The v1 endpoints will be withdrawn from the public surface.",
+    "token_delta": { "from": "have been", "to": "will be" },
+    "formal_reading": {
+      "claim_false": "asserts withdrawal is complete as of NOW",
+      "claim_true": "asserts withdrawal occurs at some time after NOW; asserts nothing about NOW",
+      "source_fact": "withdrawal is not complete at NOW"
+    },
+    "decoys": [
+      "The v1 endpoints continue to serve requests.",
+      "The deprecation is recorded in the changelog.",
+      "No Sunset header is returned by the v1 routes."
+    ]
+  },
+  {
+    "id": "tense-12",
+    "construction": "present passive -> future passive",
+    "domain": "session cookies",
+    "source_fact": "Session cookies are issued without the SameSite attribute, and browsers attach them to cross-site POST requests. The cookie builder sets Secure and HttpOnly only.",
+    "claim_false": "Session cookies are withheld from cross-site POST requests.",
+    "claim_true": "Session cookies will be withheld from cross-site POST requests.",
+    "token_delta": { "from": "are", "to": "will be" },
+    "formal_reading": {
+      "claim_false": "asserts withholding occurs at NOW",
+      "claim_true": "asserts withholding occurs at some time after NOW; asserts nothing about NOW",
+      "source_fact": "withholding does not occur at NOW"
+    },
+    "decoys": [
+      "Session cookies carry the Secure attribute.",
+      "The SameSite attribute is not set on session cookies.",
+      "Browsers attach session cookies to cross-site POST requests."
+    ],
+    "note": "First draft failed R4: source_fact named the missing SameSite attribute but not its consequence, so the falsity of claim_false depended on the reader supplying browser cookie semantics. Rewritten to state the behaviour plainly."
+  }
+]

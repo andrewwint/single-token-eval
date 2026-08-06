@@ -1,0 +1,266 @@
+[
+  {
+    "id": "tense-01",
+    "construction": "no longer Xs -> will no longer X",
+    "domain": "authorization",
+    "source_fact": "The API gateway evaluates legacy API keys alongside OAuth tokens on every incoming request, and key verification will remain enabled until the upcoming v3 deprecation milestone.",
+    "claim_false": "The API gateway no longer evaluates legacy API keys on incoming requests.",
+    "claim_true": "The API gateway will no longer evaluate legacy API keys on incoming requests.",
+    "token_delta": {
+      "from": "no",
+      "to": "will"
+    },
+    "formal_reading": {
+      "claim_false": "asserts the gate condition (evaluating legacy API keys) is inactive at t_0 (NOW).",
+      "claim_true": "asserts the gate condition (evaluating legacy API keys) becomes inactive at t_1 where t_1 > t_0; asserts nothing about t_0.",
+      "source_fact": "the gate condition is active at t_0."
+    },
+    "decoys": [
+      "The API gateway evaluates legacy API keys on incoming requests.",
+      "OAuth tokens are checked alongside legacy API keys during request handling.",
+      "Legacy API key verification stays active prior to the v3 deprecation milestone."
+    ]
+  },
+  {
+    "id": "tense-02",
+    "construction": "simple present -> simple future",
+    "domain": "caching",
+    "source_fact": "The user service writes session data directly to the primary database, while redis cache population logic is currently under development in a separate feature branch.",
+    "claim_false": "The user service populates session data in Redis upon login.",
+    "claim_true": "The user service will populate session data in Redis upon login.",
+    "token_delta": {
+      "from": "populates",
+      "to": "will"
+    },
+    "formal_reading": {
+      "claim_false": "asserts action P (populating Redis) occurs at t_0.",
+      "claim_true": "asserts action P (populating Redis) occurs at t_1 where t_1 > t_0; asserts nothing about t_0.",
+      "source_fact": "action P does not occur at t_0."
+    },
+    "decoys": [
+      "The user service writes session data to the primary database.",
+      "Redis cache logic is being developed in a feature branch.",
+      "Session data lands directly in the primary database during login."
+    ]
+  },
+  {
+    "id": "tense-03",
+    "construction": "present passive -> future passive",
+    "domain": "schema migrations",
+    "source_fact": "Database migration scripts run synchronously during deployment step three, locking user tables until the DDL commands complete.",
+    "claim_false": "Database migrations are executed asynchronously without locking user tables.",
+    "claim_true": "Database migrations will be executed asynchronously without locking user tables.",
+    "token_delta": {
+      "from": "are",
+      "to": "will"
+    },
+    "formal_reading": {
+      "claim_false": "asserts execution mode P (asynchronous/non-locking execution) holds at t_0.",
+      "claim_true": "asserts execution mode P holds at t_1 where t_1 > t_0; asserts nothing about t_0.",
+      "source_fact": "execution mode P does not hold at t_0 (migrations are synchronous and lock tables)."
+    },
+    "decoys": [
+      "Database migrations run during deployment step three.",
+      "User tables experience locks while DDL commands complete.",
+      "Migration scripts run synchronously in the current deployment sequence."
+    ]
+  },
+  {
+    "id": "tense-04",
+    "construction": "present perfect -> future perfect",
+    "domain": "encryption at rest",
+    "source_fact": "The storage worker writes raw customer payloads to standard S3 buckets, and field-level AES-256 encryption is scheduled for implementation next sprint.",
+    "claim_false": "The storage worker has encrypted all payload fields prior to disk persistence.",
+    "claim_true": "The storage worker will have encrypted all payload fields prior to disk persistence.",
+    "token_delta": {
+      "from": "has",
+      "to": "will"
+    },
+    "formal_reading": {
+      "claim_false": "asserts state P (field-level encryption prior to persistence) is completed prior to t_0.",
+      "claim_true": "asserts state P is completed prior to t_1 where t_1 > t_0; asserts nothing about t_0.",
+      "source_fact": "state P has not occurred prior to t_0."
+    },
+    "decoys": [
+      "The storage worker writes customer payloads to S3 buckets.",
+      "Payloads are written to standard S3 storage buckets.",
+      "Field-level AES-256 encryption is slated for a future sprint."
+    ]
+  },
+  {
+    "id": "tense-05",
+    "construction": "is Xed -> shall be Xed",
+    "domain": "rate limiting",
+    "source_fact": "The ingress proxy drops requests exceeding 100 req/sec per IP, and token bucket rate limiting per account ID remains unmerged in code review.",
+    "claim_false": "Excess traffic is throttled using a token bucket rate limiter keyed by account ID.",
+    "claim_true": "Excess traffic shall be throttled using a token bucket rate limiter keyed by account ID.",
+    "token_delta": {
+      "from": "is",
+      "to": "shall"
+    },
+    "formal_reading": {
+      "claim_false": "asserts enforcement rule P (token bucket per account ID) operates at t_0.",
+      "claim_true": "asserts enforcement rule P operates at t_1 where t_1 > t_0; asserts nothing about t_0.",
+      "source_fact": "enforcement rule P does not operate at t_0 (limiting is per IP)."
+    },
+    "decoys": [
+      "The ingress proxy drops requests when traffic exceeds 100 req/sec per IP.",
+      "Rate limiting is currently evaluated based on IP address.",
+      "Token bucket rate limiting code is undergoing review."
+    ]
+  },
+  {
+    "id": "tense-06",
+    "construction": "simple present -> simple future",
+    "domain": "logging",
+    "source_fact": "The payment pipeline logs transaction metadata in plaintext to stdout, while log scrubbing routines are scheduled for the Q3 security release.",
+    "claim_false": "The payment pipeline redacts credit card numbers from application logs.",
+    "claim_true": "The payment pipeline will redact credit card numbers from application logs.",
+    "token_delta": {
+      "from": "redacts",
+      "to": "will"
+    },
+    "formal_reading": {
+      "claim_false": "asserts action P (redacting card numbers) occurs at t_0.",
+      "claim_true": "asserts action P occurs at t_1 where t_1 > t_0; asserts nothing about t_0.",
+      "source_fact": "action P does not occur at t_0."
+    },
+    "decoys": [
+      "The payment pipeline logs transaction metadata to stdout.",
+      "Transaction metadata includes unredacted fields in output logs.",
+      "Log scrubbing routines are planned for a subsequent security update."
+    ]
+  },
+  {
+    "id": "tense-07",
+    "construction": "present perfect -> future",
+    "domain": "input validation",
+    "source_fact": "The API controller accepts unverified JSON payloads on public endpoints, and schema validation via OpenAPI specs is behind a feature flag that defaults to off.",
+    "claim_false": "The API controller has validated incoming payload schemas against the OpenAPI spec.",
+    "claim_true": "The API controller will validate incoming payload schemas against the OpenAPI spec.",
+    "token_delta": {
+      "from": "has",
+      "to": "will"
+    },
+    "formal_reading": {
+      "claim_false": "asserts state P (validating schemas against spec) holds at t_0.",
+      "claim_true": "asserts action P will hold at t_1 where t_1 > t_0; asserts nothing about t_0.",
+      "source_fact": "state P does not hold at t_0 (feature flag defaults to off)."
+    },
+    "decoys": [
+      "The API controller processes JSON payloads on public endpoints.",
+      "OpenAPI schema validation functionality is controlled by a feature flag.",
+      "The feature flag for payload validation defaults to disabled."
+    ]
+  },
+  {
+    "id": "tense-08",
+    "construction": "no longer Xs -> will no longer X",
+    "domain": "retries",
+    "source_fact": "The RPC client executes up to three retries on 5xx HTTP responses, while non-retryable response handling is slated for version 2.4.",
+    "claim_false": "The RPC client no longer retries failed requests on 503 HTTP status codes.",
+    "claim_true": "The RPC client will no longer retry failed requests on 503 HTTP status codes.",
+    "token_delta": {
+      "from": "no",
+      "to": "will"
+    },
+    "formal_reading": {
+      "claim_false": "asserts behavior P (retrying 503 responses) is ceased at t_0.",
+      "claim_true": "asserts behavior P ceases at t_1 where t_1 > t_0; asserts nothing about t_0.",
+      "source_fact": "behavior P is active at t_0."
+    },
+    "decoys": [
+      "The RPC client retries failed HTTP requests up to three times.",
+      "HTTP 5xx error responses trigger retry attempts in the client.",
+      "Custom non-retryable response rules are scheduled for version 2.4."
+    ]
+  },
+  {
+    "id": "tense-09",
+    "construction": "present passive -> future passive",
+    "domain": "background jobs",
+    "source_fact": "The event processor pushes failed messages directly to the main dead-letter queue without re-queueing or delay intervals.",
+    "claim_false": "Failed background jobs are routed to an exponential backoff retry topic.",
+    "claim_true": "Failed background jobs will be routed to an exponential backoff retry topic.",
+    "token_delta": {
+      "from": "are",
+      "to": "will"
+    },
+    "formal_reading": {
+      "claim_false": "asserts routing rule P (routing to exponential backoff topic) is active at t_0.",
+      "claim_true": "asserts routing rule P becomes active at t_1 where t_1 > t_0; asserts nothing about t_0.",
+      "source_fact": "routing rule P is inactive at t_0."
+    },
+    "decoys": [
+      "The event processor sends failed messages to the dead-letter queue.",
+      "Failed messages bypass delay intervals in the event queue.",
+      "Messages failing processing are routed directly to dead-letter storage."
+    ]
+  },
+  {
+    "id": "tense-10",
+    "construction": "present perfect -> future perfect",
+    "domain": "deprecation",
+    "source_fact": "The billing subsystem handles payments via the legacy v1 REST endpoints, and the migration to v2 GraphQL mutations is scheduled for completion at end of quarter.",
+    "claim_false": "The billing subsystem has migrated all payment operations to the v2 GraphQL API.",
+    "claim_true": "The billing subsystem will have migrated all payment operations to the v2 GraphQL API.",
+    "token_delta": {
+      "from": "has",
+      "to": "will"
+    },
+    "formal_reading": {
+      "claim_false": "asserts state P (completion of migration to v2 GraphQL API) holds prior to t_0.",
+      "claim_true": "asserts state P will hold prior to t_1 where t_1 > t_0; asserts nothing about t_0.",
+      "source_fact": "state P does not hold prior to t_0."
+    },
+    "decoys": [
+      "The billing subsystem processes payment requests using v1 REST endpoints.",
+      "Migration to the v2 GraphQL API is scheduled for completion at quarter end.",
+      "Legacy REST endpoints are active for payment operations."
+    ]
+  },
+  {
+    "id": "tense-11",
+    "construction": "simple present -> simple future",
+    "domain": "webhook verification",
+    "source_fact": "The notification service accepts inbound webhooks without signature validation, while HMAC verification functions exist only in unmerged pull requests.",
+    "claim_false": "The notification service verifies HMAC signatures on incoming webhook headers.",
+    "claim_true": "The notification service will verify HMAC signatures on incoming webhook headers.",
+    "token_delta": {
+      "from": "verifies",
+      "to": "will"
+    },
+    "formal_reading": {
+      "claim_false": "asserts action P (verifying HMAC signatures) occurs at t_0.",
+      "claim_true": "asserts action P occurs at t_1 where t_1 > t_0; asserts nothing about t_0.",
+      "source_fact": "action P does not occur at t_0."
+    },
+    "decoys": [
+      "Inbound webhooks are received by the notification service without signature checks.",
+      "HMAC verification logic exists in unmerged pull requests.",
+      "The notification service handles incoming webhook requests."
+    ]
+  },
+  {
+    "id": "tense-12",
+    "construction": "is Xed -> shall be Xed",
+    "domain": "tenant isolation",
+    "source_fact": "The analytics engine stores multi-tenant event streams inside a shared database table differentiated by tenant_id columns.",
+    "claim_false": "Tenant telemetry data is isolated in dedicated per-tenant database schemas.",
+    "claim_true": "Tenant telemetry data shall be isolated in dedicated per-tenant database schemas.",
+    "token_delta": {
+      "from": "is",
+      "to": "shall"
+    },
+    "formal_reading": {
+      "claim_false": "asserts storage state P (isolated per-tenant database schemas) holds at t_0.",
+      "claim_true": "asserts storage state P holds at t_1 where t_1 > t_0; asserts nothing about t_0.",
+      "source_fact": "storage state P does not hold at t_0 (data uses shared tables)."
+    },
+    "decoys": [
+      "Multi-tenant event streams are stored in a shared database table.",
+      "The analytics engine uses a tenant_id column to differentiate tenant records.",
+      "Telemetry data across tenants shares table structures."
+    ]
+  }
+]
