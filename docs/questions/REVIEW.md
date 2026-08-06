@@ -95,6 +95,41 @@ scores 0/3 on them by construction.
 
 These must exist before GATE A, or the cold read has to be paid for twice.
 
+## Cross-check attempts (gemini, chatgpt) — both reviewed the wrong dataset
+
+Both external cross-checks evaluated **their own rejected draft** rather than `items/draft-tense.json`.
+Gemini's returned items are the API-gateway set; ChatGPT's decoy notes cite "The cache stores cache
+entries" and "The process environment provides environment variables", both from `chatgpt.json`.
+
+**The cause is dispatch, not the models.** The brief instructed *the operator* to send
+`items/draft-tense.json` with fields stripped, and no payload was attached; each model filled the gap
+from its own context. `harness/build_gate_a.py` removes the failure mode by emitting the payload as a
+file — generate it, send it, never describe it.
+
+Two findings survive the mix-up.
+
+**1. Pass 1 was converted from a measurement back into a self-assessment.** ChatGPT returned
+"**PASS** — I expect to score essentially at chance" without classifying a single sentence. That is a
+prediction about itself, not a result, and it is the exact failure mode this study is being built to
+measure, appearing inside the study's own quality gate.
+
+Consequence for the harness: **pass 1 must be scored against `build/gate-a-key.json` by code.** An
+evaluator's own verdict on its own accuracy is not admissible, however confident. Add a scorer
+alongside the builder before the gate is run.
+
+**2. Construction monoculture — confirmed mechanically.** The set declares 7 constructions but has
+**one surface mechanism**: all 12 are "insert `will` + reinflect the verb". Gemini's psycholinguistic
+framing of this ("participants adapt to the grammatical pattern") does not transfer — draws are
+stateless and single-shot, so there is no adaptation across items. What does transfer is a
+**generalization bound**: a null result would license "models handle `will`-insertion", not "models
+handle tense".
+
+Cheapest fix, and it pays twice: add **present ↔ past** items, where the mechanism is inflection alone
+with no auxiliary inserted. Source establishes a guard was removed last release; `claim_false` = "The
+endpoint requires an admin role" (present, false), `claim_true` = "The endpoint required an admin
+role" (past, true). Different mechanism, and the true member is no longer future — which also erodes
+the single-polarity pattern below.
+
 ## Remaining work
 
 - 3 reverse-polarity singles (above) — blocking.
