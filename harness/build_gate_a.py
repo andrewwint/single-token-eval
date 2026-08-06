@@ -24,6 +24,7 @@ Usage:  python3 -m harness.build_gate_a [items/draft-tense.json ...]
 from __future__ import annotations
 
 import json
+import math
 import random
 import re
 import statistics as st
@@ -46,6 +47,7 @@ Answer with exactly one word, ACCURATE or INACCURATE, then a confidence from 1 t
 """
 
 PERFECT = re.compile(r"\b(has|have|had)\s+(been\s+)?\w+(ed|en|wn|ne|t)\b", re.I)
+FUTURE = re.compile(r"\b(will|shall)\b", re.I)
 
 
 def load(paths: list[str]) -> list[dict]:
@@ -56,9 +58,13 @@ def load(paths: list[str]) -> list[dict]:
 
 
 def pool(items: list[dict]) -> list[dict]:
-    rows = [{"text": it["claim_false"], "gold": "INACCURATE", "src": it["id"]} for it in items]
+    """Pass-1 pool. Reverse-polarity singles are EXCLUDED: their false claim is future-tense, and
+    admitting it would reintroduce the tense cue this audit exists to hold constant. They serve the
+    measured round (where they stop 'flag the present tense' from scoring 100%), not this gate."""
+    src = [it for it in items if it.get("kind") != "reverse-single"]
+    rows = [{"text": it["claim_false"], "gold": "INACCURATE", "src": it["id"]} for it in src]
     rows += [{"text": d, "gold": "ACCURATE", "src": it["id"]}
-             for it in items for d in it["decoys"]]
+             for it in src for d in it["decoys"]]
     random.Random(SEED).shuffle(rows)
     for n, r in enumerate(rows, 1):
         r["n"] = n
@@ -79,12 +85,36 @@ def audit(rows: list[dict]) -> list[str]:
             f"true. 'has/have + participle' predicts the label. Add present-perfect decoys, or "
             f"convert those claims to simple present.")
 
+    b_fut = sum(1 for r in bad if FUTURE.search(r["text"]))
+    g_fut = sum(1 for r in good if FUTURE.search(r["text"]))
+    if b_fut or g_fut:
+        problems.append(
+            f"TENSE LEAK: future-tense in {b_fut}/{len(bad)} false and {g_fut}/{len(good)} true. "
+            f"The pool must be entirely present-tense — holding tense constant is the whole point "
+            f"of testing claims against decoys instead of against their twins.")
+
     bl = [len(r["text"].split()) for r in bad]
     gl = [len(r["text"].split()) for r in good]
     if abs(st.mean(bl) - st.mean(gl)) > 2.0:
         problems.append(f"LENGTH ASYMMETRY: false mean {st.mean(bl):.1f} vs true mean {st.mean(gl):.1f} words.")
 
     return problems
+
+
+def threshold(n: int, k_false: int, alpha: float = 0.01) -> tuple[int, int, float]:
+    """Smallest hit-count that clears alpha when a judge flags `k_false` sentences.
+
+    The classes are unbalanced, so accuracy is the wrong statistic: a judge answering ACCURATE to
+    everything scores 75%. Model the null as drawing `k_false` sentences from the pool without
+    knowledge — hits are hypergeometric — and pre-register the hit-count that would beat it.
+    """
+    def tail(t: int) -> float:
+        return sum(math.comb(k_false, i) * math.comb(n - k_false, k_false - i) / math.comb(n, k_false)
+                   for i in range(t, k_false + 1))
+    for t in range(k_false + 1):
+        if tail(t) <= alpha:
+            return t, k_false, tail(t)
+    return k_false, k_false, tail(k_false)
 
 
 def main() -> None:
@@ -98,12 +128,19 @@ def main() -> None:
         (out / "pass1" / f"{r['n']:03d}.md").write_text(f"{PROMPT}\n{r['text']}\n")
     (out / "gate-a-key.json").write_text(json.dumps(rows, indent=2) + "\n")
 
-    print(f"{len(rows)} sentences ({len(items)} false, {len(rows)-len(items)} true) "
+    n_false = sum(1 for r in rows if r["gold"] == "INACCURATE")
+    n_rev = sum(1 for it in items if it.get("kind") == "reverse-single")
+    print(f"{len(rows)} sentences ({n_false} false, {len(rows)-n_false} true) "
           f"-> build/pass1/*.md   seed {SEED}")
+    print(f"  {n_rev} reverse-polarity singles held OUT of this pool (future-tense false claims)")
     print(f"  base rate FALSE = {base:.3f} — 'chance' is NOT 50%. A judge flagging k at random")
     print(f"  gets {base:.2f}k true positives. Pre-register the threshold against that, not 0.5.")
     print("  SEND AS SEPARATE CALLS. In one context the judge compares sentences to each other,")
     print("  which converts blind classification into relative ranking and measures something else.")
+    t, k, pv = threshold(len(rows), n_false)
+    print(f"\n  PRE-REGISTERED THRESHOLD (hypergeometric, alpha=0.01):")
+    print(f"    a judge flagging {k} sentences needs >= {t} hits to clear the null (p={pv:.4f}).")
+    print(f"    expected hits with no information: {k*n_false/len(rows):.2f}. AT OR BELOW {t-1} = PASS.")
 
     problems = audit(rows)
     if problems:
