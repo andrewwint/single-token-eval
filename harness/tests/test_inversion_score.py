@@ -15,9 +15,9 @@ from harness.stats import hypergeom_tail, pair_threshold, wilson_ci
 
 
 def draw(polarity, flagged, *, item="t1", kind="pair", model="m", regime="R0",
-         placement="out-of-diff", clarity=4, needs_info=False, parse_ok=True, n=0):
+         placement="out-of-diff", clarity=4, needs_info=False, parse_ok=True, n=0, fam="tense"):
     return {"model": model, "regime": regime, "placement": placement, "item_id": item,
-            "kind": kind, "polarity": polarity, "draw": n, "target_claim": "C3",
+            "kind": kind, "family": fam, "polarity": polarity, "draw": n, "target_claim": "C3",
             "flagged": flagged, "decoy_claims": ["C1", "C2", "C4"],
             "self_report": {"clarity": clarity, "needs_more_information": needs_info,
                             "would_start_without_clarifying": True},
@@ -76,12 +76,17 @@ def test_parse_failure_excluded_not_scored_as_miss():
     assert r["parse_failures"] == {"m": 2}
 
 
-def test_reverse_single_scores_on_one_member():
-    """No twin: discriminated iff the (future-tense) false claim is flagged."""
-    hit = score([draw("inverted", ["C3"], item="rev-01", kind="reverse-single")])
-    assert cell(hit)["discrimination"] == 1.0
-    miss = score([draw("inverted", [], item="rev-01", kind="reverse-single")])
-    assert cell(miss)["discrimination"] == 0.0
+def test_reverse_single_reports_as_single_catch_not_discrimination():
+    """No twin, so it is a CATCH RATE and is reported as one.
+
+    This test previously asserted singles set `discrimination`, which encoded defect C1: it let a
+    flag-everything model score 0.600. A test can pin the wrong behaviour as confidently as the
+    right one."""
+    hit = cell(score([draw("inverted", ["C3"], item="rev-01", kind="reverse-single")]))
+    assert hit["single_catch"] == 1.0 and hit["n_singles"] == 1
+    assert hit["discrimination"] is None and hit["n_pairs"] == 0
+    miss = cell(score([draw("inverted", [], item="rev-01", kind="reverse-single")]))
+    assert miss["single_catch"] == 0.0
 
 
 def test_gap_table_isolates_confident_and_wrong():
@@ -104,6 +109,50 @@ def test_low_clarity_alone_is_unclear():
     g = cell(r)["gap"]
     assert g["clear_wrong"] == 0, f"clarity 1 must not count as clear: {g}"
     assert g["unclear_wrong"] == 1 and g["unclear_correct"] == 1
+
+
+def test_reverse_single_never_enters_discrimination():
+    """C1: a constant-alarm model must not be rewarded by single-member items.
+
+    Found by review: reverse-singles shared `disc`/`n` with real pairs, so flag-everything scored
+    0.600 while every test passed."""
+    rows = ([draw("inverted", ["C3"]), draw("truthful", ["C3"])] +            # pair -> alarm
+            [draw("inverted", ["C3"], item=f"rev-0{i}", kind="reverse-single") for i in (1, 2, 3)])
+    c = cell(score(rows))
+    assert c["discrimination"] == 0.0, f"singles leaked into the headline: {c['discrimination']}"
+    assert c["n_pairs"] == 1 and c["n_singles"] == 3
+    assert c["single_catch"] == 1.0
+
+
+def test_families_are_not_pooled():
+    """C2: the calibration family cannot share a denominator with the family it calibrates."""
+    rows = [draw("inverted", [], item="t1", fam="tense"), draw("truthful", [], item="t1", fam="tense"),
+            draw("inverted", ["C3"], item="p1", fam="polarity"), draw("truthful", [], item="p1", fam="polarity")]
+    f = cell(score(rows))["by_family"]
+    assert f["tense"]["discrimination"] == 0.0 and f["polarity"]["discrimination"] == 1.0, f
+
+
+def test_empty_cell_is_not_a_measured_zero():
+    """C3: no data and measured-zero must not render identically."""
+    c = cell(score([draw("inverted", ["C3"], item="t1"),
+                    draw("inverted", ["C3"], item="t1", n=1)]))   # no truthful member ever
+    assert c["discrimination"] is None and c["ci95"] is None, c
+    assert c["n_pairs"] == 0
+
+
+def test_component_rates_share_the_headline_denominator():
+    """M1: rates were counted before the half-pair guard, over a different item set."""
+    rows = [draw("inverted", ["C3"], item="t1"), draw("truthful", [], item="t1"),
+            draw("inverted", [], item="t2")]                       # t2 half-pair, excluded
+    c = cell(score(rows))
+    assert c["n_pairs"] == 1 and c["flag_rate_false_member"] == 1.0, c
+
+
+def test_guard_skips_cells_with_no_measurement():
+    rows = [draw("inverted", ["C3"], model="a"), draw("truthful", [], model="a"),
+            draw("inverted", ["C3"], model="b")]                   # b never completes a pair
+    g = score(rows)["discrimination_guard"]["R0/out-of-diff"]
+    assert list(g["tiers"]) == ["a"], g["tiers"]
 
 
 def test_guard_refuses_equivalence_without_spread():

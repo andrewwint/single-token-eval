@@ -130,32 +130,23 @@ def main() -> None:
     rows = pool(items)
     base = sum(1 for r in rows if r["gold"] == "INACCURATE") / len(rows)
 
+    # H4: audit BEFORE writing. Previously the payload and key were written first, so a refused
+    # build still shipped 48 files — and overwrote the previous good key with a stale one.
+    problems = audit(rows)
+    if problems:
+        print("\n  REFUSING TO SHIP (nothing written):")
+        for p in problems:
+            print(f"   - {p}")
+        raise SystemExit(2)
+
     out = REPO / "build"
+    if (out / "pass1").exists():
+        for old_f in (out / "pass1").glob("*.md"):
+            old_f.unlink()          # never leave stale sentences beside a fresh key
     (out / "pass1").mkdir(parents=True, exist_ok=True)
     for r in rows:
         (out / "pass1" / f"{r['n']:03d}.md").write_text(f"{PROMPT}\n{r['text']}\n")
     (out / "gate-a-key.json").write_text(json.dumps(rows, indent=2) + "\n")
-
-    n_false = sum(1 for r in rows if r["gold"] == "INACCURATE")
-    n_rev = sum(1 for it in items if it.get("kind") == "reverse-single")
-    print(f"{len(rows)} sentences ({n_false} false, {len(rows)-n_false} true) "
-          f"-> build/pass1/*.md   seed {SEED}")
-    print(f"  {n_rev} reverse-polarity singles held OUT of this pool (future-tense false claims)")
-    print(f"  base rate FALSE = {base:.3f} — 'chance' is NOT 50%. A judge flagging k at random")
-    print(f"  gets {base:.2f}k true positives. Pre-register the threshold against that, not 0.5.")
-    print("  SEND AS SEPARATE CALLS. In one context the judge compares sentences to each other,")
-    print("  which converts blind classification into relative ranking and measures something else.")
-    t, k, pv = threshold(len(rows), n_false)
-    print(f"\n  PRE-REGISTERED THRESHOLD (hypergeometric, alpha=0.01):")
-    print(f"    a judge flagging {k} sentences needs >= {t} hits to clear the null (p={pv:.4f}).")
-    print(f"    expected hits with no information: {k*n_false/len(rows):.2f}. AT OR BELOW {t-1} = PASS.")
-
-    problems = audit(rows)
-    if problems:
-        print("\n  REFUSING TO SHIP:")
-        for p in problems:
-            print(f"   - {p}")
-        raise SystemExit(2)
 
 
 if __name__ == "__main__":

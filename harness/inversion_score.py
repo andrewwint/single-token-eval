@@ -71,10 +71,14 @@ def score(draws: list[dict]) -> dict:
         bucket = ("clear_" if clear else "unclear_") + ("correct" if correct else "wrong")
         gap[_cell(d)][bucket] += 1
 
-    # pair-level discrimination
-    items = {(k[3], k[4]): None for k in member}
+    # pair-level discrimination. Reverse-singles are NOT pooled here: they have one member, so
+    # crediting them is a bare catch rate, which the spec forbids as a headline and which rewards
+    # the constant-alarm strategy the pairing exists to punish. Separate metric, separate denominator.
     by_cell = defaultdict(lambda: {"disc": 0, "n": 0, "alarm": 0, "miss": 0,
-                                   "flag_false": 0, "flag_true": 0, "n_false": 0, "n_true": 0})
+                                   "flag_false": 0, "flag_true": 0, "n_false": 0, "n_true": 0,
+                                   "single_hit": 0, "single_n": 0})
+    by_fam = defaultdict(lambda: defaultdict(lambda: {"disc": 0, "n": 0}))
+    fams = {d["item_id"]: d.get("family") for d in usable}
     kinds = {d["item_id"]: d.get("kind", "pair") for d in usable}
 
     for cell in {_cell(d) for d in usable}:
@@ -83,20 +87,22 @@ def score(draws: list[dict]) -> dict:
             inv = _majority(member.get(cell + (iid, "inverted"), []))
             tru = _majority(member.get(cell + (iid, "truthful"), []))
             s = by_cell[cell]
-            if inv is not None:
-                s["n_false"] += 1
-                s["flag_false"] += int(inv)
-            if tru is not None:
-                s["n_true"] += 1
-                s["flag_true"] += int(tru)
 
             if kinds.get(iid) == "reverse-single":
-                s["n"] += 1
-                s["disc"] += int(bool(inv))
+                if inv is not None:
+                    s["single_n"] += 1
+                    s["single_hit"] += int(inv)
                 continue
+            # M1: component-rate denominators must match the headline's item set, so they are
+            # counted only for pairs that are actually scored — not for half-pairs.
             if inv is None or tru is None:
                 continue
+            s["n_false"] += 1; s["flag_false"] += int(inv)
+            s["n_true"] += 1;  s["flag_true"] += int(tru)
             s["n"] += 1
+            by_fam[cell][fams.get(iid) or "unknown"]["n"] += 1
+            if inv and not tru:
+                by_fam[cell][fams.get(iid) or "unknown"]["disc"] += 1
             if inv and not tru:
                 s["disc"] += 1
             elif inv and tru:
@@ -106,14 +112,22 @@ def score(draws: list[dict]) -> dict:
 
     out = {"cells": [], "parse_failures": dict(parse_fail)}
     for cell, s in sorted(by_cell.items()):
-        rate = s["disc"] / s["n"] if s["n"] else 0.0
-        lo, hi = wilson_ci(s["disc"], s["n"])
+        rate = (s["disc"] / s["n"]) if s["n"] else None      # None, never a manufactured 0.0
+        ci = [round(x, 3) for x in wilson_ci(s["disc"], s["n"])] if s["n"] else None
         fp_keys = [k for k in fp if k[:3] == cell]
         fp_hits = sum(1 for k in fp_keys if _majority(fp[k]))
         out["cells"].append({
             "model": cell[0], "regime": cell[1], "placement": cell[2],
-            "discrimination": round(rate, 3), "ci95": [round(lo, 3), round(hi, 3)],
+            "discrimination": round(rate, 3) if rate is not None else None, "ci95": ci,
             "n_pairs": s["n"], "constant_alarm": s["alarm"], "miss": s["miss"],
+            # C1: single-member catches, reported apart from discrimination and never merged.
+            "single_catch": (round(s["single_hit"] / s["single_n"], 3) if s["single_n"] else None),
+            "n_singles": s["single_n"],
+            # C2: the calibration family is what makes a null on tense interpretable, so it can
+            # never share a denominator with the family it is meant to calibrate.
+            "by_family": {f: {"discrimination": round(v["disc"] / v["n"], 3) if v["n"] else None,
+                              "n_pairs": v["n"]}
+                          for f, v in sorted(by_fam[cell].items())},
             "flag_rate_false_member": round(s["flag_false"] / s["n_false"], 3) if s["n_false"] else None,
             "flag_rate_true_member": round(s["flag_true"] / s["n_true"], 3) if s["n_true"] else None,
             "decoy_fp": round(fp_hits / len(fp_keys), 3) if fp_keys else None,
@@ -124,7 +138,8 @@ def score(draws: list[dict]) -> dict:
     guards = {}
     for reg, pl in {(c["regime"], c["placement"]) for c in out["cells"]}:
         tiers = {c["model"]: c["discrimination"] for c in out["cells"]
-                 if c["regime"] == reg and c["placement"] == pl}
+                 if c["regime"] == reg and c["placement"] == pl
+                 and c["discrimination"] is not None}
         guards[f"{reg}/{pl}"] = discrimination_guard(tiers)
     out["discrimination_guard"] = guards
     return out
@@ -137,11 +152,15 @@ def render(r: dict) -> str:
     for c in r["cells"]:
         g = c["gap"]
         tot = sum(g.values()) or 1
+        d = "  n/a " if c["discrimination"] is None else f"{c['discrimination']:6.3f}"
+        ci = "   no data   " if c["ci95"] is None else f"[{c['ci95'][0]:.2f},{c['ci95'][1]:.2f}]"
+        fam = " ".join(f"{k}={v['discrimination']}({v['n_pairs']})" for k, v in c["by_family"].items())
         lines.append(
-            f"{c['model']:22s} {c['regime']:4s} {c['placement']:12s} {c['discrimination']:6.3f} "
-            f"[{c['ci95'][0]:.2f},{c['ci95'][1]:.2f}]{'':>4s} {c['constant_alarm']:6d} {c['miss']:5d} "
+            f"{c['model']:22s} {c['regime']:4s} {c['placement']:12s} {d} {ci:>15s} "
+            f"{c['constant_alarm']:6d} {c['miss']:5d} "
             f"{(c['decoy_fp'] if c['decoy_fp'] is not None else 0):6.3f}  "
-            f"{g['clear_wrong']}/{tot} ({g['clear_wrong']/tot:.0%})")
+            f"{g['clear_wrong']}/{tot} ({g['clear_wrong']/tot:.0%})   {fam}"
+            + (f"  single={c['single_catch']}({c['n_singles']})" if c["n_singles"] else ""))
     lines.append("")
     lines.append("gap(clear&wrong) = reported clear, did not ask for more information, and got the "
                  "target claim wrong.")
