@@ -130,6 +130,49 @@ endpoint requires an admin role" (present, false), `claim_true` = "The endpoint 
 role" (past, true). Different mechanism, and the true member is no longer future — which also erodes
 the single-polarity pattern below.
 
+## Third cross-check (claude-online, self-authored) — accepted with two additions
+
+The only one of the three that **refused to run**, on the correct grounds: it wrote the items, the
+formal readings and the notes, so it holds the answer key and no instruction removes it. The other
+two ran on their own drafts without noticing. Accepted; its substantive points are adopted.
+
+**Accepted in full:**
+- **Pass 1 redesigned.** Twins are excluded; the pool is the 12 `claim_false` members against the 36
+  `decoys`, all present-tense. Testing a member against its twin was uninterpretable — a future
+  sentence asserts nothing about now, so it cannot be the inaccurate one, and a ceiling score would
+  have been misread as catastrophic leakage.
+- **"You should be at chance" is cut.** It states the expected result and invites the judge to perform
+  it by randomizing. My sentence, my defect.
+- **One sentence per call.** In a single context the judge compares sentences to each other, which
+  converts blind classification into relative ranking. The builder now emits `build/pass1/NNN.md`.
+- **Cue explanation only above threshold.** Asked what it used, a model always names something.
+  Guess-then-explain manufactures a cue whether or not one existed.
+- **Threshold pre-registered, power from more judges not more items.** Its p-value is right:
+  16/24 is p = 0.0758, verified. Not a result.
+
+**Two gaps its redesign did not close**, found by the builder's cue audit:
+
+1. **Aspect asymmetry — 4/12 false claims use present perfect; 0/36 decoys do.** `has/have +
+   participle` predicts the label outright, so holding *tense* constant was not enough to hold
+   *aspect* constant. Fix by adding present-perfect decoys (cheaper, leaves the items alone) or
+   converting those four claims to simple present. The builder refuses to ship until it is closed.
+2. **The base rate is 0.25, not 0.5.** With 12 false in a pool of 48, "at chance" is not 50% and a
+   judge flagging k sentences at random collects 0.25k true positives. Any pre-registered threshold
+   has to be stated against that base rate. Length is well matched (9.1 vs 9.2 words) — no cue there.
+
+**Partially accepted — Pass 2, question 3.** Its objection is that decoys were built to be *trivially
+entailed* by `source_fact`, which is what makes their truth checkable without supplied assumptions,
+and that grading them on "derived rather than restatement" fails them against a rule they were not
+built to. That is right about the wording and lands on at least one item: "Script access to the
+cookie is blocked; cross-site sending is not" requires knowing what `HttpOnly` does — supplied
+knowledge, not entailment.
+
+But the concern it replaces is real: ChatGPT's near-verbatim decoys exert no false-positive pressure
+at all. The resolution is to name **both** failure modes rather than revert to either. A decoy is
+defective if it is a **verbatim restatement** of a `source_fact` sentence (no FP pressure) *or* if it
+**requires knowledge the source does not supply** (arguable, and noise in the distractor channel).
+The target is the band between: entailed in one step, stated nowhere.
+
 ## Remaining work
 
 - 3 reverse-polarity singles (above) — blocking.
