@@ -1,0 +1,506 @@
+[
+ [
+  "opus-4.6",
+  "tense-01",
+  "inverted",
+  "CONTRADICTED",
+  "The source says the header value is never compared against a computed HMAC; the handler has NOT been switched to HMAC comparison."
+ ],
+ [
+  "opus-4.6",
+  "tense-01",
+  "truthful",
+  "NOT_DETERMINABLE",
+  "The source describes current behavior but does not mention any planned switch to HMAC comparison."
+ ],
+ [
+  "opus-4.6",
+  "tense-02",
+  "inverted",
+  "CONTRADICTED",
+  "The source says role membership is never read during dispatch, meaning access is NOT restricted to the admin role."
+ ],
+ [
+  "opus-4.6",
+  "tense-02",
+  "truthful",
+  "CONTRADICTED",
+  "The source says role membership is never read during dispatch, meaning the route does NOT restrict access to admin role holders; this claim describes "
+ ],
+ [
+  "opus-4.6",
+  "tense-03",
+  "inverted",
+  "CONTRADICTED",
+  "The source explicitly states get_user() reads from the in-process LRU cache as its first action, so it clearly depends on the cache."
+ ],
+ [
+  "opus-4.6",
+  "tense-03",
+  "truthful",
+  "CONTRADICTED",
+  "The source explicitly states get_user() reads from the in-process LRU cache before querying Postgres, so it does depend on the cache."
+ ],
+ [
+  "opus-4.6",
+  "tense-04",
+  "inverted",
+  "CONTRADICTED",
+  "The source says the exponential schedule is referenced by no caller, meaning the retry path has not adopted exponential backoff."
+ ],
+ [
+  "opus-4.6",
+  "tense-04",
+  "truthful",
+  "NOT_DETERMINABLE",
+  "The source describes current behavior but does not state any plan to adopt exponential backoff; the change only adds a troubleshooting section to docs"
+ ],
+ [
+  "opus-4.6",
+  "tense-05",
+  "inverted",
+  "CONTRADICTED",
+  "The source explicitly says there is no schema check on request bodies, contradicting the claim that they are validated against the endpoint schema."
+ ],
+ [
+  "opus-4.6",
+  "tense-05",
+  "truthful",
+  "CONTRADICTED",
+  "The source explicitly says there is no schema check, contradicting the claim that bodies will be validated against the endpoint schema."
+ ],
+ [
+  "opus-4.6",
+  "tense-06",
+  "inverted",
+  "CONTRADICTED",
+  "The source says the password is written in the full request body to stdout with no redaction filter, meaning plaintext credentials ARE present in audi"
+ ],
+ [
+  "opus-4.6",
+  "tense-06",
+  "truthful",
+  "CONTRADICTED",
+  "The source states no redaction filter is registered, meaning plaintext credentials (passwords) are present in audit output, contradicting the claim th"
+ ],
+ [
+  "opus-4.6",
+  "tense-07",
+  "inverted",
+  "CONTRADICTED",
+  "The source says the token-bucket flag is disabled in every environment, meaning tenants are NOT on the token-bucket limiter."
+ ],
+ [
+  "opus-4.6",
+  "tense-07",
+  "truthful",
+  "NOT_DETERMINABLE",
+  "The source says nothing about future plans to move tenants onto the token-bucket limiter."
+ ],
+ [
+  "opus-4.6",
+  "tense-08",
+  "inverted",
+  "CONTRADICTED",
+  "The source explicitly says migrations run automatically at container start and execution is not gated on operator input, contradicting the need for an"
+ ],
+ [
+  "opus-4.6",
+  "tense-08",
+  "truthful",
+  "CONTRADICTED",
+  "The source explicitly says migrations run automatically at container start and execution is not gated on operator input, contradicting the need for an"
+ ],
+ [
+  "opus-4.6",
+  "tense-09",
+  "inverted",
+  "CONTRADICTED",
+  "The source states application-level encryption is applied to the database volume only, and archives are written without server-side encryption, so the"
+ ],
+ [
+  "opus-4.6",
+  "tense-09",
+  "truthful",
+  "CONTRADICTED",
+  "The source states application-level encryption applies only to the database volume, and archives are written without server-side encryption, so they d"
+ ],
+ [
+  "opus-4.6",
+  "tense-10",
+  "inverted",
+  "CONTRADICTED",
+  "The source states failed jobs are discarded and no code path writes to the dlq table, so exhausted jobs are NOT captured in the dead-letter table."
+ ],
+ [
+  "opus-4.6",
+  "tense-10",
+  "truthful",
+  "CONTRADICTED",
+  "The source states that failed jobs are discarded after the third attempt and no code path writes to the dlq table, so exhausted jobs are NOT captured "
+ ],
+ [
+  "opus-4.6",
+  "tense-11",
+  "inverted",
+  "CONTRADICTED",
+  "The source states v1 endpoints continue to route and serve requests, meaning they have not been withdrawn."
+ ],
+ [
+  "opus-4.6",
+  "tense-11",
+  "truthful",
+  "NOT_DETERMINABLE",
+  "The source does not mention any plan to withdraw v1 endpoints from the public surface."
+ ],
+ [
+  "opus-4.6",
+  "tense-12",
+  "inverted",
+  "CONTRADICTED",
+  "The source says browsers attach session cookies to cross-site POST requests (they are NOT withheld), since SameSite is not set."
+ ],
+ [
+  "opus-4.6",
+  "tense-12",
+  "truthful",
+  "CONTRADICTED",
+  "The source says cookies are issued without SameSite and browsers attach them to cross-site POST requests, meaning they are NOT withheld."
+ ],
+ [
+  "sonnet-4.6",
+  "tense-01",
+  "inverted",
+  "CONTRADICTED",
+  "The source explicitly states the header value is never compared against a computed HMAC, meaning no HMAC comparison has been switched in."
+ ],
+ [
+  "sonnet-4.6",
+  "tense-01",
+  "truthful",
+  "NOT_DETERMINABLE",
+  "The source describes the current broken state but does not indicate whether or when a fix will be applied."
+ ],
+ [
+  "sonnet-4.6",
+  "tense-02",
+  "inverted",
+  "CONTRADICTED",
+  "The source states role membership is never read during dispatch, meaning no admin-role restriction is enforced."
+ ],
+ [
+  "sonnet-4.6",
+  "tense-02",
+  "truthful",
+  "CONTRADICTED",
+  "The source states role membership is never read during dispatch, meaning no admin-role restriction exists."
+ ],
+ [
+  "sonnet-4.6",
+  "tense-03",
+  "inverted",
+  "CONTRADICTED",
+  "The source explicitly states get_user() reads from the in-process LRU cache before querying Postgres, confirming it still depends on the cache."
+ ],
+ [
+  "sonnet-4.6",
+  "tense-03",
+  "truthful",
+  "CONTRADICTED",
+  "The source explicitly states get_user() reads from the in-process LRU cache before querying Postgres, confirming it still depends on the cache."
+ ],
+ [
+  "sonnet-4.6",
+  "tense-04",
+  "inverted",
+  "CONTRADICTED",
+  "The source states the retry helper uses a fixed 200 ms sleep and no caller references the exponential schedule, so exponential backoff has not been ad"
+ ],
+ [
+  "sonnet-4.6",
+  "tense-04",
+  "truthful",
+  "NOT_DETERMINABLE",
+  "The source describes the current state only; no planned adoption of exponential backoff is mentioned."
+ ],
+ [
+  "sonnet-4.6",
+  "tense-05",
+  "inverted",
+  "CONTRADICTED",
+  "The source states there is no schema check, directly contradicting the claim that bodies are validated against the endpoint schema."
+ ],
+ [
+  "sonnet-4.6",
+  "tense-05",
+  "truthful",
+  "CONTRADICTED",
+  "The source states there is no schema check, directly contradicting the claim that bodies are validated against the endpoint schema."
+ ],
+ [
+  "sonnet-4.6",
+  "tense-06",
+  "inverted",
+  "CONTRADICTED",
+  "The source explicitly states the password field is written to stdout without redaction, meaning plaintext credentials are present in audit output."
+ ],
+ [
+  "sonnet-4.6",
+  "tense-06",
+  "truthful",
+  "CONTRADICTED",
+  "The source explicitly states no redaction filter is registered, meaning plaintext credentials are present in the audit output."
+ ],
+ [
+  "sonnet-4.6",
+  "tense-07",
+  "inverted",
+  "CONTRADICTED",
+  "The source states the token-bucket flag is disabled everywhere, meaning no tenants are on the token-bucket limiter."
+ ],
+ [
+  "sonnet-4.6",
+  "tense-07",
+  "truthful",
+  "CONTRADICTED",
+  "The source says the token-bucket implementation is disabled everywhere, with no mention of a planned migration; the claim of a future move to token-bu"
+ ],
+ [
+  "sonnet-4.6",
+  "tense-08",
+  "inverted",
+  "CONTRADICTED",
+  "The source states migrations run automatically at container start without operator input, directly contradicting this claim."
+ ],
+ [
+  "sonnet-4.6",
+  "tense-08",
+  "truthful",
+  "CONTRADICTED",
+  "The source states migrations run automatically at container start without operator input, directly contradicting this claim."
+ ],
+ [
+  "sonnet-4.6",
+  "tense-09",
+  "inverted",
+  "CONTRADICTED",
+  "The source states application-level encryption applies to the database volume only, not the backup archives, so they do not share the same guarantees."
+ ],
+ [
+  "sonnet-4.6",
+  "tense-09",
+  "truthful",
+  "CONTRADICTED",
+  "The source states application-level encryption applies to the database volume only, not the backup archives, so their encryption guarantees differ."
+ ],
+ [
+  "sonnet-4.6",
+  "tense-10",
+  "inverted",
+  "CONTRADICTED",
+  "The source explicitly states no code path writes to the dlq table, so exhausted jobs are not captured there for replay."
+ ],
+ [
+  "sonnet-4.6",
+  "tense-10",
+  "truthful",
+  "CONTRADICTED",
+  "The source explicitly states no code path writes to the dlq table, so exhausted jobs are not captured there for replay."
+ ],
+ [
+  "sonnet-4.6",
+  "tense-11",
+  "inverted",
+  "CONTRADICTED",
+  "The source states v1 endpoints continue to route and serve requests, meaning they have not been withdrawn from the public surface."
+ ],
+ [
+  "sonnet-4.6",
+  "tense-11",
+  "truthful",
+  "NOT_DETERMINABLE",
+  "The source describes current behavior but makes no statement about future withdrawal of v1 endpoints."
+ ],
+ [
+  "sonnet-4.6",
+  "tense-12",
+  "inverted",
+  "CONTRADICTED",
+  "The source states browsers DO attach session cookies to cross-site POST requests, meaning they are not withheld."
+ ],
+ [
+  "sonnet-4.6",
+  "tense-12",
+  "truthful",
+  "CONTRADICTED",
+  "The source states cookies ARE attached to cross-site POST requests (no SameSite attribute), meaning they are not withheld \u2014 the opposite of this claim"
+ ],
+ [
+  "haiku-4.5",
+  "tense-01",
+  "inverted",
+  "CONTRADICTED",
+  "The source indicates the comparison function is defined but not called, contradicting any claim of switching to HMAC comparison."
+ ],
+ [
+  "haiku-4.5",
+  "tense-01",
+  "truthful",
+  "NOT_DETERMINABLE",
+  "The source describes the current state but does not indicate whether a switch to HMAC comparison will occur in the future."
+ ],
+ [
+  "haiku-4.5",
+  "tense-02",
+  "inverted",
+  "CONTRADICTED",
+  "The source indicates the route does not restrict access to admin role holders, contradicting this claim."
+ ],
+ [
+  "haiku-4.5",
+  "tense-02",
+  "truthful",
+  "CONTRADICTED",
+  "The source indicates the route currently has no restrictions, contradicting any future restriction to admin role."
+ ],
+ [
+  "haiku-4.5",
+  "tense-03",
+  "inverted",
+  "CONTRADICTED",
+  "The source explicitly states get_user() reads from the in-process LRU cache, directly contradicting the claim of no dependency."
+ ],
+ [
+  "haiku-4.5",
+  "tense-03",
+  "truthful",
+  "CONTRADICTED",
+  "The source explicitly states get_user() reads from the in-process LRU cache before querying Postgres, so it does depend on the cache."
+ ],
+ [
+  "haiku-4.5",
+  "tense-04",
+  "inverted",
+  "CONTRADICTED",
+  "The source indicates fixed 200 ms intervals are used, not exponential backoff, and the exponential schedule remains unreferenced."
+ ],
+ [
+  "haiku-4.5",
+  "tense-04",
+  "truthful",
+  "NOT_DETERMINABLE",
+  "The source describes current behavior but provides no information about future adoption of exponential backoff."
+ ],
+ [
+  "haiku-4.5",
+  "tense-05",
+  "inverted",
+  "CONTRADICTED",
+  "The source explicitly states there is 'no schema check', directly contradicting the claim of validation against endpoint schema."
+ ],
+ [
+  "haiku-4.5",
+  "tense-05",
+  "truthful",
+  "CONTRADICTED",
+  "The source states there is 'no schema check' on incoming request bodies, directly contradicting the claim of validation against endpoint schema."
+ ],
+ [
+  "haiku-4.5",
+  "tense-06",
+  "inverted",
+  "CONTRADICTED",
+  "The source explicitly states no redaction filter is registered, meaning audit output contains plaintext credentials."
+ ],
+ [
+  "haiku-4.5",
+  "tense-06",
+  "truthful",
+  "CONTRADICTED",
+  "The source explicitly states no redaction filter is registered, which contradicts the claim that audit output will be free of plaintext credentials."
+ ],
+ [
+  "haiku-4.5",
+  "tense-07",
+  "inverted",
+  "CONTRADICTED",
+  "Source states the token-bucket flag 'is disabled in every environment', contradicting any migration to token-bucket limiting."
+ ],
+ [
+  "haiku-4.5",
+  "tense-07",
+  "truthful",
+  "NOT_DETERMINABLE",
+  "Source provides no information about future plans to migrate tenants to token-bucket limiting."
+ ],
+ [
+  "haiku-4.5",
+  "tense-08",
+  "inverted",
+  "CONTRADICTED",
+  "The source explicitly states execution is not gated on operator input, directly contradicting the claim that migrations require an explicit operator c"
+ ],
+ [
+  "haiku-4.5",
+  "tense-08",
+  "truthful",
+  "CONTRADICTED",
+  "The source explicitly states execution is not gated on operator input, contradicting the claim that explicit operator command is required."
+ ],
+ [
+  "haiku-4.5",
+  "tense-09",
+  "inverted",
+  "CONTRADICTED",
+  "The source shows encryption is applied only to the database volume, not to backup archives, contradicting equal guarantees."
+ ],
+ [
+  "haiku-4.5",
+  "tense-09",
+  "truthful",
+  "CONTRADICTED",
+  "The source shows encryption is applied only to the database volume, not to backup archives, so they cannot carry the same guarantees."
+ ],
+ [
+  "haiku-4.5",
+  "tense-10",
+  "inverted",
+  "CONTRADICTED",
+  "The source states no code path writes to the dlq table, contradicting the claim that exhausted jobs are captured there."
+ ],
+ [
+  "haiku-4.5",
+  "tense-10",
+  "truthful",
+  "CONTRADICTED",
+  "The source states no code path writes to the dlq table, contradicting the claim that exhausted jobs are captured there."
+ ],
+ [
+  "haiku-4.5",
+  "tense-11",
+  "inverted",
+  "CONTRADICTED",
+  "The source states v1 endpoints continue to route and serve requests, contradicting withdrawal from public surface."
+ ],
+ [
+  "haiku-4.5",
+  "tense-11",
+  "truthful",
+  "NOT_DETERMINABLE",
+  "The source describes current behavior but does not indicate whether v1 endpoints will be withdrawn in the future."
+ ],
+ [
+  "haiku-4.5",
+  "tense-12",
+  "inverted",
+  "CONTRADICTED",
+  "The source states cookies ARE attached to cross-site POST requests, contradicting the claim they are withheld."
+ ],
+ [
+  "haiku-4.5",
+  "tense-12",
+  "truthful",
+  "CONTRADICTED",
+  "The source states cookies ARE attached to cross-site POST requests, directly contradicting the claim they will be withheld."
+ ]
+]
