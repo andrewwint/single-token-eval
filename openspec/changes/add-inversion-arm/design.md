@@ -45,9 +45,19 @@ class or gets cut.
 The truthful twin is the same object with `polarity: "truthful"`, the token restored, and
 `gold.false_claims: []`.
 
-**`family`** covers the five kinds in `docs/single-token-inversion.md` §2 — `operator`, `modal`,
-`quantifier`, `polarity`, `tense`. Report per family; an aggregate across families washes out real
-differences the same way a catch rate washes across defect classes.
+**`family` is narrowed to `tense` for round 1, with `polarity` as a calibration family.** The five
+kinds in `docs/single-token-inversion.md` §2 spread twelve pairs into 2–3 each — enough for a
+direction, not a ranking. Tense is the right one to concentrate on: it is the originating case
+(`no longer depends` → `will no longer depend`), the least covered in the existing literature
+(negation, quantifiers and connectives are well studied; tense in a *claim about system state* is a
+different object from tense in narrative), and the most common real defect, because specification
+documents routinely describe intended state in the present tense.
+
+**Why a calibration family is not optional.** If tense shows no effect, that reading is ambiguous
+between *models handle this fine* and *the instrument is dull*. A small set of `polarity` pairs —
+the family where the literature says there should be an effect — separates those two. It is the
+discrimination guard applied to families instead of tiers, and without it a null result cannot be
+interpreted at all.
 
 **`exoneration` is a build-time constraint, not metadata.** Why a claim is true or false must be
 derivable from the material the model is shown, never from a stipulation that overrides its plain
@@ -59,13 +69,14 @@ convention-deference, not reading — and inverts the capability being selected 
 | Factor | Levels |
 |---|---|
 | Placement | in-diff, out-of-diff |
-| Instruction regime | R0 bare, R1 flag-anything-untrue, R2 derive-from-source |
+| Instruction regime | R0 bare, R1 flag-anything-untrue, R2 derive-from-source, R3 disclosed |
 | Model tier | 3 frontier + 1 probe |
 | Polarity | inverted, truthful (both always fire) |
 
-12 pairs × 2 polarities × 2 placements × 3 regimes × 4 models × 5 draws = **2,880 draws**. That is
-the full crossing. The pre-registration may cut regimes or draws to fit budget and must say so
-explicitly rather than quietly sampling.
+16 pairs (12 tense + 4 polarity calibration) × 2 polarities × 2 placements × 4 regimes × 4 models ×
+5 draws = **5,120 draws**, roughly $35–45. That is the full crossing and it is above the original
+estimate; the pre-registration may cut placement or a regime to fit budget, and must say which and
+why rather than quietly sampling.
 
 ## The instruction regimes — the arm's real question
 
@@ -74,10 +85,59 @@ explicitly rather than quietly sampling.
   of the source."
 - **R2 derivation.** "Work out from the source what actually holds, then check every labelled claim
   against what you derived."
+- **R3 disclosed.** The system prompt states plainly that this is a study of whether single-token
+  changes to a claim are noticed, and asks for the model's honest reading.
 
 R2 is the cheapest possible version of a source-derivation discipline. If R2 closes the out-of-diff
 gap and R0 does not, an instruction bought it. If R2 does not close it, the gap is not an instruction
 problem — the more useful result of the two.
+
+**R3 is a condition, never the default.** Disclosure is not a hint the twin pair neutralizes; it is
+an instruction that changes the task. Both members receive it, so the pairing still holds, but both
+members are now told what to look for — which measures *can it find a tense flip when told to look
+for tense flips*, an easier and different question. Held as its own cell, the R0→R3 contrast is
+worth having: it separates capability from attention. If disclosure closes the gap, nobody had told
+the reviewer to look. If it does not, prompting is not the lever.
+
+Framing note: a model does not meaningfully consent, and reading R3's replies as introspection would
+over-claim. R3 is an experimental condition, and *whether disclosure changes behavior* is a result to
+report, not an assumption to build on.
+
+## Two outputs per draw, and the gap between them
+
+Every draw returns both a behavioral answer and a self-report, in one JSON object:
+
+```json
+{
+  "false_claims": ["C3"],
+  "self_report": {
+    "clarity": 4,
+    "needs_more_information": false,
+    "would_start_without_clarifying": true,
+    "understanding": "one sentence, in the model's own words, of what it was asked to do"
+  }
+}
+```
+
+`false_claims` is graded deterministically as specified. The `self_report` block is **never graded on
+its own** — self-reported confidence is unverifiable in isolation, and a model saying it understood
+tells you only what it says about itself.
+
+The measurement is the **gap**: how often does a draw report high clarity and no need for more
+information, and get the target claim wrong? That is deterministically checkable, because the
+behavioral half is graded independently on the same call.
+
+Report the four cells, not a correlation:
+
+|  | correct | wrong |
+|---|---|---|
+| **reported clear, would proceed** | fine | **the finding** |
+| **reported unclear, wanted more info** | cautious | appropriately stuck |
+
+The bottom-right of that table is the benign case — a model that says it is confused and is wrong has
+at least signalled. The top-right is the one that matters: confident, well-behaved, and wrong, with
+nothing in its output to warn a reader. `understanding` is stored as free text for qualitative read;
+it is not scored, and no LLM judge is introduced to score it.
 
 ## Transport
 
@@ -123,5 +183,10 @@ usually isn't — pin the baseline before comparing, or don't compare.
 3. **`[C1]` labelling is itself an intervention.** Labelled, numbered claims are far more reviewable
    than prose in the wild, so the measured discrimination is a **ceiling**, not an estimate. State
    the bound; do not generalize past it.
-4. **Per-family N.** Twelve pairs across five families is 2–3 pairs each — enough to report a
-   direction, not enough to rank families. Say which of those the round is claiming.
+4. **Calibration-family N.** How many `polarity` pairs are enough to license the reading "tense showed
+   no effect and the instrument was working"? Four is a guess; state the floor and what a null on the
+   calibration family would mean (the round is uninterpretable, and says so).
+5. **Budget vs. crossing.** The full crossing is now ~5,120 draws / $35–45. Decide before firing
+   whether to cut placement or a regime, and say which — a quiet sample is worse than a declared cut.
+6. **Self-report scale.** `clarity` as 1–5 invites false precision. Consider a three-level scale, and
+   pre-declare which levels count as "reported clear" for the gap table, before seeing any responses.
