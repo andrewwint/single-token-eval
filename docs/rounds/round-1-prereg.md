@@ -25,8 +25,16 @@ correct-verdict rate aggregated across models and draws.
 - **H1**: ρ < 0 — **directional**. The mechanism predicts the sign, so a significant effect in the
   *positive* direction is a **failure, not a finding**, and will be reported as one.
 
-**Test**: Spearman ρ, one-sided, p by permutation over items (5,000 permutations, seed 20260806).
-Permuting item labels preserves all within-item and cross-model structure by construction.
+**Test**: Spearman ρ, one-sided, p by permutation. Pinned in full, before any draw:
+
+- **Test statistic**: Spearman ρ between an item's `split_true` and that item's correct-verdict rate.
+- **Exchangeability unit: the ITEM.** Each item is first collapsed to a single correct-verdict rate
+  across all models and draws; the permutation then shuffles `split_true` across those 24 item-level
+  values. Cross-model correlation is absorbed by the within-item aggregation and never enters the null.
+- **What is NOT done**: permuting at the draw level. That would treat the 20 draws behind an item as
+  exchangeable, leak model correlation back into the null, and make the test **anti-conservative** —
+  a smaller p for the same data.
+- **Permutations**: 5,000. **Seed**: 20260806. **Direction**: one-sided, negative.
 
 **α = 0.05. One primary test. No peeking, no adding draws after looking at any result.**
 
@@ -59,6 +67,11 @@ doc said 12 and it was wrong. A power analysis that does not change the plan was
 At 24 items the round is powered (0.90) for the declared MDE and **underpowered (0.61) for a 0.30
 drop**. That limit is stated now, not discovered in the write-up.
 
+**How a null must be read — written before the result exists:** a non-significant result at 24 items
+**rules out a 0.45 drop** across the split range and **says little about a 0.30 drop**, which this
+design detects only 61% of the time. A null is evidence against a large effect and **not** evidence
+of no effect. This sentence exists so the interpretation cannot be authored after the number is known.
+
 ## Secondary hypothesis — disposition arm. EXPLORATORY, no alpha spend.
 
 - **H0 and H1 both predict NO movement**: `needs_more_information` and
@@ -66,9 +79,20 @@ drop**. That limit is stated now, not discovered in the write-up.
 - Predicting a null requires an equivalence test. **Equivalence band: ±0.10.** If the rate across
   the highest-split band sits within ±0.10 of the lowest-split band, "no movement" is supported. A
   rate outside it is movement, in whichever direction.
-- **Marked exploratory. It spends no alpha and cannot carry a headline claim.** The observed 16/16
-  zero-variance result is suggestive of a floor effect, and a floor is not the same as an
-  insensitivity — with the rate already at 0, the band cannot detect a downward move.
+- **Marked exploratory. It spends no alpha and cannot carry a headline claim.**
+
+**Both channels are range-limited, in opposite directions, and neither can carry a null:**
+
+- `needs_more_information` — pilot rate is **0/16**. At the floor a ±0.10 band cannot detect a
+  downward move at all; "no movement" and "no room to move down" are the same observation.
+- `clarity` — **4 on every one of 16 draws**, zero variance. *Correction to a point raised in review:
+  the scale is 1–5, not 1–4, so this is not literal ceiling saturation — 5 was available and never
+  used.* The defect is that the field did not vary, a discrimination failure rather than a range
+  failure. Either way it cannot support a null.
+
+**Recorded for round 2, not adopted for round 1:** a disposition arm needs an **unsaturated,
+unbounded channel** — an open-ended *"is there anything you would want clarified before
+proceeding?"* has room to move where a 1–5 rating and a boolean do not.
 
 ## Generation and measurement are fully separated — a prereg line, not a practice
 
@@ -81,7 +105,12 @@ drop**. That limit is stated now, not discovered in the write-up.
    being independent of the author's expectation.
 5. An edit to a sentence **invalidates its split** and requires re-measurement (this already fired
    once, on `p01`).
-6. Bands that cannot be filled are **reported as unfilled**. Back-filling from an adjacent band
+6. **The cue audit re-runs after band-filling and does not carry over.** The pre-fill audit is not
+   the audit of record: filling changes which sentences sit in each class, so every cue rate moves.
+   Gate thresholds are **|diff| > 0.15 aspect, > 0.20 negation**. The current pre-fill negation
+   figure is **0.07 vs 0.20, |diff| 0.13 — inside the gate but near the line**, and at 15 false
+   claims that is roughly one item against three, movable by any single swap.
+7. Bands that cannot be filled are **reported as unfilled**. Back-filling from an adjacent band
    would flatten the factor. A construction that resists landing mid-range is itself a finding.
 
 ## Thresholds — pinned, and unchangeable after data
