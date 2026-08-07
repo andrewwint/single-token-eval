@@ -12,7 +12,7 @@
     },
     "decoys": [
       "Records reach Postgres during the request that submitted them.",
-      "queue.py is imported by no request path.",
+      "No request path has imported queue.py.",
       "A slow database write delays the caller."
     ],
     "family": "tense",
@@ -72,7 +72,7 @@
     },
     "decoys": [
       "A caller receives internal columns it did not ask for.",
-      "No allow-list governs the response shape.",
+      "No allow-list has been applied to the response.",
       "The underlying view determines what is returned."
     ],
     "family": "tense",
@@ -102,7 +102,7 @@
     },
     "decoys": [
       "A request carrying only the legacy cookie authenticates.",
-      "The legacy branch is evaluated before the signed one.",
+      "The legacy branch has been placed ahead of the signed one.",
       "Two cookie formats are accepted."
     ],
     "family": "tense",
@@ -133,7 +133,7 @@
     },
     "decoys": [
       "An archive entry can write outside the extraction directory.",
-      "The sanitiser is defined but reached by no caller.",
+      "The sanitiser has been defined and reached by no caller.",
       "Extraction targets a directory shared across uploads."
     ],
     "family": "tense",
@@ -163,7 +163,7 @@
     },
     "decoys": [
       "An audit row names who acted and what they did.",
-      "Field values are absent from audit rows.",
+      "No field values have been captured in audit rows.",
       "Reconstruction would require data the trail omits."
     ],
     "family": "tense",
@@ -260,7 +260,7 @@
     },
     "decoys": [
       "The dedupe key ignores submission time.",
-      "Identical bodies produce one record.",
+      "Identical bodies have collapsed to a single record.",
       "Body content alone determines the key."
     ],
     "family": "tense",
@@ -290,7 +290,7 @@
     },
     "decoys": [
       "The grant covers every object in the bucket.",
-      "A prefix condition exists only in a comment.",
+      "The prefix condition has been left commented out.",
       "Any tenant's object is readable under this policy."
     ],
     "family": "tense",
@@ -350,7 +350,7 @@
     },
     "decoys": [
       "A phone number reaches the analytics sink.",
-      "Only the email field is rewritten.",
+      "Only the email field has been rewritten.",
       "Export happens after the scrubber runs."
     ],
     "split_true": 0.5,

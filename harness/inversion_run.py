@@ -90,13 +90,21 @@ def digest() -> str:
     return h.hexdigest()
 
 
-def render(item: dict, polarity: str, placement: str) -> tuple[str, str, list[str]]:
-    """Build the artifact. Claim order is shuffled per item but IDENTICAL across twins — if the
-    target landed on a different label in each member, the label itself would carry the answer."""
+def render(item: dict, polarity: str, placement: str, draw: int = 0) -> tuple[str, str, list[str]]:
+    """Build the artifact.
+
+    Claim order is seeded by (item_id, draw) — two properties that must both hold:
+
+      * IDENTICAL ACROSS TWINS at a given draw. If the target landed on a different label in each
+        member, the label itself would carry the answer and the pairing defense would be void.
+      * VARYING ACROSS DRAWS. Seeding by item id alone pinned each item's target to one position
+        forever, so target position was confounded with item: tense-01 was always C2 and tense-02
+        always C3, and a position effect could not be told apart from an item effect.
+    """
     claim = item["claim_false"] if polarity == "inverted" else item["claim_true"]
     pool = [claim] + list(item["decoys"])
     order = list(range(len(pool)))
-    random.Random(item["id"]).shuffle(order)          # seeded by item id: same order for both twins
+    random.Random(f"{item['id']}:{draw}").shuffle(order)   # same for both twins, varies by draw
     labelled = [f"[C{n+1}] {pool[i]}" for n, i in enumerate(order)]
     target = f"C{order.index(0) + 1}"
     decoys = [f"C{n+1}" for n, i in enumerate(order) if i != 0]
@@ -133,7 +141,7 @@ def _norm_verdict(v) -> str | None:
 
 
 def one(client, model_key: str, item: dict, polarity: str, placement: str, regime: str, n: int) -> dict:
-    body, target, decoys = render(item, polarity, placement)
+    body, target, decoys = render(item, polarity, placement, draw=n)
     prompt = f"{REGIMES[regime]}\n\n{body}\n{RESPONSE_CONTRACT}"
     row = {"model": model_key, "regime": regime, "placement": placement, "item_id": item["id"],
            "kind": item.get("kind", "pair"), "family": item.get("family"), "polarity": polarity,
