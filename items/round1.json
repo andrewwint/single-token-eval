@@ -21,7 +21,11 @@
     "ambiguity_stratum": "mid",
     "kind": "pair",
     "inverted_gold": "CONTRADICTED",
-    "truthful_gold": "NOT_DETERMINABLE"
+    "truthful_gold": "NOT_DETERMINABLE",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'has been'->'will be'"
+    ]
   },
   {
     "id": "f02",
@@ -45,7 +49,11 @@
     "ambiguity_stratum": "low",
     "kind": "pair",
     "inverted_gold": "CONTRADICTED",
-    "truthful_gold": "NOT_DETERMINABLE"
+    "truthful_gold": "NOT_DETERMINABLE",
+    "edit_ops": 1,
+    "edit_regions": [
+      "''->'will'"
+    ]
   },
   {
     "id": "f03",
@@ -69,7 +77,11 @@
     "ambiguity_stratum": "high",
     "kind": "pair",
     "inverted_gold": "CONTRADICTED",
-    "truthful_gold": "NOT_DETERMINABLE"
+    "truthful_gold": "NOT_DETERMINABLE",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'omits'->'will omit'"
+    ]
   },
   {
     "id": "f05",
@@ -93,7 +105,12 @@
     "ambiguity_stratum": "high",
     "kind": "pair",
     "inverted_gold": "CONTRADICTED",
-    "truthful_gold": "NOT_DETERMINABLE"
+    "truthful_gold": "NOT_DETERMINABLE",
+    "edit_ops": 2,
+    "edit_regions": [
+      "''->'will'",
+      "'reads'->'read'"
+    ]
   },
   {
     "id": "f06",
@@ -117,7 +134,11 @@
     "ambiguity_stratum": "mid",
     "kind": "pair",
     "inverted_gold": "CONTRADICTED",
-    "truthful_gold": "NOT_DETERMINABLE"
+    "truthful_gold": "NOT_DETERMINABLE",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'are'->'will be'"
+    ]
   },
   {
     "id": "f07",
@@ -141,7 +162,11 @@
     "ambiguity_stratum": "mid",
     "kind": "pair",
     "inverted_gold": "CONTRADICTED",
-    "truthful_gold": "NOT_DETERMINABLE"
+    "truthful_gold": "NOT_DETERMINABLE",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'supports'->'will support'"
+    ]
   },
   {
     "id": "f08",
@@ -165,14 +190,18 @@
     "ambiguity_stratum": "low",
     "kind": "pair",
     "inverted_gold": "CONTRADICTED",
-    "truthful_gold": "NOT_DETERMINABLE"
+    "truthful_gold": "NOT_DETERMINABLE",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'has been'->'will be'"
+    ]
   },
   {
     "id": "p01",
     "polarity_axis": "present",
     "construction_hypothesis": "capability vs active",
     "source_fact": "TLS 1.3 is compiled into the server binary. The listener config pins the maximum version to TLS 1.2.",
-    "claim_false": "The server negotiates TLS 1.3 with clients.",
+    "claim_false": "The server negotiates TLS 1.3.",
     "claim_true": "The server supports TLS 1.3.",
     "token_delta": {
       "from": "negotiates",
@@ -189,7 +218,18 @@
     "ambiguity_stratum": "low",
     "kind": "pair",
     "inverted_gold": "CONTRADICTED",
-    "truthful_gold": "NOT_DETERMINABLE"
+    "truthful_gold": "NOT_DETERMINABLE",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'negotiates'->'supports'"
+    ],
+    "edit_note": "claim_false trimmed 2026-08-06 after the H3 builder assertion caught the members differing by more than the declared token. Split re-measured below; an edited sentence cannot keep a split measured on a different sentence.",
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "p02",
@@ -213,7 +253,11 @@
     "ambiguity_stratum": "high",
     "kind": "pair",
     "inverted_gold": "CONTRADICTED",
-    "truthful_gold": "NOT_DETERMINABLE"
+    "truthful_gold": "NOT_DETERMINABLE",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'distinguishes'->'is designed to distinguish'"
+    ]
   },
   {
     "id": "p03",
@@ -237,7 +281,11 @@
     "ambiguity_stratum": "mid",
     "kind": "pair",
     "inverted_gold": "CONTRADICTED",
-    "truthful_gold": "NOT_DETERMINABLE"
+    "truthful_gold": "NOT_DETERMINABLE",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'restricts'->'is configured to restrict'"
+    ]
   },
   {
     "id": "p04",
@@ -261,7 +309,11 @@
     "ambiguity_stratum": "low",
     "kind": "pair",
     "inverted_gold": "CONTRADICTED",
-    "truthful_gold": "NOT_DETERMINABLE"
+    "truthful_gold": "NOT_DETERMINABLE",
+    "edit_ops": 1,
+    "edit_regions": [
+      "''->'generally'"
+    ]
   },
   {
     "id": "p05",
@@ -284,7 +336,11 @@
     "ambiguity_stratum": "mid",
     "kind": "pair",
     "inverted_gold": "CONTRADICTED",
-    "truthful_gold": "NOT_DETERMINABLE"
+    "truthful_gold": "NOT_DETERMINABLE",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'removes'->'is intended to remove'"
+    ]
   },
   {
     "id": "p06",
@@ -307,7 +363,11 @@
     "ambiguity_stratum": "low",
     "kind": "pair",
     "inverted_gold": "CONTRADICTED",
-    "truthful_gold": "NOT_DETERMINABLE"
+    "truthful_gold": "NOT_DETERMINABLE",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'are'->'should be'"
+    ]
   },
   {
     "id": "p07",
@@ -330,7 +390,11 @@
     "ambiguity_stratum": "mid",
     "kind": "pair",
     "inverted_gold": "CONTRADICTED",
-    "truthful_gold": "NOT_DETERMINABLE"
+    "truthful_gold": "NOT_DETERMINABLE",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'reflects'->'aims to reflect'"
+    ]
   },
   {
     "id": "p08",
@@ -353,6 +417,10 @@
     "ambiguity_stratum": "mid",
     "kind": "pair",
     "inverted_gold": "CONTRADICTED",
-    "truthful_gold": "NOT_DETERMINABLE"
+    "truthful_gold": "NOT_DETERMINABLE",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'A'->'Policy is that a'"
+    ]
   }
 ]

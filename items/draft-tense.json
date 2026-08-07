@@ -24,7 +24,10 @@
     "edit_ops": 1,
     "kind": "pair",
     "truthful_gold": "NOT_DETERMINABLE",
-    "inverted_gold": "CONTRADICTED"
+    "inverted_gold": "CONTRADICTED",
+    "edit_regions": [
+      "'has been'->'will be'"
+    ]
   },
   {
     "id": "tense-02",
@@ -51,7 +54,10 @@
     "edit_ops": 1,
     "kind": "pair",
     "truthful_gold": "NOT_DETERMINABLE",
-    "inverted_gold": "CONTRADICTED"
+    "inverted_gold": "CONTRADICTED",
+    "edit_regions": [
+      "'restricts'->'will restrict'"
+    ]
   },
   {
     "id": "tense-03",
@@ -79,7 +85,11 @@
     "edit_ops": 2,
     "kind": "pair",
     "truthful_gold": "NOT_DETERMINABLE",
-    "inverted_gold": "CONTRADICTED"
+    "inverted_gold": "CONTRADICTED",
+    "edit_regions": [
+      "''->'will'",
+      "'depends'->'depend'"
+    ]
   },
   {
     "id": "tense-04",
@@ -106,7 +116,10 @@
     "edit_ops": 1,
     "kind": "pair",
     "truthful_gold": "NOT_DETERMINABLE",
-    "inverted_gold": "CONTRADICTED"
+    "inverted_gold": "CONTRADICTED",
+    "edit_regions": [
+      "'has adopted'->'will adopt'"
+    ]
   },
   {
     "id": "tense-05",
@@ -133,7 +146,10 @@
     "edit_ops": 1,
     "kind": "pair",
     "truthful_gold": "NOT_DETERMINABLE",
-    "inverted_gold": "CONTRADICTED"
+    "inverted_gold": "CONTRADICTED",
+    "edit_regions": [
+      "'are'->'will be'"
+    ]
   },
   {
     "id": "tense-06",
@@ -160,7 +176,10 @@
     "edit_ops": 1,
     "kind": "pair",
     "truthful_gold": "NOT_DETERMINABLE",
-    "inverted_gold": "CONTRADICTED"
+    "inverted_gold": "CONTRADICTED",
+    "edit_regions": [
+      "'is'->'will be'"
+    ]
   },
   {
     "id": "tense-07",
@@ -188,7 +207,10 @@
     "edit_ops": 1,
     "kind": "pair",
     "truthful_gold": "NOT_DETERMINABLE",
-    "inverted_gold": "CONTRADICTED"
+    "inverted_gold": "CONTRADICTED",
+    "edit_regions": [
+      "'has moved'->'will move'"
+    ]
   },
   {
     "id": "tense-08",
@@ -215,7 +237,10 @@
     "edit_ops": 1,
     "kind": "pair",
     "truthful_gold": "NOT_DETERMINABLE",
-    "inverted_gold": "CONTRADICTED"
+    "inverted_gold": "CONTRADICTED",
+    "edit_regions": [
+      "'do'->'will'"
+    ]
   },
   {
     "id": "tense-09",
@@ -242,7 +267,10 @@
     "edit_ops": 1,
     "kind": "pair",
     "truthful_gold": "NOT_DETERMINABLE",
-    "inverted_gold": "CONTRADICTED"
+    "inverted_gold": "CONTRADICTED",
+    "edit_regions": [
+      "''->'will'"
+    ]
   },
   {
     "id": "tense-10",
@@ -269,7 +297,10 @@
     "edit_ops": 1,
     "kind": "pair",
     "truthful_gold": "NOT_DETERMINABLE",
-    "inverted_gold": "CONTRADICTED"
+    "inverted_gold": "CONTRADICTED",
+    "edit_regions": [
+      "'are'->'will be'"
+    ]
   },
   {
     "id": "tense-11",
@@ -296,7 +327,10 @@
     "edit_ops": 1,
     "kind": "pair",
     "truthful_gold": "NOT_DETERMINABLE",
-    "inverted_gold": "CONTRADICTED"
+    "inverted_gold": "CONTRADICTED",
+    "edit_regions": [
+      "'have been'->'will be'"
+    ]
   },
   {
     "id": "tense-12",
@@ -324,7 +358,10 @@
     "edit_ops": 1,
     "kind": "pair",
     "truthful_gold": "NOT_DETERMINABLE",
-    "inverted_gold": "CONTRADICTED"
+    "inverted_gold": "CONTRADICTED",
+    "edit_regions": [
+      "'are'->'will be'"
+    ]
   },
   {
     "id": "rev-01",

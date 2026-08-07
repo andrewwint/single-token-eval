@@ -29,7 +29,11 @@
     ],
     "provenance": "authored in-repo 2026-08-06, NOT from an independent generation run \u2014 see docs/questions/REVIEW.md; the cold read is the only independent check on these",
     "truthful_gold": "SUPPORTED",
-    "inverted_gold": "CONTRADICTED"
+    "inverted_gold": "CONTRADICTED",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'does not reject'->'rejects'"
+    ]
   },
   {
     "id": "pol-02",
@@ -61,7 +65,11 @@
     ],
     "provenance": "authored in-repo 2026-08-06, NOT from an independent generation run \u2014 see docs/questions/REVIEW.md; the cold read is the only independent check on these",
     "truthful_gold": "SUPPORTED",
-    "inverted_gold": "CONTRADICTED"
+    "inverted_gold": "CONTRADICTED",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'expires'->'does not expire'"
+    ]
   },
   {
     "id": "pol-03",
@@ -93,7 +101,11 @@
     ],
     "provenance": "authored in-repo 2026-08-06, NOT from an independent generation run \u2014 see docs/questions/REVIEW.md; the cold read is the only independent check on these",
     "truthful_gold": "SUPPORTED",
-    "inverted_gold": "CONTRADICTED"
+    "inverted_gold": "CONTRADICTED",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'not'->''"
+    ]
   },
   {
     "id": "pol-04",
@@ -125,6 +137,10 @@
     ],
     "provenance": "authored in-repo 2026-08-06, NOT from an independent generation run \u2014 see docs/questions/REVIEW.md; the cold read is the only independent check on these",
     "truthful_gold": "SUPPORTED",
-    "inverted_gold": "CONTRADICTED"
+    "inverted_gold": "CONTRADICTED",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'filters'->'does not filter'"
+    ]
   }
 ]

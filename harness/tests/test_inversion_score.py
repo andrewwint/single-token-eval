@@ -29,6 +29,18 @@ def cell(r):
     return r["cells"][0]
 
 
+def discriminating(name: str, *values):
+    """ADD 1 — a fixture must supply at least two distinct values of whatever a test claims to pin.
+
+    Three 'surviving' mutants turned out to be tests whose fixtures made the mutant's target
+    unreachable: `wilson_ci` asserted with disc == n, where wilson_ci(disc,n) == wilson_ci(n,n);
+    component rates asserted with flag_false == flag_true. Those tests could not have failed. This
+    is a gate, not a habit — call it in any test that pins a parameter."""
+    assert len(set(values)) >= 2, (
+        f"NON-DISCRIMINATING FIXTURE: {name} takes only the value {values[0]!r}. "
+        f"A mutant that swaps it cannot change the result, so this test cannot fail.")
+
+
 def test_discriminated():
     """Flags the false member's target, clears the true member's -> DISCRIMINATED."""
     r = score([draw("inverted", ["C3"]), draw("truthful", [])])
@@ -185,6 +197,7 @@ def test_headline_denominator_is_pairs():
     rows = ([draw("inverted", ["C3"], item="a"), draw("truthful", [], item="a")] +
             [draw("inverted", [], item="b"), draw("truthful", [], item="b")])
     c = cell(score(rows))
+    discriminating("per-pair outcome", *[True, False])   # one discriminated pair, one missed
     assert c["n_pairs"] == 2 and c["discrimination"] == 0.5, c
 
 
@@ -196,6 +209,8 @@ def test_component_rate_denominators_are_distinct():
             [draw("inverted", ["C3"], item="c"), draw("truthful", [], item="c")] +       # 1,0
             [draw("inverted", ["C3"], item="d"), draw("truthful", [], item="d")])        # 1,0
     c = cell(score(rows))
+    discriminating("flag_false vs flag_true",
+                   c["flag_rate_false_member"], c["flag_rate_true_member"])
     assert c["flag_rate_false_member"] == 1.0, c
     assert c["flag_rate_true_member"] == 0.25, f"reads the false counter: {c}"
 
@@ -205,6 +220,7 @@ def test_wilson_ci_is_not_argument_swapped():
     rows = ([x for i in "ab" for x in (draw("inverted", ["C3"], item=i), draw("truthful", [], item=i))] +
             [x for i in "cd" for x in (draw("inverted", [], item=i), draw("truthful", [], item=i))])
     c = cell(score(rows))
+    discriminating("wilson_ci(k, n) arguments", c["n_pairs"], c["n_pairs"] * c["discrimination"])
     assert c["discrimination"] == 0.5 and c["n_pairs"] == 4
     assert c["ci95"][1] < 0.9, f"wilson_ci(4,4) would give ~1.0; got {c['ci95']}"
 
@@ -298,12 +314,16 @@ def mutate() -> int:
             lambda: setattr(m, "score", patched(
                 'ci = [round(x, 3) for x in wilson_ci(s["disc"], s["n"])] if s["n"] else None',
                 'ci = [round(x, 3) for x in wilson_ci(s["n"], s["n"])] if s["n"] else None')),
-        # EQUIVALENT MUTANTS, deliberately retired: after the M1 fix `n_false`, `n_true` and `n` are
-        # incremented together for exactly the scored pairs, so swapping them cannot change any
-        # output. An equivalent mutant surviving is not an untested branch, and pretending otherwise
-        # by writing a test that cannot distinguish them would be theatre.
+        # EQUIVALENT MUTANTS, retired CONDITIONAL ON THE M1 PAIRING FIX.
         #   - "headline denominator is n_false"
         #   - "false-member rate over pair count"
+        # PRECONDITION (M1, inversion_score.score): `n`, `n_false` and `n_true` are incremented
+        # together, AFTER the `inv is None or tru is None` guard, for exactly the scored pairs — so
+        # they are equal by construction and swapping them cannot change any output. An equivalent
+        # mutant surviving is not an untested branch.
+        # IF SCORING EVER ADMITS UNPAIRED DRAWS, THESE GO LIVE AGAIN AND MUST BE REINSTATED.
+        # `test_component_rates_share_the_headline_denominator` is what pins M1; if it changes,
+        # come back here first.
         "true-member rate reads the false counter":
             lambda: setattr(m, "score", patched(
                 '"flag_rate_true_member": round(s["flag_true"] / s["n_true"], 3) if s["n_true"] else None',
