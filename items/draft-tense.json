@@ -27,7 +27,9 @@
     "inverted_gold": "CONTRADICTED",
     "edit_regions": [
       "'has been'->'will be'"
-    ]
+    ],
+    "mechanism": "unseparated",
+    "in_round1_claim": false
   },
   {
     "id": "tense-02",
@@ -57,7 +59,9 @@
     "inverted_gold": "CONTRADICTED",
     "edit_regions": [
       "'restricts'->'will restrict'"
-    ]
+    ],
+    "mechanism": "unseparated",
+    "in_round1_claim": false
   },
   {
     "id": "tense-03",
@@ -89,7 +93,9 @@
     "edit_regions": [
       "''->'will'",
       "'depends'->'depend'"
-    ]
+    ],
+    "mechanism": "presupposition",
+    "in_round1_claim": false
   },
   {
     "id": "tense-04",
@@ -119,7 +125,9 @@
     "inverted_gold": "CONTRADICTED",
     "edit_regions": [
       "'has adopted'->'will adopt'"
-    ]
+    ],
+    "mechanism": "unseparated",
+    "in_round1_claim": false
   },
   {
     "id": "tense-05",
@@ -149,7 +157,9 @@
     "inverted_gold": "CONTRADICTED",
     "edit_regions": [
       "'are'->'will be'"
-    ]
+    ],
+    "mechanism": "unseparated",
+    "in_round1_claim": false
   },
   {
     "id": "tense-06",
@@ -179,7 +189,9 @@
     "inverted_gold": "CONTRADICTED",
     "edit_regions": [
       "'is'->'will be'"
-    ]
+    ],
+    "mechanism": "unseparated",
+    "in_round1_claim": false
   },
   {
     "id": "tense-07",
@@ -210,7 +222,9 @@
     "inverted_gold": "CONTRADICTED",
     "edit_regions": [
       "'has moved'->'will move'"
-    ]
+    ],
+    "mechanism": "unseparated",
+    "in_round1_claim": false
   },
   {
     "id": "tense-08",
@@ -240,7 +254,9 @@
     "inverted_gold": "CONTRADICTED",
     "edit_regions": [
       "'do'->'will'"
-    ]
+    ],
+    "mechanism": "unseparated",
+    "in_round1_claim": false
   },
   {
     "id": "tense-09",
@@ -270,7 +286,9 @@
     "inverted_gold": "CONTRADICTED",
     "edit_regions": [
       "''->'will'"
-    ]
+    ],
+    "mechanism": "unseparated",
+    "in_round1_claim": false
   },
   {
     "id": "tense-10",
@@ -300,7 +318,9 @@
     "inverted_gold": "CONTRADICTED",
     "edit_regions": [
       "'are'->'will be'"
-    ]
+    ],
+    "mechanism": "unseparated",
+    "in_round1_claim": false
   },
   {
     "id": "tense-11",
@@ -330,7 +350,9 @@
     "inverted_gold": "CONTRADICTED",
     "edit_regions": [
       "'have been'->'will be'"
-    ]
+    ],
+    "mechanism": "unseparated",
+    "in_round1_claim": false
   },
   {
     "id": "tense-12",
@@ -361,7 +383,9 @@
     "inverted_gold": "CONTRADICTED",
     "edit_regions": [
       "'are'->'will be'"
-    ]
+    ],
+    "mechanism": "unseparated",
+    "in_round1_claim": false
   },
   {
     "id": "rev-01",
@@ -381,7 +405,9 @@
       "Redis holds the counter that limiting decisions read."
     ],
     "truthful_gold": "NOT_DETERMINABLE",
-    "inverted_gold": "CONTRADICTED"
+    "inverted_gold": "CONTRADICTED",
+    "mechanism": "unseparated",
+    "in_round1_claim": false
   },
   {
     "id": "rev-02",
@@ -401,7 +427,9 @@
       "The v1 endpoints carry no deprecation notice."
     ],
     "truthful_gold": "NOT_DETERMINABLE",
-    "inverted_gold": "CONTRADICTED"
+    "inverted_gold": "CONTRADICTED",
+    "mechanism": "unseparated",
+    "in_round1_claim": false
   },
   {
     "id": "rev-03",
@@ -421,6 +449,8 @@
       "The revert has been recorded as permanent."
     ],
     "truthful_gold": "NOT_DETERMINABLE",
-    "inverted_gold": "CONTRADICTED"
+    "inverted_gold": "CONTRADICTED",
+    "mechanism": "unseparated",
+    "in_round1_claim": false
   }
 ]

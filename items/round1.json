@@ -25,7 +25,9 @@
     "edit_ops": 1,
     "edit_regions": [
       "'has been'->'will be'"
-    ]
+    ],
+    "mechanism": "deontic",
+    "in_round1_claim": true
   },
   {
     "id": "f02",
@@ -53,7 +55,9 @@
     "edit_ops": 1,
     "edit_regions": [
       "''->'will'"
-    ]
+    ],
+    "mechanism": "deontic",
+    "in_round1_claim": true
   },
   {
     "id": "f03",
@@ -81,7 +85,9 @@
     "edit_ops": 1,
     "edit_regions": [
       "'omits'->'will omit'"
-    ]
+    ],
+    "mechanism": "deontic",
+    "in_round1_claim": true
   },
   {
     "id": "f05",
@@ -110,7 +116,9 @@
     "edit_regions": [
       "''->'will'",
       "'reads'->'read'"
-    ]
+    ],
+    "mechanism": "presupposition",
+    "in_round1_claim": false
   },
   {
     "id": "f06",
@@ -138,7 +146,9 @@
     "edit_ops": 1,
     "edit_regions": [
       "'are'->'will be'"
-    ]
+    ],
+    "mechanism": "deontic",
+    "in_round1_claim": true
   },
   {
     "id": "f07",
@@ -166,7 +176,9 @@
     "edit_ops": 1,
     "edit_regions": [
       "'supports'->'will support'"
-    ]
+    ],
+    "mechanism": "deontic",
+    "in_round1_claim": true
   },
   {
     "id": "f08",
@@ -194,7 +206,9 @@
     "edit_ops": 1,
     "edit_regions": [
       "'has been'->'will be'"
-    ]
+    ],
+    "mechanism": "deontic",
+    "in_round1_claim": true
   },
   {
     "id": "p01",
@@ -229,7 +243,9 @@
       "sonnet-4.6": 0.0,
       "haiku-4.5": 0.0,
       "nova-micro": 0.0
-    }
+    },
+    "mechanism": "deontic",
+    "in_round1_claim": true
   },
   {
     "id": "p02",
@@ -257,7 +273,9 @@
     "edit_ops": 1,
     "edit_regions": [
       "'distinguishes'->'is designed to distinguish'"
-    ]
+    ],
+    "mechanism": "deontic",
+    "in_round1_claim": true
   },
   {
     "id": "p03",
@@ -285,7 +303,9 @@
     "edit_ops": 1,
     "edit_regions": [
       "'restricts'->'is configured to restrict'"
-    ]
+    ],
+    "mechanism": "deontic",
+    "in_round1_claim": true
   },
   {
     "id": "p04",
@@ -313,7 +333,9 @@
     "edit_ops": 1,
     "edit_regions": [
       "''->'generally'"
-    ]
+    ],
+    "mechanism": "unseparated",
+    "in_round1_claim": false
   },
   {
     "id": "p05",
@@ -340,7 +362,9 @@
     "edit_ops": 1,
     "edit_regions": [
       "'removes'->'is intended to remove'"
-    ]
+    ],
+    "mechanism": "deontic",
+    "in_round1_claim": true
   },
   {
     "id": "p06",
@@ -367,7 +391,9 @@
     "edit_ops": 1,
     "edit_regions": [
       "'are'->'should be'"
-    ]
+    ],
+    "mechanism": "unseparated",
+    "in_round1_claim": false
   },
   {
     "id": "p07",
@@ -394,7 +420,9 @@
     "edit_ops": 1,
     "edit_regions": [
       "'reflects'->'aims to reflect'"
-    ]
+    ],
+    "mechanism": "deontic",
+    "in_round1_claim": true
   },
   {
     "id": "p08",
@@ -421,6 +449,8 @@
     "edit_ops": 1,
     "edit_regions": [
       "'A'->'Policy is that a'"
-    ]
+    ],
+    "mechanism": "unseparated",
+    "in_round1_claim": false
   }
 ]
