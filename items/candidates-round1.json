@@ -1,0 +1,1154 @@
+[
+  {
+    "id": "m01",
+    "domain": "content negotiation",
+    "source_fact": "The endpoint parses every body as JSON regardless of Content-Type. No media-type check runs.",
+    "claim_false": "The endpoint rejects requests with an unsupported Content-Type.",
+    "claim_true": "The endpoint will reject requests with an unsupported Content-Type.",
+    "token_delta": {
+      "from": "rejects",
+      "to": "will reject"
+    },
+    "decoys": [
+      "A text/plain body is parsed as JSON.",
+      "No media-type check has been added to the handler.",
+      "Content-Type does not affect parsing."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "high",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'rejects'->'will reject'"
+    ]
+  },
+  {
+    "id": "m02",
+    "domain": "queueing",
+    "source_fact": "Jobs are executed inline in the request handler. A worker pool is configured and consumes from an empty queue.",
+    "claim_false": "Long jobs are handed to the worker pool.",
+    "claim_true": "Long jobs will be handed to the worker pool.",
+    "token_delta": {
+      "from": "are handed",
+      "to": "will be handed"
+    },
+    "decoys": [
+      "A slow job holds the request open.",
+      "The worker pool has been left with nothing to consume.",
+      "Execution happens on the request thread."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "low",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'are'->'will be'"
+    ]
+  },
+  {
+    "id": "m03",
+    "domain": "authorization",
+    "source_fact": "Every authenticated caller reaches the delete route. Role is read for logging only.",
+    "claim_false": "The delete route requires an owner role.",
+    "claim_true": "The delete route will require an owner role.",
+    "token_delta": {
+      "from": "requires",
+      "to": "will require"
+    },
+    "decoys": [
+      "A read-only user can issue a delete.",
+      "Role has been recorded without being enforced.",
+      "Authentication alone reaches the route."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "high",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'requires'->'will require'"
+    ]
+  },
+  {
+    "id": "m04",
+    "domain": "storage",
+    "source_fact": "Attachments are written to local disk on the app node. An S3 client is configured and unused.",
+    "claim_false": "Attachments have been moved to object storage.",
+    "claim_true": "Attachments will be moved to object storage.",
+    "token_delta": {
+      "from": "have been moved",
+      "to": "will be moved"
+    },
+    "decoys": [
+      "A node failure loses its attachments.",
+      "The S3 client has been configured but not called.",
+      "Disk is where attachments land."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "low",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'have been'->'will be'"
+    ]
+  },
+  {
+    "id": "m05",
+    "domain": "input handling",
+    "source_fact": "Query parameters are interpolated into the SQL string. No parameter binding is used.",
+    "claim_false": "Query parameters are bound rather than interpolated.",
+    "claim_true": "Query parameters will be bound rather than interpolated.",
+    "token_delta": {
+      "from": "are bound",
+      "to": "will be bound"
+    },
+    "decoys": [
+      "A crafted parameter changes the query shape.",
+      "No binding API has been introduced.",
+      "String building produces the statement."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "high",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'are'->'will be'"
+    ]
+  },
+  {
+    "id": "m06",
+    "domain": "observability",
+    "source_fact": "Errors are printed to stdout with no request id. A correlation middleware exists and is not registered.",
+    "claim_false": "Every error carries a correlation id.",
+    "claim_true": "Every error will carry a correlation id.",
+    "token_delta": {
+      "from": "carries",
+      "to": "will carry"
+    },
+    "decoys": [
+      "Two concurrent failures cannot be told apart.",
+      "The middleware has been written but not registered.",
+      "stdout receives the error text."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "high",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'carries'->'will carry'"
+    ]
+  },
+  {
+    "id": "m07",
+    "domain": "migration",
+    "source_fact": "The users table still holds the legacy password column. A backfill script exists and has not been run.",
+    "claim_false": "The legacy password column has been dropped.",
+    "claim_true": "The legacy password column will be dropped.",
+    "token_delta": {
+      "from": "has been dropped",
+      "to": "will be dropped"
+    },
+    "decoys": [
+      "Legacy hashes remain readable in the table.",
+      "The backfill has been written but not executed.",
+      "The column is present in the schema."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "low",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'has been'->'will be'"
+    ]
+  },
+  {
+    "id": "m08",
+    "domain": "caching",
+    "source_fact": "Responses are cached without a vary header. Two users share a cached personalised page.",
+    "claim_false": "Cached responses vary by user.",
+    "claim_true": "Cached responses will vary by user.",
+    "token_delta": {
+      "from": "vary",
+      "to": "will vary"
+    },
+    "decoys": [
+      "One user's page can be served to another.",
+      "No vary header has been set on the response.",
+      "Personalisation is present in the body."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "high",
+    "edit_ops": 1,
+    "edit_regions": [
+      "''->'will'"
+    ]
+  },
+  {
+    "id": "m09",
+    "domain": "transport",
+    "source_fact": "Internal service calls use plain HTTP on the private network. mTLS certs are issued and unmounted.",
+    "claim_false": "Internal calls are authenticated with mTLS.",
+    "claim_true": "Internal calls will be authenticated with mTLS.",
+    "token_delta": {
+      "from": "are authenticated",
+      "to": "will be authenticated"
+    },
+    "decoys": [
+      "A pod on the network can call the service.",
+      "Certificates have been issued but not mounted.",
+      "Plain HTTP carries internal traffic."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "high",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'are'->'will be'"
+    ]
+  },
+  {
+    "id": "m10",
+    "domain": "batching",
+    "source_fact": "The importer commits after every row. A batch size setting exists and is read nowhere.",
+    "claim_false": "The importer commits in batches.",
+    "claim_true": "The importer will commit in batches.",
+    "token_delta": {
+      "from": "commits",
+      "to": "will commit"
+    },
+    "decoys": [
+      "A ten-thousand-row import issues ten thousand commits.",
+      "The batch setting has been defined and ignored.",
+      "Each row is durable when written."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "low",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'commits'->'will commit'"
+    ]
+  },
+  {
+    "id": "m11",
+    "domain": "validation",
+    "source_fact": "Numeric fields are cast with int() inside a bare try block that swallows failures and substitutes zero.",
+    "claim_false": "A malformed number is surfaced to the caller.",
+    "claim_true": "A malformed number will be surfaced to the caller.",
+    "token_delta": {
+      "from": "is surfaced",
+      "to": "will be surfaced"
+    },
+    "decoys": [
+      "A non-numeric field becomes zero silently.",
+      "No error has been propagated from the cast.",
+      "int() runs inside a try block."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "high",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'is'->'will be'"
+    ]
+  },
+  {
+    "id": "m12",
+    "domain": "secrets",
+    "source_fact": "API keys are read from a checked-in config file. A secrets manager is provisioned and unreferenced.",
+    "claim_false": "API keys are loaded from the secrets manager.",
+    "claim_true": "API keys will be loaded from the secrets manager.",
+    "token_delta": {
+      "from": "are loaded",
+      "to": "will be loaded"
+    },
+    "decoys": [
+      "Anyone with repository access reads the keys.",
+      "The secrets manager has been provisioned unused.",
+      "Config file contents include credentials."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "low",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'are'->'will be'"
+    ]
+  },
+  {
+    "id": "m13",
+    "domain": "idempotency",
+    "source_fact": "POST /charges creates a charge on every call. An idempotency key is accepted and discarded.",
+    "claim_false": "A repeated charge request is deduplicated.",
+    "claim_true": "A repeated charge request will be deduplicated.",
+    "token_delta": {
+      "from": "is deduplicated",
+      "to": "will be deduplicated"
+    },
+    "decoys": [
+      "A client retry produces a second charge.",
+      "The idempotency key has been accepted and dropped.",
+      "Every call reaches the charge creation path."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "high",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'is'->'will be'"
+    ]
+  },
+  {
+    "id": "m14",
+    "domain": "pagination",
+    "source_fact": "The list endpoint returns the full table. A limit parameter is parsed and unused.",
+    "claim_false": "The list endpoint pages its results.",
+    "claim_true": "The list endpoint will page its results.",
+    "token_delta": {
+      "from": "pages",
+      "to": "will page"
+    },
+    "decoys": [
+      "A large table produces one enormous response.",
+      "The limit parameter has been parsed and ignored.",
+      "All rows are serialised per call."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "low",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'pages'->'will page'"
+    ]
+  },
+  {
+    "id": "m15",
+    "domain": "tenancy",
+    "source_fact": "The search index is shared across tenants with no tenant field on the documents.",
+    "claim_false": "Search results are scoped to the caller's tenant.",
+    "claim_true": "Search results will be scoped to the caller's tenant.",
+    "token_delta": {
+      "from": "are scoped",
+      "to": "will be scoped"
+    },
+    "decoys": [
+      "A query can surface another tenant's document.",
+      "No tenant field has been added to the index.",
+      "One index serves every tenant."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "high",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'are'->'will be'"
+    ]
+  },
+  {
+    "id": "m16",
+    "domain": "timeouts",
+    "source_fact": "Outbound calls use the client default of no timeout. A timeout constant is defined and unused.",
+    "claim_false": "Outbound calls time out after five seconds.",
+    "claim_true": "Outbound calls will time out after five seconds.",
+    "token_delta": {
+      "from": "time out",
+      "to": "will time out"
+    },
+    "decoys": [
+      "A hung dependency holds the request indefinitely.",
+      "The timeout constant has been defined and not applied.",
+      "The client default governs the call."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "low",
+    "edit_ops": 1,
+    "edit_regions": [
+      "''->'will'"
+    ]
+  },
+  {
+    "id": "m17",
+    "domain": "audit",
+    "source_fact": "Deletions remove the row outright. An audit table exists and receives no writes.",
+    "claim_false": "A deletion is recorded before the row is removed.",
+    "claim_true": "A deletion will be recorded before the row is removed.",
+    "token_delta": {
+      "from": "is recorded",
+      "to": "will be recorded"
+    },
+    "decoys": [
+      "A removed row leaves no trace.",
+      "The audit table has stayed empty.",
+      "Deletion is a direct row removal."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "high",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'is'->'will be'"
+    ]
+  },
+  {
+    "id": "m18",
+    "domain": "concurrency",
+    "source_fact": "Balance updates read then write with no lock or version check.",
+    "claim_false": "Concurrent balance updates are serialised.",
+    "claim_true": "Concurrent balance updates will be serialised.",
+    "token_delta": {
+      "from": "are serialised",
+      "to": "will be serialised"
+    },
+    "decoys": [
+      "Two simultaneous updates can lose one.",
+      "No version column has been consulted.",
+      "Read and write are separate statements."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "high",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'are'->'will be'"
+    ]
+  },
+  {
+    "id": "m19",
+    "domain": "config",
+    "source_fact": "Feature flags are read once at import. Changing a flag requires a restart.",
+    "claim_false": "Flag changes have been made to apply without a restart.",
+    "claim_true": "Flag changes will be made to apply without a restart.",
+    "token_delta": {
+      "from": "have been made",
+      "to": "will be made"
+    },
+    "decoys": [
+      "A flag flip needs a process restart.",
+      "Values have been bound at import time.",
+      "Runtime reads hit the cached value."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "low",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'have been'->'will be'"
+    ]
+  },
+  {
+    "id": "m20",
+    "domain": "encoding",
+    "source_fact": "User names are rendered into HTML without escaping. A template autoescape setting is off.",
+    "claim_false": "User-supplied names are escaped before rendering.",
+    "claim_true": "User-supplied names will be escaped before rendering.",
+    "token_delta": {
+      "from": "are escaped",
+      "to": "will be escaped"
+    },
+    "decoys": [
+      "A name containing markup reaches the page.",
+      "Autoescape has been left disabled.",
+      "Rendering inserts the raw value."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "high",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'are'->'will be'"
+    ]
+  },
+  {
+    "id": "m21",
+    "domain": "backpressure",
+    "source_fact": "The consumer reads as fast as it can and buffers unboundedly in memory.",
+    "claim_false": "The consumer applies backpressure under load.",
+    "claim_true": "The consumer will apply backpressure under load.",
+    "token_delta": {
+      "from": "applies",
+      "to": "will apply"
+    },
+    "decoys": [
+      "A fast producer grows the buffer without limit.",
+      "No bound has been placed on the buffer.",
+      "Reading proceeds at maximum rate."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "high",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'applies'->'will apply'"
+    ]
+  },
+  {
+    "id": "m22",
+    "domain": "rollout",
+    "source_fact": "The new pricing path is enabled for all traffic on deploy. A percentage rollout field exists and is ignored.",
+    "claim_false": "Pricing changes have been rolled out gradually.",
+    "claim_true": "Pricing changes will be rolled out gradually.",
+    "token_delta": {
+      "from": "have been rolled out",
+      "to": "will be rolled out"
+    },
+    "decoys": [
+      "Every request hits the new path at once.",
+      "The rollout percentage has been ignored by the router.",
+      "Deploy switches the path wholesale."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "low",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'have been'->'will be'"
+    ]
+  },
+  {
+    "id": "m23",
+    "domain": "retention",
+    "source_fact": "Event rows are kept indefinitely. A retention job is scheduled and disabled.",
+    "claim_false": "Events older than the retention window are purged.",
+    "claim_true": "Events older than the retention window will be purged.",
+    "token_delta": {
+      "from": "are purged",
+      "to": "will be purged"
+    },
+    "decoys": [
+      "The table grows without bound.",
+      "The retention job has been left disabled.",
+      "No deletion path runs against events."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "high",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'are'->'will be'"
+    ]
+  },
+  {
+    "id": "m24",
+    "domain": "health checks",
+    "source_fact": "The readiness probe returns 200 as soon as the process starts, before the pool connects.",
+    "claim_false": "Readiness reflects the database connection.",
+    "claim_true": "Readiness will reflect the database connection.",
+    "token_delta": {
+      "from": "reflects",
+      "to": "will reflect"
+    },
+    "decoys": [
+      "Traffic arrives before the pool is ready.",
+      "The probe has been wired to process start.",
+      "200 is returned unconditionally."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "high",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'reflects'->'will reflect'"
+    ]
+  },
+  {
+    "id": "m25",
+    "domain": "content negotiation",
+    "source_fact": "Media-type handling is unchanged from the first release. A parser registry is merged and unwired.",
+    "claim_false": "Media-type dispatch has been wired into the handler.",
+    "claim_true": "Media-type dispatch will be wired into the handler.",
+    "token_delta": {
+      "from": "has been wired",
+      "to": "will be wired"
+    },
+    "decoys": [
+      "Every body takes the JSON path.",
+      "The registry has been merged without a call site.",
+      "Dispatch is absent from the handler."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "low",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'has been'->'will be'"
+    ]
+  },
+  {
+    "id": "m26",
+    "domain": "queueing",
+    "source_fact": "The scheduler runs on a single node with in-process timers.",
+    "claim_false": "Scheduling has been moved to a distributed coordinator.",
+    "claim_true": "Scheduling will be moved to a distributed coordinator.",
+    "token_delta": {
+      "from": "has been moved",
+      "to": "will be moved"
+    },
+    "decoys": [
+      "A node restart drops pending timers.",
+      "No coordinator has been introduced.",
+      "Timers live in the process."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "low",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'has been'->'will be'"
+    ]
+  },
+  {
+    "id": "m27",
+    "domain": "authorization",
+    "source_fact": "Permission checks live in each handler and are copied by hand.",
+    "claim_false": "Permission checks have been centralised in middleware.",
+    "claim_true": "Permission checks will be centralised in middleware.",
+    "token_delta": {
+      "from": "have been centralised",
+      "to": "will be centralised"
+    },
+    "decoys": [
+      "A new handler can omit the check entirely.",
+      "No middleware has taken over the checks.",
+      "Each handler carries its own copy."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "low",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'have been'->'will be'"
+    ]
+  },
+  {
+    "id": "m28",
+    "domain": "storage",
+    "source_fact": "Blobs are stored uncompressed. A compression helper is imported and never called.",
+    "claim_false": "Stored blobs are compressed.",
+    "claim_true": "Stored blobs will be compressed.",
+    "token_delta": {
+      "from": "are compressed",
+      "to": "will be compressed"
+    },
+    "decoys": [
+      "Storage grows at the raw size of the input.",
+      "The helper has been imported without a caller.",
+      "Bytes are written as received."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "mid",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'are'->'will be'"
+    ]
+  },
+  {
+    "id": "m29",
+    "domain": "input handling",
+    "source_fact": "Uploads are accepted at any size. A max-size constant exists and is unread.",
+    "claim_false": "Uploads above the size limit are refused.",
+    "claim_true": "Uploads above the size limit will be refused.",
+    "token_delta": {
+      "from": "are refused",
+      "to": "will be refused"
+    },
+    "decoys": [
+      "A very large upload is accepted.",
+      "The size constant has been left unread.",
+      "No length check precedes the write."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "mid",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'are'->'will be'"
+    ]
+  },
+  {
+    "id": "m30",
+    "domain": "observability",
+    "source_fact": "Latency is not recorded anywhere. A metrics client is initialised and unused.",
+    "claim_false": "Request latency is reported to metrics.",
+    "claim_true": "Request latency will be reported to metrics.",
+    "token_delta": {
+      "from": "is reported",
+      "to": "will be reported"
+    },
+    "decoys": [
+      "A slow endpoint is invisible in dashboards.",
+      "The metrics client has been initialised unused.",
+      "No timing wraps the handler."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "mid",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'is'->'will be'"
+    ]
+  },
+  {
+    "id": "m31",
+    "domain": "migration",
+    "source_fact": "Both the old and new columns are written on every save.",
+    "claim_false": "Writes have been cut over to the new column alone.",
+    "claim_true": "Writes will be cut over to the new column alone.",
+    "token_delta": {
+      "from": "have been cut over",
+      "to": "will be cut over"
+    },
+    "decoys": [
+      "Each save touches two columns.",
+      "The dual-write has not been removed.",
+      "Old and new stay in sync by writing both."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "low",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'have been'->'will be'"
+    ]
+  },
+  {
+    "id": "m32",
+    "domain": "caching",
+    "source_fact": "Cache entries never expire and are evicted only under memory pressure.",
+    "claim_false": "Cache entries expire on a fixed TTL.",
+    "claim_true": "Cache entries will expire on a fixed TTL.",
+    "token_delta": {
+      "from": "expire",
+      "to": "will expire"
+    },
+    "decoys": [
+      "A stale entry can be served indefinitely.",
+      "No TTL has been attached to an entry.",
+      "Eviction is driven by memory alone."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "mid",
+    "edit_ops": 1,
+    "edit_regions": [
+      "''->'will'"
+    ]
+  },
+  {
+    "id": "m33",
+    "domain": "transport",
+    "source_fact": "Requests are retried on any exception, including 4xx responses.",
+    "claim_false": "Client errors are excluded from retries.",
+    "claim_true": "Client errors will be excluded from retries.",
+    "token_delta": {
+      "from": "are excluded",
+      "to": "will be excluded"
+    },
+    "decoys": [
+      "A 400 is retried three times.",
+      "No status check has been added to the retry path.",
+      "Any exception triggers a retry."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "mid",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'are'->'will be'"
+    ]
+  },
+  {
+    "id": "m34",
+    "domain": "batching",
+    "source_fact": "Metrics are flushed per event over the network.",
+    "claim_false": "Metric writes have been batched before flush.",
+    "claim_true": "Metric writes will be batched before flush.",
+    "token_delta": {
+      "from": "have been batched",
+      "to": "will be batched"
+    },
+    "decoys": [
+      "One network call accompanies each event.",
+      "No buffer has been placed before the flush.",
+      "Flushing happens per event."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "low",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'have been'->'will be'"
+    ]
+  },
+  {
+    "id": "m35",
+    "domain": "validation",
+    "source_fact": "Date strings are parsed with a permissive parser that accepts partial dates.",
+    "claim_false": "Ambiguous date strings are rejected.",
+    "claim_true": "Ambiguous date strings will be rejected.",
+    "token_delta": {
+      "from": "are rejected",
+      "to": "will be rejected"
+    },
+    "decoys": [
+      "A partial date is silently completed.",
+      "No strict mode has been enabled on the parser.",
+      "Parsing accepts incomplete input."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "mid",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'are'->'will be'"
+    ]
+  },
+  {
+    "id": "m36",
+    "domain": "secrets",
+    "source_fact": "Tokens are logged at debug level in full.",
+    "claim_false": "Tokens are truncated in log output.",
+    "claim_true": "Tokens will be truncated in log output.",
+    "token_delta": {
+      "from": "are truncated",
+      "to": "will be truncated"
+    },
+    "decoys": [
+      "A debug log contains a usable token.",
+      "No truncation has been applied to the field.",
+      "The full value reaches the log line."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "mid",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'are'->'will be'"
+    ]
+  },
+  {
+    "id": "m37",
+    "domain": "idempotency",
+    "source_fact": "Webhook receipts are processed as they arrive with no dedupe store.",
+    "claim_false": "A dedupe store has been added to the receipt path.",
+    "claim_true": "A dedupe store will be added to the receipt path.",
+    "token_delta": {
+      "from": "has been added",
+      "to": "will be added"
+    },
+    "decoys": [
+      "A redelivered webhook is processed twice.",
+      "No store backs the receipt path.",
+      "Arrival order is the only ordering."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "low",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'has been'->'will be'"
+    ]
+  },
+  {
+    "id": "m38",
+    "domain": "pagination",
+    "source_fact": "Cursors are absent; offsets are used against a shifting table.",
+    "claim_false": "Pagination has been moved to cursors.",
+    "claim_true": "Pagination will be moved to cursors.",
+    "token_delta": {
+      "from": "has been moved",
+      "to": "will be moved"
+    },
+    "decoys": [
+      "A row can be skipped between pages.",
+      "Cursors have not replaced offsets.",
+      "Offsets index a changing result set."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "low",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'has been'->'will be'"
+    ]
+  },
+  {
+    "id": "m39",
+    "domain": "tenancy",
+    "source_fact": "Background jobs run without a tenant context and read across all rows.",
+    "claim_false": "Background jobs carry a tenant context.",
+    "claim_true": "Background jobs will carry a tenant context.",
+    "token_delta": {
+      "from": "carry",
+      "to": "will carry"
+    },
+    "decoys": [
+      "A job can touch every tenant's rows.",
+      "No context has been attached to job payloads.",
+      "Jobs read the table unfiltered."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "high",
+    "edit_ops": 1,
+    "edit_regions": [
+      "''->'will'"
+    ]
+  },
+  {
+    "id": "m40",
+    "domain": "timeouts",
+    "source_fact": "Retry budgets are per call, so a chain of retries multiplies the deadline.",
+    "claim_false": "The retry budget has been made per request.",
+    "claim_true": "The retry budget will be made per request.",
+    "token_delta": {
+      "from": "has been made",
+      "to": "will be made"
+    },
+    "decoys": [
+      "A three-hop chain multiplies the wait.",
+      "No end-to-end budget has been introduced.",
+      "Each call carries its own budget."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "low",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'has been'->'will be'"
+    ]
+  },
+  {
+    "id": "m41",
+    "domain": "audit",
+    "source_fact": "Admin actions and user actions share one log stream with no actor type.",
+    "claim_false": "Admin actions are distinguishable in the log.",
+    "claim_true": "Admin actions will be distinguishable in the log.",
+    "token_delta": {
+      "from": "are distinguishable",
+      "to": "will be distinguishable"
+    },
+    "decoys": [
+      "An admin change reads like a user change.",
+      "No actor-type field has been added.",
+      "One stream carries both kinds."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "mid",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'are'->'will be'"
+    ]
+  },
+  {
+    "id": "m42",
+    "domain": "concurrency",
+    "source_fact": "The worker pool size is fixed at deploy and does not respond to depth.",
+    "claim_false": "Pool size has been made responsive to queue depth.",
+    "claim_true": "Pool size will be made responsive to queue depth.",
+    "token_delta": {
+      "from": "has been made",
+      "to": "will be made"
+    },
+    "decoys": [
+      "A backlog does not add workers.",
+      "No autoscaling has been wired to the queue.",
+      "Size is set at deploy time."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "low",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'has been'->'will be'"
+    ]
+  },
+  {
+    "id": "m43",
+    "domain": "config",
+    "source_fact": "Configuration errors are logged and the process continues with defaults.",
+    "claim_false": "A configuration error stops startup.",
+    "claim_true": "A configuration error will stop startup.",
+    "token_delta": {
+      "from": "stops",
+      "to": "will stop"
+    },
+    "decoys": [
+      "A typo'd setting runs with a default.",
+      "No fail-fast has been added to startup.",
+      "Errors are logged and passed over."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "high",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'stops'->'will stop'"
+    ]
+  },
+  {
+    "id": "m44",
+    "domain": "encoding",
+    "source_fact": "Filenames in the Content-Disposition header are inserted unencoded.",
+    "claim_false": "Filenames are encoded in the response header.",
+    "claim_true": "Filenames will be encoded in the response header.",
+    "token_delta": {
+      "from": "are encoded",
+      "to": "will be encoded"
+    },
+    "decoys": [
+      "A filename with a quote breaks the header.",
+      "No encoding has been applied to the value.",
+      "The raw name reaches the header."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "mid",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'are'->'will be'"
+    ]
+  },
+  {
+    "id": "m45",
+    "domain": "backpressure",
+    "source_fact": "The rate limiter is advisory and logs rather than rejecting.",
+    "claim_false": "Requests over the limit are rejected.",
+    "claim_true": "Requests over the limit will be rejected.",
+    "token_delta": {
+      "from": "are rejected",
+      "to": "will be rejected"
+    },
+    "decoys": [
+      "An over-limit request is served.",
+      "No rejection path has been added.",
+      "Limit breaches produce a log line."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "high",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'are'->'will be'"
+    ]
+  },
+  {
+    "id": "m46",
+    "domain": "rollout",
+    "source_fact": "Rollbacks require a manual image pin; no automatic revert exists.",
+    "claim_false": "A failed deploy has been made to revert automatically.",
+    "claim_true": "A failed deploy will be made to revert automatically.",
+    "token_delta": {
+      "from": "has been made",
+      "to": "will be made"
+    },
+    "decoys": [
+      "A bad deploy stays live until someone acts.",
+      "No automatic revert has been built.",
+      "Rollback is a manual pin."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "low",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'has been'->'will be'"
+    ]
+  },
+  {
+    "id": "m47",
+    "domain": "retention",
+    "source_fact": "Deleted user records are soft-deleted and remain in exports.",
+    "claim_false": "Deleted users are excluded from exports.",
+    "claim_true": "Deleted users will be excluded from exports.",
+    "token_delta": {
+      "from": "are excluded",
+      "to": "will be excluded"
+    },
+    "decoys": [
+      "A deleted user appears in an export file.",
+      "No filter has been applied to the export query.",
+      "Soft deletion leaves the row present."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "high",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'are'->'will be'"
+    ]
+  },
+  {
+    "id": "m48",
+    "domain": "health checks",
+    "source_fact": "Liveness and readiness point at the same handler.",
+    "claim_false": "Liveness has been separated from readiness.",
+    "claim_true": "Liveness will be separated from readiness.",
+    "token_delta": {
+      "from": "has been separated",
+      "to": "will be separated"
+    },
+    "decoys": [
+      "A slow dependency can restart the pod.",
+      "The two probes have not been split.",
+      "One handler answers both probes."
+    ],
+    "family": "tense",
+    "mechanism": "deontic",
+    "kind": "pair",
+    "hyp_band": "low",
+    "edit_ops": 1,
+    "edit_regions": [
+      "'has been'->'will be'"
+    ]
+  }
+]

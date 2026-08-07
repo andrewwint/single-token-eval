@@ -1,0 +1,242 @@
+[
+  {
+    "id": "m01",
+    "claim_true": "The endpoint will reject requests with an unsupported Content-Type.",
+    "claim_false": "The endpoint rejects requests with an unsupported Content-Type."
+  },
+  {
+    "id": "m02",
+    "claim_true": "Long jobs will be handed to the worker pool.",
+    "claim_false": "Long jobs are handed to the worker pool."
+  },
+  {
+    "id": "m03",
+    "claim_true": "The delete route will require an owner role.",
+    "claim_false": "The delete route requires an owner role."
+  },
+  {
+    "id": "m04",
+    "claim_true": "Attachments will be moved to object storage.",
+    "claim_false": "Attachments have been moved to object storage."
+  },
+  {
+    "id": "m05",
+    "claim_true": "Query parameters will be bound rather than interpolated.",
+    "claim_false": "Query parameters are bound rather than interpolated."
+  },
+  {
+    "id": "m06",
+    "claim_true": "Every error will carry a correlation id.",
+    "claim_false": "Every error carries a correlation id."
+  },
+  {
+    "id": "m07",
+    "claim_true": "The legacy password column will be dropped.",
+    "claim_false": "The legacy password column has been dropped."
+  },
+  {
+    "id": "m08",
+    "claim_true": "Cached responses will vary by user.",
+    "claim_false": "Cached responses vary by user."
+  },
+  {
+    "id": "m09",
+    "claim_true": "Internal calls will be authenticated with mTLS.",
+    "claim_false": "Internal calls are authenticated with mTLS."
+  },
+  {
+    "id": "m10",
+    "claim_true": "The importer will commit in batches.",
+    "claim_false": "The importer commits in batches."
+  },
+  {
+    "id": "m11",
+    "claim_true": "A malformed number will be surfaced to the caller.",
+    "claim_false": "A malformed number is surfaced to the caller."
+  },
+  {
+    "id": "m12",
+    "claim_true": "API keys will be loaded from the secrets manager.",
+    "claim_false": "API keys are loaded from the secrets manager."
+  },
+  {
+    "id": "m13",
+    "claim_true": "A repeated charge request will be deduplicated.",
+    "claim_false": "A repeated charge request is deduplicated."
+  },
+  {
+    "id": "m14",
+    "claim_true": "The list endpoint will page its results.",
+    "claim_false": "The list endpoint pages its results."
+  },
+  {
+    "id": "m15",
+    "claim_true": "Search results will be scoped to the caller's tenant.",
+    "claim_false": "Search results are scoped to the caller's tenant."
+  },
+  {
+    "id": "m16",
+    "claim_true": "Outbound calls will time out after five seconds.",
+    "claim_false": "Outbound calls time out after five seconds."
+  },
+  {
+    "id": "m17",
+    "claim_true": "A deletion will be recorded before the row is removed.",
+    "claim_false": "A deletion is recorded before the row is removed."
+  },
+  {
+    "id": "m18",
+    "claim_true": "Concurrent balance updates will be serialised.",
+    "claim_false": "Concurrent balance updates are serialised."
+  },
+  {
+    "id": "m19",
+    "claim_true": "Flag changes will be made to apply without a restart.",
+    "claim_false": "Flag changes have been made to apply without a restart."
+  },
+  {
+    "id": "m20",
+    "claim_true": "User-supplied names will be escaped before rendering.",
+    "claim_false": "User-supplied names are escaped before rendering."
+  },
+  {
+    "id": "m21",
+    "claim_true": "The consumer will apply backpressure under load.",
+    "claim_false": "The consumer applies backpressure under load."
+  },
+  {
+    "id": "m22",
+    "claim_true": "Pricing changes will be rolled out gradually.",
+    "claim_false": "Pricing changes have been rolled out gradually."
+  },
+  {
+    "id": "m23",
+    "claim_true": "Events older than the retention window will be purged.",
+    "claim_false": "Events older than the retention window are purged."
+  },
+  {
+    "id": "m24",
+    "claim_true": "Readiness will reflect the database connection.",
+    "claim_false": "Readiness reflects the database connection."
+  },
+  {
+    "id": "m25",
+    "claim_true": "Media-type dispatch will be wired into the handler.",
+    "claim_false": "Media-type dispatch has been wired into the handler."
+  },
+  {
+    "id": "m26",
+    "claim_true": "Scheduling will be moved to a distributed coordinator.",
+    "claim_false": "Scheduling has been moved to a distributed coordinator."
+  },
+  {
+    "id": "m27",
+    "claim_true": "Permission checks will be centralised in middleware.",
+    "claim_false": "Permission checks have been centralised in middleware."
+  },
+  {
+    "id": "m28",
+    "claim_true": "Stored blobs will be compressed.",
+    "claim_false": "Stored blobs are compressed."
+  },
+  {
+    "id": "m29",
+    "claim_true": "Uploads above the size limit will be refused.",
+    "claim_false": "Uploads above the size limit are refused."
+  },
+  {
+    "id": "m30",
+    "claim_true": "Request latency will be reported to metrics.",
+    "claim_false": "Request latency is reported to metrics."
+  },
+  {
+    "id": "m31",
+    "claim_true": "Writes will be cut over to the new column alone.",
+    "claim_false": "Writes have been cut over to the new column alone."
+  },
+  {
+    "id": "m32",
+    "claim_true": "Cache entries will expire on a fixed TTL.",
+    "claim_false": "Cache entries expire on a fixed TTL."
+  },
+  {
+    "id": "m33",
+    "claim_true": "Client errors will be excluded from retries.",
+    "claim_false": "Client errors are excluded from retries."
+  },
+  {
+    "id": "m34",
+    "claim_true": "Metric writes will be batched before flush.",
+    "claim_false": "Metric writes have been batched before flush."
+  },
+  {
+    "id": "m35",
+    "claim_true": "Ambiguous date strings will be rejected.",
+    "claim_false": "Ambiguous date strings are rejected."
+  },
+  {
+    "id": "m36",
+    "claim_true": "Tokens will be truncated in log output.",
+    "claim_false": "Tokens are truncated in log output."
+  },
+  {
+    "id": "m37",
+    "claim_true": "A dedupe store will be added to the receipt path.",
+    "claim_false": "A dedupe store has been added to the receipt path."
+  },
+  {
+    "id": "m38",
+    "claim_true": "Pagination will be moved to cursors.",
+    "claim_false": "Pagination has been moved to cursors."
+  },
+  {
+    "id": "m39",
+    "claim_true": "Background jobs will carry a tenant context.",
+    "claim_false": "Background jobs carry a tenant context."
+  },
+  {
+    "id": "m40",
+    "claim_true": "The retry budget will be made per request.",
+    "claim_false": "The retry budget has been made per request."
+  },
+  {
+    "id": "m41",
+    "claim_true": "Admin actions will be distinguishable in the log.",
+    "claim_false": "Admin actions are distinguishable in the log."
+  },
+  {
+    "id": "m42",
+    "claim_true": "Pool size will be made responsive to queue depth.",
+    "claim_false": "Pool size has been made responsive to queue depth."
+  },
+  {
+    "id": "m43",
+    "claim_true": "A configuration error will stop startup.",
+    "claim_false": "A configuration error stops startup."
+  },
+  {
+    "id": "m44",
+    "claim_true": "Filenames will be encoded in the response header.",
+    "claim_false": "Filenames are encoded in the response header."
+  },
+  {
+    "id": "m45",
+    "claim_true": "Requests over the limit will be rejected.",
+    "claim_false": "Requests over the limit are rejected."
+  },
+  {
+    "id": "m46",
+    "claim_true": "A failed deploy will be made to revert automatically.",
+    "claim_false": "A failed deploy has been made to revert automatically."
+  },
+  {
+    "id": "m47",
+    "claim_true": "Deleted users will be excluded from exports.",
+    "claim_false": "Deleted users are excluded from exports."
+  },
+  {
+    "id": "m48",
+    "claim_true": "Liveness will be separated from readiness.",
+    "claim_false": "Liveness has been separated from readiness."
+  }
+]
