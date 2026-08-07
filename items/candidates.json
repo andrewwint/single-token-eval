@@ -214,5 +214,81 @@
       "The wrapper covers one client and not the other."
     ],
     "family": "tense"
+  },
+  {
+    "id": "p05",
+    "polarity_axis": "present",
+    "construction_hypothesis": "intended-to vs does",
+    "source_fact": "The scrubber replaces the email field only. Phone numbers pass through to the analytics sink unchanged.",
+    "claim_false": "The scrubber removes personal identifiers before export.",
+    "claim_true": "The scrubber is intended to remove personal identifiers before export.",
+    "token_delta": {
+      "from": "removes",
+      "to": "is intended to remove"
+    },
+    "decoys": [
+      "A phone number reaches the analytics sink.",
+      "Only the email field is rewritten.",
+      "Export happens after the scrubber runs."
+    ],
+    "split_true": 0.5,
+    "split_false": 0.0
+  },
+  {
+    "id": "p06",
+    "polarity_axis": "present",
+    "construction_hypothesis": "should vs does",
+    "source_fact": "Webhook retries are attempted three times with no jitter. Concurrent failures therefore retry in lockstep.",
+    "claim_false": "Retries are spread out to avoid synchronised bursts.",
+    "claim_true": "Retries should be spread out to avoid synchronised bursts.",
+    "token_delta": {
+      "from": "are",
+      "to": "should be"
+    },
+    "decoys": [
+      "Three attempts are made per webhook.",
+      "No jitter is applied between attempts.",
+      "Simultaneous failures retry together."
+    ],
+    "split_true": 0.0,
+    "split_false": 0.1
+  },
+  {
+    "id": "p07",
+    "polarity_axis": "present",
+    "construction_hypothesis": "aims-to vs does",
+    "source_fact": "The cache is invalidated on write to the primary table only. Rows changed by the nightly batch job stay cached until TTL.",
+    "claim_false": "The cache reflects the current state of the underlying rows.",
+    "claim_true": "The cache aims to reflect the current state of the underlying rows.",
+    "token_delta": {
+      "from": "reflects",
+      "to": "aims to reflect"
+    },
+    "decoys": [
+      "A batch-updated row can be served stale.",
+      "Writes to the primary table clear the cache.",
+      "TTL expiry is the only other eviction path."
+    ],
+    "split_true": 0.3,
+    "split_false": 0.0
+  },
+  {
+    "id": "p08",
+    "polarity_axis": "present",
+    "construction_hypothesis": "policy-is vs behaviour-is",
+    "source_fact": "The deploy pipeline runs the test suite and continues on failure. The exit code of the test step is discarded.",
+    "claim_false": "A failing test blocks the deploy.",
+    "claim_true": "Policy is that a failing test blocks the deploy.",
+    "token_delta": {
+      "from": "A failing test blocks",
+      "to": "Policy is that a failing test blocks"
+    },
+    "decoys": [
+      "The test step's exit code is not checked.",
+      "A deploy proceeds after a red suite.",
+      "Tests do run in the pipeline."
+    ],
+    "split_true": 0.5,
+    "split_false": 0.2
   }
 ]

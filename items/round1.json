@@ -1,0 +1,358 @@
+[
+  {
+    "id": "f01",
+    "polarity_axis": "future",
+    "construction_hypothesis": "change-event",
+    "source_fact": "The ingest worker writes records to Postgres synchronously on each request. A queue module exists in queue.py and no request path imports it.",
+    "claim_false": "The ingest worker has been moved onto the queue.",
+    "claim_true": "The ingest worker will be moved onto the queue.",
+    "token_delta": {
+      "from": "has been",
+      "to": "will be"
+    },
+    "decoys": [
+      "Records reach Postgres during the request that submitted them.",
+      "queue.py is imported by no request path.",
+      "A slow database write delays the caller."
+    ],
+    "family": "tense",
+    "split_true": 0.4,
+    "split_false": 0.0,
+    "ambiguity_stratum": "mid",
+    "kind": "pair",
+    "inverted_gold": "CONTRADICTED",
+    "truthful_gold": "NOT_DETERMINABLE"
+  },
+  {
+    "id": "f02",
+    "polarity_axis": "future",
+    "construction_hypothesis": "perfect aspect",
+    "source_fact": "Deploy scripts copy secrets into the container environment at build time. A secrets-manager client is vendored and unreferenced.",
+    "claim_false": "Secrets have been removed from the build environment.",
+    "claim_true": "Secrets will have been removed from the build environment.",
+    "token_delta": {
+      "from": "have",
+      "to": "will have"
+    },
+    "decoys": [
+      "A built image carries secret values in its environment.",
+      "The vendored secrets-manager client is called from nowhere.",
+      "Build-time copying is how secrets arrive."
+    ],
+    "family": "tense",
+    "split_true": 0.1,
+    "split_false": 0.0,
+    "ambiguity_stratum": "low",
+    "kind": "pair",
+    "inverted_gold": "CONTRADICTED",
+    "truthful_gold": "NOT_DETERMINABLE"
+  },
+  {
+    "id": "f03",
+    "polarity_axis": "future",
+    "construction_hypothesis": "deontic bare will",
+    "source_fact": "The report endpoint returns every column of the underlying view. No column allow-list is applied and no field is dropped.",
+    "claim_false": "The report endpoint omits internal columns from its response.",
+    "claim_true": "The report endpoint will omit internal columns from its response.",
+    "token_delta": {
+      "from": "omits",
+      "to": "will omit"
+    },
+    "decoys": [
+      "A caller receives internal columns it did not ask for.",
+      "No allow-list governs the response shape.",
+      "The underlying view determines what is returned."
+    ],
+    "family": "tense",
+    "split_true": 0.7,
+    "split_false": 0.0,
+    "ambiguity_stratum": "high",
+    "kind": "pair",
+    "inverted_gold": "CONTRADICTED",
+    "truthful_gold": "NOT_DETERMINABLE"
+  },
+  {
+    "id": "f05",
+    "polarity_axis": "future",
+    "construction_hypothesis": "no-longer presupposition",
+    "source_fact": "The session middleware reads the legacy cookie before the signed one and returns on the first match. Both code paths are live.",
+    "claim_false": "The middleware no longer reads the legacy cookie.",
+    "claim_true": "The middleware will no longer read the legacy cookie.",
+    "token_delta": {
+      "from": "no longer reads",
+      "to": "will no longer read"
+    },
+    "decoys": [
+      "A request carrying only the legacy cookie authenticates.",
+      "The legacy branch is evaluated before the signed one.",
+      "Two cookie formats are accepted."
+    ],
+    "family": "tense",
+    "split_true": 0.8,
+    "split_false": 0.0,
+    "ambiguity_stratum": "high",
+    "kind": "pair",
+    "inverted_gold": "CONTRADICTED",
+    "truthful_gold": "NOT_DETERMINABLE"
+  },
+  {
+    "id": "f06",
+    "polarity_axis": "future",
+    "construction_hypothesis": "passive change",
+    "source_fact": "Uploaded archives are extracted to a shared temp directory without path checks. A sanitiser function is defined and unused.",
+    "claim_false": "Archive members are checked against traversal before extraction.",
+    "claim_true": "Archive members will be checked against traversal before extraction.",
+    "token_delta": {
+      "from": "are",
+      "to": "will be"
+    },
+    "decoys": [
+      "An archive entry can write outside the extraction directory.",
+      "The sanitiser is defined but reached by no caller.",
+      "Extraction targets a directory shared across uploads."
+    ],
+    "family": "tense",
+    "split_true": 0.5,
+    "split_false": 0.0,
+    "ambiguity_stratum": "mid",
+    "kind": "pair",
+    "inverted_gold": "CONTRADICTED",
+    "truthful_gold": "NOT_DETERMINABLE"
+  },
+  {
+    "id": "f07",
+    "polarity_axis": "future",
+    "construction_hypothesis": "deontic capability",
+    "source_fact": "The audit trail records the actor id and the action name. No before/after values are captured for any field.",
+    "claim_false": "The audit trail supports reconstructing a changed record.",
+    "claim_true": "The audit trail will support reconstructing a changed record.",
+    "token_delta": {
+      "from": "supports",
+      "to": "will support"
+    },
+    "decoys": [
+      "An audit row names who acted and what they did.",
+      "Field values are absent from audit rows.",
+      "Reconstruction would require data the trail omits."
+    ],
+    "family": "tense",
+    "split_true": 0.3,
+    "split_false": 0.0,
+    "ambiguity_stratum": "mid",
+    "kind": "pair",
+    "inverted_gold": "CONTRADICTED",
+    "truthful_gold": "NOT_DETERMINABLE"
+  },
+  {
+    "id": "f08",
+    "polarity_axis": "future",
+    "construction_hypothesis": "change-event explicit",
+    "source_fact": "Rate limits are stored per process in memory. Two replicas therefore permit twice the configured rate.",
+    "claim_false": "Rate limit state has been centralised in Redis.",
+    "claim_true": "Rate limit state will be centralised in Redis.",
+    "token_delta": {
+      "from": "has been",
+      "to": "will be"
+    },
+    "decoys": [
+      "Scaling out multiplies the effective limit.",
+      "Each replica keeps its own counters.",
+      "No shared store backs the limiter."
+    ],
+    "family": "tense",
+    "split_true": 0.1,
+    "split_false": 0.0,
+    "ambiguity_stratum": "low",
+    "kind": "pair",
+    "inverted_gold": "CONTRADICTED",
+    "truthful_gold": "NOT_DETERMINABLE"
+  },
+  {
+    "id": "p01",
+    "polarity_axis": "present",
+    "construction_hypothesis": "capability vs active",
+    "source_fact": "TLS 1.3 is compiled into the server binary. The listener config pins the maximum version to TLS 1.2.",
+    "claim_false": "The server negotiates TLS 1.3 with clients.",
+    "claim_true": "The server supports TLS 1.3.",
+    "token_delta": {
+      "from": "negotiates",
+      "to": "supports"
+    },
+    "decoys": [
+      "The binary contains TLS 1.3 code.",
+      "A client offering TLS 1.3 is answered at 1.2.",
+      "The listener config caps the protocol version."
+    ],
+    "family": "tense",
+    "split_true": 0.0,
+    "split_false": 0.2,
+    "ambiguity_stratum": "low",
+    "kind": "pair",
+    "inverted_gold": "CONTRADICTED",
+    "truthful_gold": "NOT_DETERMINABLE"
+  },
+  {
+    "id": "p02",
+    "polarity_axis": "present",
+    "construction_hypothesis": "designed-to vs does",
+    "source_fact": "The dedupe key is computed from the payload body only. Two identical bodies sent an hour apart collapse to one record.",
+    "claim_false": "The pipeline distinguishes a genuine repeat submission from a duplicate.",
+    "claim_true": "The pipeline is designed to distinguish a genuine repeat submission from a duplicate.",
+    "token_delta": {
+      "from": "distinguishes",
+      "to": "is designed to distinguish"
+    },
+    "decoys": [
+      "The dedupe key ignores submission time.",
+      "Identical bodies produce one record.",
+      "Body content alone determines the key."
+    ],
+    "family": "tense",
+    "split_true": 0.6,
+    "split_false": 0.0,
+    "ambiguity_stratum": "high",
+    "kind": "pair",
+    "inverted_gold": "CONTRADICTED",
+    "truthful_gold": "NOT_DETERMINABLE"
+  },
+  {
+    "id": "p03",
+    "polarity_axis": "present",
+    "construction_hypothesis": "configured-to vs enforced",
+    "source_fact": "The IAM policy grants s3:GetObject on the whole bucket. A prefix condition is present in a commented-out block.",
+    "claim_false": "The policy restricts reads to the tenant's own prefix.",
+    "claim_true": "The policy is configured to restrict reads to the tenant's own prefix.",
+    "token_delta": {
+      "from": "restricts",
+      "to": "is configured to restrict"
+    },
+    "decoys": [
+      "The grant covers every object in the bucket.",
+      "A prefix condition exists only in a comment.",
+      "Any tenant's object is readable under this policy."
+    ],
+    "family": "tense",
+    "split_true": 0.4,
+    "split_false": 0.2,
+    "ambiguity_stratum": "mid",
+    "kind": "pair",
+    "inverted_gold": "CONTRADICTED",
+    "truthful_gold": "NOT_DETERMINABLE"
+  },
+  {
+    "id": "p04",
+    "polarity_axis": "present",
+    "construction_hypothesis": "habitual vs actual",
+    "source_fact": "The retry wrapper is applied to the outbound HTTP client but not to the database client. Database timeouts surface directly to the caller.",
+    "claim_false": "Transient failures are retried across the service.",
+    "claim_true": "Transient failures are generally retried across the service.",
+    "token_delta": {
+      "from": "are",
+      "to": "are generally"
+    },
+    "decoys": [
+      "Outbound HTTP calls are wrapped in retries.",
+      "A database timeout reaches the caller unretried.",
+      "The wrapper covers one client and not the other."
+    ],
+    "family": "tense",
+    "split_true": 0.0,
+    "split_false": 0.0,
+    "ambiguity_stratum": "low",
+    "kind": "pair",
+    "inverted_gold": "CONTRADICTED",
+    "truthful_gold": "NOT_DETERMINABLE"
+  },
+  {
+    "id": "p05",
+    "polarity_axis": "present",
+    "construction_hypothesis": "intended-to vs does",
+    "source_fact": "The scrubber replaces the email field only. Phone numbers pass through to the analytics sink unchanged.",
+    "claim_false": "The scrubber removes personal identifiers before export.",
+    "claim_true": "The scrubber is intended to remove personal identifiers before export.",
+    "token_delta": {
+      "from": "removes",
+      "to": "is intended to remove"
+    },
+    "decoys": [
+      "A phone number reaches the analytics sink.",
+      "Only the email field is rewritten.",
+      "Export happens after the scrubber runs."
+    ],
+    "split_true": 0.5,
+    "split_false": 0.0,
+    "ambiguity_stratum": "mid",
+    "kind": "pair",
+    "inverted_gold": "CONTRADICTED",
+    "truthful_gold": "NOT_DETERMINABLE"
+  },
+  {
+    "id": "p06",
+    "polarity_axis": "present",
+    "construction_hypothesis": "should vs does",
+    "source_fact": "Webhook retries are attempted three times with no jitter. Concurrent failures therefore retry in lockstep.",
+    "claim_false": "Retries are spread out to avoid synchronised bursts.",
+    "claim_true": "Retries should be spread out to avoid synchronised bursts.",
+    "token_delta": {
+      "from": "are",
+      "to": "should be"
+    },
+    "decoys": [
+      "Three attempts are made per webhook.",
+      "No jitter is applied between attempts.",
+      "Simultaneous failures retry together."
+    ],
+    "split_true": 0.0,
+    "split_false": 0.1,
+    "ambiguity_stratum": "low",
+    "kind": "pair",
+    "inverted_gold": "CONTRADICTED",
+    "truthful_gold": "NOT_DETERMINABLE"
+  },
+  {
+    "id": "p07",
+    "polarity_axis": "present",
+    "construction_hypothesis": "aims-to vs does",
+    "source_fact": "The cache is invalidated on write to the primary table only. Rows changed by the nightly batch job stay cached until TTL.",
+    "claim_false": "The cache reflects the current state of the underlying rows.",
+    "claim_true": "The cache aims to reflect the current state of the underlying rows.",
+    "token_delta": {
+      "from": "reflects",
+      "to": "aims to reflect"
+    },
+    "decoys": [
+      "A batch-updated row can be served stale.",
+      "Writes to the primary table clear the cache.",
+      "TTL expiry is the only other eviction path."
+    ],
+    "split_true": 0.3,
+    "split_false": 0.0,
+    "ambiguity_stratum": "mid",
+    "kind": "pair",
+    "inverted_gold": "CONTRADICTED",
+    "truthful_gold": "NOT_DETERMINABLE"
+  },
+  {
+    "id": "p08",
+    "polarity_axis": "present",
+    "construction_hypothesis": "policy-is vs behaviour-is",
+    "source_fact": "The deploy pipeline runs the test suite and continues on failure. The exit code of the test step is discarded.",
+    "claim_false": "A failing test blocks the deploy.",
+    "claim_true": "Policy is that a failing test blocks the deploy.",
+    "token_delta": {
+      "from": "A failing test blocks",
+      "to": "Policy is that a failing test blocks"
+    },
+    "decoys": [
+      "The test step's exit code is not checked.",
+      "A deploy proceeds after a red suite.",
+      "Tests do run in the pipeline."
+    ],
+    "split_true": 0.5,
+    "split_false": 0.2,
+    "ambiguity_stratum": "mid",
+    "kind": "pair",
+    "inverted_gold": "CONTRADICTED",
+    "truthful_gold": "NOT_DETERMINABLE"
+  }
+]
