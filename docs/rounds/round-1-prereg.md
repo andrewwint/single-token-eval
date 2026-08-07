@@ -110,7 +110,25 @@ proceeding?"* has room to move where a 1–5 rating and a boolean do not.
    Gate thresholds are **|diff| > 0.15 aspect, > 0.20 negation**. The current pre-fill negation
    figure is **0.07 vs 0.20, |diff| 0.13 — inside the gate but near the line**, and at 15 false
    claims that is roughly one item against three, movable by any single swap.
-7. Bands that cannot be filled are **reported as unfilled**. Back-filling from an adjacent band
+7. **The outside cold read GATES band assignment.** Blind measurement may run concurrently — the
+   split scores are a property of the sentences and knowing them cannot change what the reader is
+   shown — but **no item enters the frozen set until the read returns**. A check that cannot stop
+   anything is not a check, so the ordering is: measure → hold → read → assign bands → re-run cue
+   audit → freeze.
+
+   What the read is for, and why it is not redundant with H3: `build_items` verifies that the
+   declared `token_delta` accounts for the string difference. It **cannot detect that a `claim_true`
+   accidentally reads as asserting about the present** — the deontic failure that killed `tense-02`.
+   No automated check in this repo catches that, and the blind split detects it only as a number
+   without saying which member caused it.
+
+8. **`claim_false` splits are a reported control, not a by-product.** Both members of every pair are
+   measured. If false members split high on the same items as their true twins, `split` is tracking
+   future-tense marking or item weirdness rather than ambiguity, and the factor is not what the
+   design assumes. The false-member distribution is reported alongside the true-member bands, and a
+   correlation between the two across items is a **STOP condition**.
+
+9. Bands that cannot be filled are **reported as unfilled**. Back-filling from an adjacent band
    would flatten the factor. A construction that resists landing mid-range is itself a finding.
 
 ## Thresholds — pinned, and unchangeable after data
