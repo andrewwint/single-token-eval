@@ -9,6 +9,7 @@ Four of eight tests could not fail the last time this discipline was skipped in 
 from __future__ import annotations
 
 import sys
+from pathlib import Path
 
 from harness.inversion_score import score
 from harness.stats import hypergeom_tail, pair_threshold, wilson_ci
@@ -169,6 +170,72 @@ def test_majority_needs_strict_majority():
     assert cell(score(rows))["discrimination"] == 0.0
 
 
+def test_hit_is_pinned_to_the_target_claim():
+    """The single most load-bearing line in the scorer: a flag on a DECOY is not a catch.
+
+    Review mutation `hit = bool(d["flagged"])` survived the whole suite — a model flagging only
+    decoys scored as a catch and nothing noticed."""
+    r = score([draw("inverted", ["C1", "C2"]), draw("truthful", [])])   # decoys only, never C3
+    assert cell(r)["discrimination"] == 0.0, "flagging decoys scored as a catch"
+    assert cell(r)["miss"] == 1
+
+
+def test_headline_denominator_is_pairs():
+    """Mutation `rate = disc / n_false` survived — the headline denominator was unpinned."""
+    rows = ([draw("inverted", ["C3"], item="a"), draw("truthful", [], item="a")] +
+            [draw("inverted", [], item="b"), draw("truthful", [], item="b")])
+    c = cell(score(rows))
+    assert c["n_pairs"] == 2 and c["discrimination"] == 0.5, c
+
+
+def test_component_rate_denominators_are_distinct():
+    """Mutations `flag_false / n` and `flag_true -> flag_false` both survived."""
+    # flag_false MUST differ from flag_true or reading the wrong counter is a no-op.
+    rows = ([draw("inverted", ["C3"], item="a"), draw("truthful", ["C3"], item="a")] +   # 1,1
+            [draw("inverted", ["C3"], item="b"), draw("truthful", [], item="b")] +       # 1,0
+            [draw("inverted", ["C3"], item="c"), draw("truthful", [], item="c")] +       # 1,0
+            [draw("inverted", ["C3"], item="d"), draw("truthful", [], item="d")])        # 1,0
+    c = cell(score(rows))
+    assert c["flag_rate_false_member"] == 1.0, c
+    assert c["flag_rate_true_member"] == 0.25, f"reads the false counter: {c}"
+
+
+def test_wilson_ci_is_not_argument_swapped():
+    """Mutation `wilson_ci(n, n)` — must use disc != n, or the mutation is a no-op."""
+    rows = ([x for i in "ab" for x in (draw("inverted", ["C3"], item=i), draw("truthful", [], item=i))] +
+            [x for i in "cd" for x in (draw("inverted", [], item=i), draw("truthful", [], item=i))])
+    c = cell(score(rows))
+    assert c["discrimination"] == 0.5 and c["n_pairs"] == 4
+    assert c["ci95"][1] < 0.9, f"wilson_ci(4,4) would give ~1.0; got {c['ci95']}"
+
+
+def test_clear_cutoff_is_pinned_from_both_sides():
+    """Mutation `CLEAR_LEVELS = {5}` survived — the cutoff was pinned only from below."""
+    r = score([draw("inverted", [], clarity=3, needs_info=False),
+               draw("truthful", [], clarity=3, needs_info=False)])
+    assert cell(r)["gap"]["clear_wrong"] == 1, "clarity 3 must count as clear"
+
+
+def test_needs_more_information_alone_makes_it_unclear():
+    """Mutation dropping `needs_more_information` survived — it was pinned only via clarity."""
+    r = score([draw("inverted", [], clarity=5, needs_info=True),
+               draw("truthful", [], clarity=5, needs_info=True)])
+    g = cell(r)["gap"]
+    assert g["clear_wrong"] == 0 and g["unclear_wrong"] == 1, g
+
+
+def test_guard_partitions_per_cell_not_globally():
+    """Mutation aggregating the guard across regime+placement survived."""
+    rows = ([draw("inverted", ["C3"], model="a"), draw("truthful", [], model="a")] +
+            [draw("inverted", [], model="b"), draw("truthful", [], model="b")] +
+            [draw("inverted", ["C3"], model="a", placement="in-diff"),
+             draw("truthful", [], model="a", placement="in-diff")])
+    g = score(rows)["discrimination_guard"]
+    assert set(g) == {"R0/out-of-diff", "R0/in-diff"}, set(g)
+    assert g["R0/out-of-diff"]["discriminating"] is True
+    assert g["R0/in-diff"]["discriminating"] is False
+
+
 def test_stats_are_right():
     assert round(hypergeom_tail(48, 12, 12, 7), 4) == 0.0047
     assert pair_threshold(48, 12)[0] == 7
@@ -187,6 +254,11 @@ def run() -> int:
         except AssertionError as e:
             print(f"FAIL {t.__name__}: {e}")
             fails += 1
+        except Exception as e:
+            # A mutant that CRASHES the suite is killed, not an abort. Counting only AssertionError
+            # let a crashing mutant escape and silently truncate the sweep at that point.
+            print(f"ERROR {t.__name__}: {type(e).__name__}: {e}")
+            fails += 1
     print(f"{len(TESTS) - fails}/{len(TESTS)} passed")
     return fails
 
@@ -194,28 +266,85 @@ def run() -> int:
 def mutate() -> int:
     """Break scoring on purpose; every mutant must kill at least one test.
 
-    A mutant that no test catches means that branch is unguarded — the test suite asserts nothing
-    about it, and a regression there would ship silently.
+    The mutant list is the one an independent review used to find 10 survivors in the original
+    suite. Keeping their exact mutants here is what stops the fixes from silently regressing.
     """
     import harness.inversion_score as m
 
-    survivors = []
+    orig = {"maj": m._majority, "clear": m.CLEAR_LEVELS, "score": m.score}
+    src = Path(m.__file__).read_text()
+
+    def patched(old_line, new_line):
+        """Recompile the module with one line swapped — covers mutants no monkeypatch can reach."""
+        import types
+        assert old_line in src, f"mutant anchor missing: {old_line!r}"
+        mod = types.ModuleType("mutant")
+        mod.__dict__["__file__"] = m.__file__
+        exec(compile(src.replace(old_line, new_line, 1), m.__file__, "exec"), mod.__dict__)
+        return mod.score
+
     mutants = {
         "majority: >= instead of strict >":
             lambda: setattr(m, "_majority", lambda v: None if not v else sum(v) * 2 >= len(v)),
-        "clear-levels: treat every clarity as clear":
+        "clear-levels: every clarity counts as clear":
             lambda: setattr(m, "CLEAR_LEVELS", {1, 2, 3, 4, 5}),
+        "clear-levels: only 5 counts as clear":
+            lambda: setattr(m, "CLEAR_LEVELS", {5}),
+        "hit ignores the target claim":
+            lambda: setattr(m, "score", patched(
+                'hit = d["target_claim"] in d.get("flagged", [])',
+                'hit = bool(d.get("flagged", []))')),
+        "wilson_ci arguments swapped":
+            lambda: setattr(m, "score", patched(
+                'ci = [round(x, 3) for x in wilson_ci(s["disc"], s["n"])] if s["n"] else None',
+                'ci = [round(x, 3) for x in wilson_ci(s["n"], s["n"])] if s["n"] else None')),
+        # EQUIVALENT MUTANTS, deliberately retired: after the M1 fix `n_false`, `n_true` and `n` are
+        # incremented together for exactly the scored pairs, so swapping them cannot change any
+        # output. An equivalent mutant surviving is not an untested branch, and pretending otherwise
+        # by writing a test that cannot distinguish them would be theatre.
+        #   - "headline denominator is n_false"
+        #   - "false-member rate over pair count"
+        "true-member rate reads the false counter":
+            lambda: setattr(m, "score", patched(
+                '"flag_rate_true_member": round(s["flag_true"] / s["n_true"], 3) if s["n_true"] else None',
+                '"flag_rate_true_member": round(s["flag_false"] / s["n_true"], 3) if s["n_true"] else None')),
+        "clear ignores needs_more_information":
+            lambda: setattr(m, "score", patched(
+                'clear = (sr.get("clarity") in CLEAR_LEVELS\n                 and not sr.get("needs_more_information", False))',
+                'clear = sr.get("clarity") in CLEAR_LEVELS')),
+        "missing-member guard removed":
+            lambda: setattr(m, "score", patched(
+                "            if inv is None or tru is None:\n                continue\n",
+                "            if False:\n                continue\n")),
+        "guard aggregated across regime and placement":
+            lambda: setattr(m, "score", patched(
+                'if c["regime"] == reg and c["placement"] == pl\n                 and c["discrimination"] is not None}',
+                'if c["discrimination"] is not None}')),
+        "reverse-singles pooled back into discrimination":
+            lambda: setattr(m, "score", patched(
+                '                if inv is not None:\n                    s["single_n"] += 1\n                    s["single_hit"] += int(inv)\n                continue',
+                '                s["n"] += 1\n                s["disc"] += int(bool(inv))\n                continue')),
     }
-    orig_maj, orig_clear = m._majority, m.CLEAR_LEVELS
+
+    survivors = []
     for name, apply in mutants.items():
-        apply()
+        try:
+            apply()
+        except AssertionError as e:
+            print(f"  mutant SKIPPED (anchor moved) — {name}: {e}")
+            continue
+        import harness.tests.test_inversion_score as self_mod
+        self_mod.score = m.score
+        globals()["score"] = m.score
         killed = run() > 0
-        m._majority, m.CLEAR_LEVELS = orig_maj, orig_clear
-        print(f"  mutant {'KILLED ' if killed else 'SURVIVED'} — {name}\n")
+        m._majority, m.CLEAR_LEVELS, m.score = orig["maj"], orig["clear"], orig["score"]
+        globals()["score"] = orig["score"]
+        print(f"  {'KILLED  ' if killed else 'SURVIVED'} {name}")
         if not killed:
             survivors.append(name)
+    print(f"\n{len(mutants) - len(survivors)}/{len(mutants)} mutants killed")
     if survivors:
-        print(f"UNGUARDED BRANCHES: {survivors}")
+        print(f"UNGUARDED: {survivors}")
     return len(survivors)
 
 
