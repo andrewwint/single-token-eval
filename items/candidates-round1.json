@@ -21,7 +21,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'rejects'->'will reject'"
-    ]
+    ],
+    "split_true": 0.7,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.8,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "m02",
@@ -45,7 +53,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'are'->'will be'"
-    ]
+    ],
+    "split_true": 0.8,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.4,
+      "nova-micro": 0.8
+    }
   },
   {
     "id": "m03",
@@ -69,7 +85,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'requires'->'will require'"
-    ]
+    ],
+    "split_true": 0.2,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.4,
+      "nova-micro": 0.4
+    }
   },
   {
     "id": "m04",
@@ -93,7 +117,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'have been'->'will be'"
-    ]
+    ],
+    "split_true": 0.9,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.4,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.4,
+      "nova-micro": 0.8
+    }
   },
   {
     "id": "m05",
@@ -117,7 +149,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'are'->'will be'"
-    ]
+    ],
+    "split_true": 0.8,
+    "split_false": 0.1,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.4,
+      "nova-micro": 0.8
+    }
   },
   {
     "id": "m06",
@@ -141,7 +181,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'carries'->'will carry'"
-    ]
+    ],
+    "split_true": 0.1,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.4
+    }
   },
   {
     "id": "m07",
@@ -165,7 +213,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'has been'->'will be'"
-    ]
+    ],
+    "split_true": 0.0,
+    "split_false": 0.3,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "m08",
@@ -189,7 +245,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "''->'will'"
-    ]
+    ],
+    "split_true": 0.5,
+    "split_false": 0.2,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "m09",
@@ -213,7 +277,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'are'->'will be'"
-    ]
+    ],
+    "split_true": 0.7,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.8
+    }
   },
   {
     "id": "m10",
@@ -237,7 +309,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'commits'->'will commit'"
-    ]
+    ],
+    "split_true": 0.6,
+    "split_false": 0.2,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.4,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "m11",
@@ -261,7 +341,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'is'->'will be'"
-    ]
+    ],
+    "split_true": 0.3,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.8
+    }
   },
   {
     "id": "m12",
@@ -285,7 +373,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'are'->'will be'"
-    ]
+    ],
+    "split_true": 0.5,
+    "split_false": 0.2,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.4,
+      "nova-micro": 0.4
+    }
   },
   {
     "id": "m13",
@@ -309,7 +405,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'is'->'will be'"
-    ]
+    ],
+    "split_true": 0.0,
+    "split_false": 0.1,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "m14",
@@ -333,7 +437,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'pages'->'will page'"
-    ]
+    ],
+    "split_true": 0.9,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.8,
+      "nova-micro": 0.4
+    }
   },
   {
     "id": "m15",
@@ -357,7 +469,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'are'->'will be'"
-    ]
+    ],
+    "split_true": 0.9,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.8,
+      "nova-micro": 0.4
+    }
   },
   {
     "id": "m16",
@@ -381,7 +501,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "''->'will'"
-    ]
+    ],
+    "split_true": 0.6,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.4
+    }
   },
   {
     "id": "m17",
@@ -405,7 +533,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'is'->'will be'"
-    ]
+    ],
+    "split_true": 0.0,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "m18",
@@ -429,7 +565,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'are'->'will be'"
-    ]
+    ],
+    "split_true": 0.6,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.4,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.8
+    }
   },
   {
     "id": "m19",
@@ -453,7 +597,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'have been'->'will be'"
-    ]
+    ],
+    "split_true": 0.7,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.8
+    }
   },
   {
     "id": "m20",
@@ -477,7 +629,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'are'->'will be'"
-    ]
+    ],
+    "split_true": 0.0,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "m21",
@@ -501,7 +661,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'applies'->'will apply'"
-    ]
+    ],
+    "split_true": 0.8,
+    "split_false": 0.1,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.8,
+      "nova-micro": 0.4
+    }
   },
   {
     "id": "m22",
@@ -525,7 +693,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'have been'->'will be'"
-    ]
+    ],
+    "split_true": 0.3,
+    "split_false": 0.2,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.8,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "m23",
@@ -549,7 +725,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'are'->'will be'"
-    ]
+    ],
+    "split_true": 0.5,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "m24",
@@ -573,7 +757,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'reflects'->'will reflect'"
-    ]
+    ],
+    "split_true": 0.9,
+    "split_false": 0.3,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.4
+    }
   },
   {
     "id": "m25",
@@ -597,7 +789,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'has been'->'will be'"
-    ]
+    ],
+    "split_true": 0.5,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.8,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.8,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "m26",
@@ -621,7 +821,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'has been'->'will be'"
-    ]
+    ],
+    "split_true": 0.0,
+    "split_false": 0.2,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "m27",
@@ -645,7 +853,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'have been'->'will be'"
-    ]
+    ],
+    "split_true": 0.0,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "m28",
@@ -669,7 +885,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'are'->'will be'"
-    ]
+    ],
+    "split_true": 0.5,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "m29",
@@ -693,7 +917,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'are'->'will be'"
-    ]
+    ],
+    "split_true": 0.0,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "m30",
@@ -717,7 +949,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'is'->'will be'"
-    ]
+    ],
+    "split_true": 0.4,
+    "split_false": 0.2,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.4,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "m31",
@@ -741,7 +981,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'have been'->'will be'"
-    ]
+    ],
+    "split_true": 0.4,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.4,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "m32",
@@ -765,7 +1013,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "''->'will'"
-    ]
+    ],
+    "split_true": 0.7,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.8
+    }
   },
   {
     "id": "m33",
@@ -789,7 +1045,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'are'->'will be'"
-    ]
+    ],
+    "split_true": 0.1,
+    "split_false": 0.3,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.4
+    }
   },
   {
     "id": "m34",
@@ -813,7 +1077,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'have been'->'will be'"
-    ]
+    ],
+    "split_true": 0.5,
+    "split_false": 0.1,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "m35",
@@ -837,7 +1109,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'are'->'will be'"
-    ]
+    ],
+    "split_true": 0.5,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "m36",
@@ -861,7 +1141,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'are'->'will be'"
-    ]
+    ],
+    "split_true": 0.7,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.8
+    }
   },
   {
     "id": "m37",
@@ -885,7 +1173,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'has been'->'will be'"
-    ]
+    ],
+    "split_true": 0.0,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "m38",
@@ -909,7 +1205,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'has been'->'will be'"
-    ]
+    ],
+    "split_true": 0.0,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "m39",
@@ -933,7 +1237,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "''->'will'"
-    ]
+    ],
+    "split_true": 0.5,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "m40",
@@ -957,7 +1269,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'has been'->'will be'"
-    ]
+    ],
+    "split_true": 0.6,
+    "split_false": 0.2,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.4,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "m41",
@@ -981,7 +1301,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'are'->'will be'"
-    ]
+    ],
+    "split_true": 0.9,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.4
+    }
   },
   {
     "id": "m42",
@@ -1005,7 +1333,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'has been'->'will be'"
-    ]
+    ],
+    "split_true": 0.2,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.8,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "m43",
@@ -1029,7 +1365,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'stops'->'will stop'"
-    ]
+    ],
+    "split_true": 0.1,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.4
+    }
   },
   {
     "id": "m44",
@@ -1053,7 +1397,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'are'->'will be'"
-    ]
+    ],
+    "split_true": 1.0,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.4,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.4
+    }
   },
   {
     "id": "m45",
@@ -1077,7 +1429,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'are'->'will be'"
-    ]
+    ],
+    "split_true": 0.0,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.0
+    }
   },
   {
     "id": "m46",
@@ -1101,7 +1461,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'has been'->'will be'"
-    ]
+    ],
+    "split_true": 0.2,
+    "split_false": 0.3,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.8
+    }
   },
   {
     "id": "m47",
@@ -1125,7 +1493,15 @@
     "edit_ops": 1,
     "edit_regions": [
       "'are'->'will be'"
-    ]
+    ],
+    "split_true": 0.7,
+    "split_false": 0.0,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.4,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.8
+    }
   },
   {
     "id": "m48",
@@ -1149,6 +1525,14 @@
     "edit_ops": 1,
     "edit_regions": [
       "'has been'->'will be'"
-    ]
+    ],
+    "split_true": 0.5,
+    "split_false": 0.4,
+    "split_true_per_model": {
+      "opus-4.6": 0.0,
+      "sonnet-4.6": 0.0,
+      "haiku-4.5": 0.0,
+      "nova-micro": 0.0
+    }
   }
 ]
