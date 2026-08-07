@@ -81,3 +81,52 @@ own split is known (prereg line 4).
 Bands remain **unassigned** pending the outside cold read, which gates assignment (prereg line 7).
 The read's unique contribution is unaffected by any of the above: no automated check here can detect
 a `claim_true` that accidentally reads deontically, and that is how `tense-02` died.
+
+---
+
+## Cold read contaminated — recorded as a failure, not written around
+
+The reviewer holding the diagnostic received the 96 sentences afterwards and **recused**. That is
+correct: it holds the validity cuts, the band counts, and the most-future-read list, and now holds
+the sentences those ids attach to. It cannot partition its own reactions into the ones predating
+the leak, and self-certifying that partition is the disposition-independence violation this study
+exists to detect.
+
+**Cause: the ordering was correct and enforced nowhere.** Send-order lived in message discipline.
+Fourth instance this week of a prose obligation that did not self-enforce — after the budget flag,
+the freeze gate, and the refusal that shipped its files before refusing.
+
+**Fix, structural:** `harness/build_cold_read.py` emits the packet from **exactly one input**,
+`items/_measure-blind.json`. It cannot open the diagnostic, the splits, or the candidate file
+because it never names them. Blindness is a property of the script's imports rather than of anyone
+remembering which message goes first.
+
+Its self-check was wrong the first time and is worth recording. Version one scanned for forbidden
+vocabulary and refused on `cut` — a legitimate word in *"Writes have been cut over to the new
+column."* A blacklist cannot tell metadata from English: it either false-positives on content or
+misses a field nobody told it about. Version two whitelists **line shapes** — the fixed prompt, a
+blank, an id, or an `A:`/`B:` sentence — so anything else is a leak by construction. Negative-tested
+against three injected leaks.
+
+## Construction check: a categorical variable is hiding inside the continuous factor
+
+The 48 contain two visibly distinct constructions, and they do not split alike:
+
+| construction | n | mean split | median | range |
+|---|---|---|---|---|
+| bare `will` + verb | 33 | **0.500** | 0.50 | [0.00, 1.00] |
+| `have been Xed` → `will be Xed` | 15 | **0.320** | 0.30 | [0.00, 0.90] |
+
+Mann-Whitney U = 332, **p = 0.029** one-sided. And the band composition is lopsided at the top:
+
+- low band (≤0.20), n=16 — 7 perfect→future, 9 bare will
+- **high band (≥0.61), n=15 — 2 perfect→future, 13 bare will**
+
+This is the old safe/exposed distinction surviving into the fresh set, as predicted. It is a
+**finding, not a defect** — but it changes what the verdict arm tests. A continuous split factor
+with a categorical variable inside it means an effect attributed to "ambiguity" could be an effect
+of "bare `will` versus perfect aspect", and the two are not separable at n=48 with this imbalance.
+
+Consequence for the pending decision: any option that fires a verdict arm must say whether
+construction enters the model as a covariate, and the answer has to be fixed before bands are
+assigned.
