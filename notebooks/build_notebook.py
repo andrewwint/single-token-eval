@@ -478,8 +478,12 @@ TEAL, CORAL, INK, MUTED = "#1D9E75", "#D85A30", "#0b0b0b", "#73726c"
 # interactive channels on the upper. Not the same channels with and without questions — which is
 # what an earlier version of this redraw wrongly implied. Videotape is richer than email in every
 # sensory dimension and sits BELOW it, because a tape cannot be replied to.
-LOWER = [(0.6, "paper"), (1.7, "audiotape"), (2.8, "videotape")]
-UPPER = [(2.2, "email"), (3.4, "phone"), (4.5, "whiteboard")]
+# Cockburn's exemplars are paper / audiotape / videotape and email / phone / whiteboard. The tapes
+# are modernised here to their current equivalents — a voice note and a recorded walkthrough are
+# one-way in exactly the way a tape was, so the semantics are unchanged and the ranking still holds.
+# Because the labels are no longer his, the caption says ADAPTED rather than redrawn.
+LOWER = [(0.6, "a document"), (1.7, "a voice note"), (2.9, "a recorded walkthrough")]
+UPPER = [(2.2, "email"), (3.4, "a video call"), (4.6, "two people at a whiteboard")]
 
 def arc(x0, y0, x1, y1, curve=1.6, n=200):
     # Monotone rising arc. Schematic, not fitted to anything.
@@ -504,11 +508,13 @@ for x, lab in LOWER:
 for x, lab in UPPER:
     y = on(xu, yu, x)
     ax.plot([x], [y], marker="o", ms=4, color=TEAL, zorder=4)
-    ax.annotate(lab, (x, y), xytext=(0, 8), textcoords="offset points",
+    ax.annotate(lab, (x, y), xytext=(0, 9), textcoords="offset points",
                 ha="center", fontsize=9, color=MUTED)
 
-ax.text(4.7, 1.00, "question-and-answer", color=TEAL, fontsize=10, ha="right", va="bottom")
-ax.text(3.16, 0.44, "no question-and-answer", color=CORAL, fontsize=10, ha="left", va="center")
+# Arc labels live in the empty upper-left as a colour key. Placed beside their curves they collide
+# with the channel labels, and every reposition just moves the collision somewhere else.
+ax.text(0.35, 1.00, "reader can ask", color=TEAL, fontsize=11, ha="left", va="center", weight="bold")
+ax.text(0.35, 0.90, "reader cannot ask", color=CORAL, fontsize=11, ha="left", va="center", weight="bold")
 
 px, py = 0.4, 0.10
 ax.plot([px], [py], marker="o", ms=7, color=CORAL, zorder=5)
@@ -517,7 +523,7 @@ ax.annotate("your agent is here", xy=(px, py), xytext=(0.30, 0.30), fontsize=11,
             color=INK, va="center", ha="left",
             arrowprops=dict(arrowstyle="-", color=MUTED, lw=.6))
 
-ax.set_xlim(0, 5.2); ax.set_ylim(-0.02, 1.12)
+ax.set_xlim(0, 5.6); ax.set_ylim(-0.02, 1.12)
 ax.set_xticks([]); ax.set_yticks([])
 ax.set_xlabel("richness (“temperature”) of communication channel   —   cold to hot",
               fontsize=11, color=MUTED, labelpad=10)
@@ -527,10 +533,12 @@ for sd in ("left", "bottom"):
     ax.spines[sd].set_color(MUTED); ax.spines[sd].set_linewidth(.6)
 ax.tick_params(axis="x", length=4, width=.6, color=MUTED)
 fig.text(0.0, -0.10,
-  "SCHEMATIC, redrawn after Cockburn, Agile Software Development 2e, ch. 3, fig. 3-14. "
-  "Channel placement follows the source:\nrecordings on the lower curve, interactive "
-  "channels on the upper. Coordinates are hand-chosen — not a measurement, and no value\n"
-  "in it derives from this study.", fontsize=8, va="top", color="#b0453a")
+  "SCHEMATIC, adapted from Cockburn, Agile Software Development 2e, ch. 3, fig. 3-14. His curves "
+  "and his ordering;\nthe channel examples are modernised (his are paper / audiotape / videotape "
+  "and email / phone / whiteboard). "
+  "\nRecordings sit on the lower curve, channels that can be replied to on the upper. "
+  "Coordinates are hand-chosen — not a\nmeasurement, and no value in it derives from this study.",
+  fontsize=8, va="top", color="#b0453a")
 
 # Separate directory and filename prefix so it cannot be confused with a measured figure.
 SCHEMDIR = FIGDIR / "schematic"; SCHEMDIR.mkdir(exist_ok=True)
