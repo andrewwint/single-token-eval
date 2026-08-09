@@ -438,6 +438,89 @@ print(f"\n-> {FIGDIR}")
 """)
 
 md(r"""
+---
+
+# ⚠️ SCHEMATIC — everything below this line is NOT DATA
+
+The figures above are measurements. The figure below is a **drawing**. Its coordinates were chosen
+by hand to carry an idea; no measurement produced them, and no number in it can be checked against
+anything in this repository.
+
+It is fenced here, exported under a `schematic-` filename prefix, and written to a separate
+`figures/schematic/` directory — three independent ways of stopping it being mistaken for a result
+by someone skimming. A schematic that shares a directory and a naming convention with measured
+figures will eventually be cited as one.
+""")
+
+md(r"""
+## Schematic — Cockburn's two communication curves
+
+A redraw of Alistair Cockburn's communication-effectiveness figure (*Agile Software Development*,
+ch. 3, fig. 3-14). The point it carries: effectiveness does not rank as a single line from cold
+channels to warm ones. It splits into **two arcs**, and which arc you are on depends on one thing —
+whether the reader can stop and ask a question.
+
+An agent reading a design document sits at the cold end of the lower arc, permanently. It cannot
+interrupt. That is the same structural fact this study is measuring from the other direction: when
+a sentence admits two readings, a reader who can ask resolves it by asking, and a reader who cannot
+resolves it silently and proceeds.
+
+**Attribution belongs in any caption that reuses this: *after Cockburn*.** The idea is his; only the
+redraw is mine.
+""")
+
+code(r"""
+# NOT DATA. Hand-chosen coordinates, schematic only. See the banner above.
+FIG_W, FIG_H, DPI_S = 8.0, 4.6, 200
+TEAL, CORAL, INK, MUTED = "#1D9E75", "#D85A30", "#0b0b0b", "#73726c"
+CHANNELS = [(0.5, "document"), (1.5, "email"), (2.5, "phone"),
+            (3.5, "video"), (4.5, "whiteboard")]
+
+def arc(x0, y0, x1, y1, curve=1.5, n=200):
+    # Monotone rising arc. Schematic, not fitted to anything.
+    x = np.linspace(x0, x1, n)
+    t = (x - x0) / (x1 - x0)
+    return x, y0 + (y1 - y0) * t ** curve
+
+fig, ax = plt.subplots(figsize=(FIG_W, FIG_H), dpi=DPI_S)
+xl, yl = arc(0.5, 0.15, 3.5, 0.55)                       # no question-and-answer available
+ax.plot(xl, yl, color=CORAL, lw=2.2, solid_capstyle="round", zorder=3)
+xu, yu = arc(1.5, 0.50, 4.5, 0.92)                       # reader can interrupt
+ax.plot(xu, yu, color=TEAL, lw=2.2, solid_capstyle="round", zorder=3)
+
+ax.text(4.42, 0.96, "reader can ask", color=TEAL, fontsize=11, ha="right", va="bottom")
+ax.text(3.58, 0.55, "reader cannot ask", color=CORAL, fontsize=11, ha="left", va="center")
+
+ax.plot([0.5], [0.15], marker="o", ms=7, color=CORAL, zorder=4)
+ax.plot([0.5], [0.15], marker="o", ms=15, mfc="none", mec=CORAL, mew=1.0, alpha=.5, zorder=4)
+ax.annotate("your agent is here", xy=(0.5, 0.15), xytext=(0.72, 0.06), fontsize=11,
+            color=INK, va="center", arrowprops=dict(arrowstyle="-", color=MUTED, lw=.6))
+
+ax.set_xlim(0, 5); ax.set_ylim(0, 1.10)
+ax.set_xticks([x for x, _ in CHANNELS])
+ax.set_xticklabels([l for _, l in CHANNELS], fontsize=11, color=MUTED)
+ax.set_yticks([])
+ax.set_xlabel("colder channel  —  warmer channel", fontsize=11, color=MUTED, labelpad=10)
+ax.text(0.02, 1.06, "more effective", fontsize=11, color=MUTED, ha="left", va="center")
+for sd in ("top", "right"): ax.spines[sd].set_visible(False)
+for sd in ("left", "bottom"):
+    ax.spines[sd].set_color(MUTED); ax.spines[sd].set_linewidth(.6)
+ax.tick_params(axis="x", length=4, width=.6, color=MUTED)
+fig.text(0.0, -0.10,
+  "SCHEMATIC, after Cockburn (Agile Software Development, ch. 3). Coordinates are hand-chosen to "
+  "carry an idea.\nNot a measurement, not fitted to data, and no value in it is derived from this "
+  "study.", fontsize=8, va="top", color="#b0453a")
+
+# Separate directory and filename prefix so it cannot be confused with a measured figure.
+SCHEMDIR = FIGDIR / "schematic"; SCHEMDIR.mkdir(exist_ok=True)
+for ext in ("png", "svg"):
+    fig.savefig(SCHEMDIR / f"schematic-cockburn-two-arcs.{ext}", dpi=DPI_S,
+                bbox_inches="tight", facecolor="white")
+print(f"-> {SCHEMDIR}/schematic-cockburn-two-arcs.png  (NOT DATA)")
+plt.show()
+""")
+
+md(r"""
 ## What this notebook does not show
 
 - **No outcome measure.** No verdict draw has fired. Nothing here speaks to whether models *catch*
