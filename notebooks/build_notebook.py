@@ -473,43 +473,64 @@ code(r"""
 # NOT DATA. Hand-chosen coordinates, schematic only. See the banner above.
 FIG_W, FIG_H, DPI_S = 8.0, 4.6, 200
 TEAL, CORAL, INK, MUTED = "#1D9E75", "#D85A30", "#0b0b0b", "#73726c"
-CHANNELS = [(0.5, "document"), (1.5, "email"), (2.5, "phone"),
-            (3.5, "video"), (4.5, "whiteboard")]
+# Channels as Cockburn places them (Agile Software Development 2e, ch.3, fig. 3-14), verified
+# against the source. The two curves carry DIFFERENT media: recordings on the lower curve, and
+# interactive channels on the upper. Not the same channels with and without questions — which is
+# what an earlier version of this redraw wrongly implied. Videotape is richer than email in every
+# sensory dimension and sits BELOW it, because a tape cannot be replied to.
+LOWER = [(0.6, "paper"), (1.7, "audiotape"), (2.8, "videotape")]
+UPPER = [(2.2, "email"), (3.4, "phone"), (4.5, "whiteboard")]
 
-def arc(x0, y0, x1, y1, curve=1.5, n=200):
+def arc(x0, y0, x1, y1, curve=1.6, n=200):
     # Monotone rising arc. Schematic, not fitted to anything.
     x = np.linspace(x0, x1, n)
     t = (x - x0) / (x1 - x0)
     return x, y0 + (y1 - y0) * t ** curve
 
 fig, ax = plt.subplots(figsize=(FIG_W, FIG_H), dpi=DPI_S)
-xl, yl = arc(0.5, 0.15, 3.5, 0.55)                       # no question-and-answer available
+xl, yl = arc(0.4, 0.10, 3.1, 0.44)                       # no question-and-answer: recordings
 ax.plot(xl, yl, color=CORAL, lw=2.2, solid_capstyle="round", zorder=3)
-xu, yu = arc(1.5, 0.50, 4.5, 0.92)                       # reader can interrupt
+xu, yu = arc(2.0, 0.42, 4.7, 0.95)                       # question-and-answer: interactive
 ax.plot(xu, yu, color=TEAL, lw=2.2, solid_capstyle="round", zorder=3)
 
-ax.text(4.42, 0.96, "reader can ask", color=TEAL, fontsize=11, ha="right", va="bottom")
-ax.text(3.58, 0.55, "reader cannot ask", color=CORAL, fontsize=11, ha="left", va="center")
+def on(xs, ys, x):
+    return float(np.interp(x, xs, ys))
 
-ax.plot([0.5], [0.15], marker="o", ms=7, color=CORAL, zorder=4)
-ax.plot([0.5], [0.15], marker="o", ms=15, mfc="none", mec=CORAL, mew=1.0, alpha=.5, zorder=4)
-ax.annotate("your agent is here", xy=(0.5, 0.15), xytext=(0.72, 0.06), fontsize=11,
-            color=INK, va="center", arrowprops=dict(arrowstyle="-", color=MUTED, lw=.6))
+for x, lab in LOWER:
+    y = on(xl, yl, x)
+    ax.plot([x], [y], marker="o", ms=4, color=CORAL, zorder=4)
+    ax.annotate(lab, (x, y), xytext=(0, -14), textcoords="offset points",
+                ha="center", fontsize=9, color=MUTED)
+for x, lab in UPPER:
+    y = on(xu, yu, x)
+    ax.plot([x], [y], marker="o", ms=4, color=TEAL, zorder=4)
+    ax.annotate(lab, (x, y), xytext=(0, 8), textcoords="offset points",
+                ha="center", fontsize=9, color=MUTED)
 
-ax.set_xlim(0, 5); ax.set_ylim(0, 1.10)
-ax.set_xticks([x for x, _ in CHANNELS])
-ax.set_xticklabels([l for _, l in CHANNELS], fontsize=11, color=MUTED)
-ax.set_yticks([])
-ax.set_xlabel("colder channel  —  warmer channel", fontsize=11, color=MUTED, labelpad=10)
-ax.text(0.02, 1.06, "more effective", fontsize=11, color=MUTED, ha="left", va="center")
+ax.text(4.7, 1.00, "question-and-answer", color=TEAL, fontsize=10, ha="right", va="bottom")
+ax.text(3.16, 0.44, "no question-and-answer", color=CORAL, fontsize=10, ha="left", va="center")
+
+px, py = 0.4, 0.10
+ax.plot([px], [py], marker="o", ms=7, color=CORAL, zorder=5)
+ax.plot([px], [py], marker="o", ms=15, mfc="none", mec=CORAL, mew=1.0, alpha=.5, zorder=5)
+ax.annotate("your agent is here", xy=(px, py), xytext=(0.30, 0.30), fontsize=11,
+            color=INK, va="center", ha="left",
+            arrowprops=dict(arrowstyle="-", color=MUTED, lw=.6))
+
+ax.set_xlim(0, 5.2); ax.set_ylim(-0.02, 1.12)
+ax.set_xticks([]); ax.set_yticks([])
+ax.set_xlabel("richness (“temperature”) of communication channel   —   cold to hot",
+              fontsize=11, color=MUTED, labelpad=10)
+ax.set_ylabel("communication effectiveness", fontsize=11, color=MUTED)
 for sd in ("top", "right"): ax.spines[sd].set_visible(False)
 for sd in ("left", "bottom"):
     ax.spines[sd].set_color(MUTED); ax.spines[sd].set_linewidth(.6)
 ax.tick_params(axis="x", length=4, width=.6, color=MUTED)
 fig.text(0.0, -0.10,
-  "SCHEMATIC, after Cockburn (Agile Software Development, ch. 3). Coordinates are hand-chosen to "
-  "carry an idea.\nNot a measurement, not fitted to data, and no value in it is derived from this "
-  "study.", fontsize=8, va="top", color="#b0453a")
+  "SCHEMATIC, redrawn after Cockburn, Agile Software Development 2e, ch. 3, fig. 3-14. "
+  "Channel placement follows the source:\nrecordings on the lower curve, interactive "
+  "channels on the upper. Coordinates are hand-chosen — not a measurement, and no value\n"
+  "in it derives from this study.", fontsize=8, va="top", color="#b0453a")
 
 # Separate directory and filename prefix so it cannot be confused with a measured figure.
 SCHEMDIR = FIGDIR / "schematic"; SCHEMDIR.mkdir(exist_ok=True)
