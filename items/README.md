@@ -1,5 +1,9 @@
 # items
 
-Frozen twin pairs + `FROZEN.md` (sha256) land here.
+The sentence pairs and their gold labels.
 
-**These are answer keys.** Never publish them; publishing burns the study permanently.
+These are answer keys, and they were withheld while measurement was live. The study is **frozen**
+(see `docs/CLOSE-OUT.md`), so they are published for scrutiny instead: a reader can check whether
+`claim_false` is genuinely unambiguous and whether the pairs are fair.
+
+**They are spent.** Any future measurement needs new sentences.

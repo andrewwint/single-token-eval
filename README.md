@@ -56,15 +56,17 @@ results/                         append-only draws.jsonl
 openspec/                        spec-driven change proposals
 ```
 
-## ⚠️ The items are answer keys
+## Status — FROZEN
 
-`items/` holds the fixtures and their gold labels. **Publishing them burns the study permanently** —
-the material becomes training data and no future measurement on it means anything.
+**Frozen 2026-08-12.** The verdict arm never fired and round 2 is cancelled. See
+[`docs/CLOSE-OUT.md`](docs/CLOSE-OUT.md) for what ran, what was found, and why it stopped where it did.
 
-If this repo is ever made public, `items/` does not go with it. The publishable artifacts are the
-harness, the method, the pre-registrations, and the results — never the item set.
+## About `items/`
 
-## Status
+`items/` holds the sentence pairs and their gold labels. They were withheld while measurement was
+live — publishing an item set makes it training data and burns any future measurement on it.
 
-Proposal stage. `openspec/changes/add-inversion-arm/` is written and awaiting approval; no
-implementation code yet, and nothing has fired.
+With the study frozen that trade inverts. There is no future measurement to protect, and published
+items let a reader check whether `claim_false` is genuinely unambiguous, whether the pairs are fair,
+and whether the finding survives their own reading. **If this ever unfreezes, the items are spent and
+a new round needs new sentences.**
